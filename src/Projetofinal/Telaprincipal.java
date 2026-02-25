@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import net.miginfocom.swing.MigLayout; // layout para organizar os componentes
 
 public class Telaprincipal extends JFrame {
@@ -35,18 +34,17 @@ public class Telaprincipal extends JFrame {
         
         setTitle("WeStyle");
 
-       
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // define posição e tamanho da janela
-        setBounds(100, 100, 542, 427);
+        setBounds(100, 100, 1138, 913);
 
         contentPane = new JPanel();
 
         // margens
         contentPane.setBorder(new EmptyBorder(30, 30, 30, 30));
 
-        //a cor de fundo
+        // a cor de fundo
         contentPane.setBackground(new Color(106, 143, 123));
 
         setContentPane(contentPane);
@@ -75,8 +73,9 @@ public class Telaprincipal extends JFrame {
         btnEntrar.setBackground(Color.WHITE); // fundo branco
         btnEntrar.setForeground(new Color(106, 143, 123)); // texto na cor do tema
         btnEntrar.setOpaque(true); // permite exibir a cor de fundo
-        btnEntrar.setBorderPainted(false); 
-        contentPane.add(btnEntrar, "width 200"); // largura 
+        btnEntrar.setBorderPainted(false);
+        btnEntrar.setFocusPainted(false);
+        contentPane.add(btnEntrar, "width 200");
 
         // botao de cadastrar
         JButton btnCadastrar = new JButton("Cadastrar-se");
@@ -85,6 +84,10 @@ public class Telaprincipal extends JFrame {
         btnCadastrar.setForeground(new Color(106, 143, 123));
         btnCadastrar.setOpaque(true);
         btnCadastrar.setBorderPainted(false);
+        btnCadastrar.setFocusPainted(false); // remove o quadrado de foco
         contentPane.add(btnCadastrar, "width 200");
+
+        // remove o foco inicial dos botões ao abrir a janela
+        EventQueue.invokeLater(() -> contentPane.requestFocusInWindow());
     }
 }
