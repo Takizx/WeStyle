@@ -44,7 +44,7 @@ public class Telaentrar extends JFrame {
 		contentPane.setBackground(new Color(106, 143, 123));
 		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-		// Apenas centraliza, não deixa crescer
+		//centraliza, não deixa crescer
 		contentPane.setLayout(new MigLayout(
 				"align center center",
 				"",
@@ -52,17 +52,17 @@ public class Telaentrar extends JFrame {
 
 		setContentPane(contentPane);
 
-		// CARD CENTRAL
+		// card central
 		JPanel card = new JPanel();
 		card.setBackground(Color.WHITE);
 		card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 
 		card.setLayout(new MigLayout("wrap, insets 40, gap 15", "[grow,fill]", "[][][][][][][][]"));
 
-		// Tamanho fixo bom para leitura
+		// tamanho fixo para leitura
 		contentPane.add(card, "w 450!, h 500!");
 
-		// TÍTULO
+		// tituto principal
 		JLabel lblTitulo = new JLabel("WeStyle", JLabel.CENTER);
 		lblTitulo.setForeground(new Color(106, 143, 123));
 		lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
@@ -73,21 +73,21 @@ public class Telaentrar extends JFrame {
 		lblSub.setForeground(new Color(106, 143, 123));
 		card.add(lblSub, "cell 0 1,aligny center");
 
-		// EMAIL
+		// email
 		JLabel lblEmail = new JLabel("Email");
 		card.add(lblEmail, "cell 0 2");
 
 		textFieldEmail = new JTextField();
 		card.add(textFieldEmail, "cell 0 3,height 40!");
 
-		// SENHA
+		// senha
 		JLabel lblSenha = new JLabel("Senha");
 		card.add(lblSenha, "cell 0 4");
 
 		textFieldSenha = new JTextField();
 		card.add(textFieldSenha, "cell 0 5,height 40!");
 
-		// LEMBRAR + ESQUECEU
+		// lembrar
 		JCheckBox chkLembrar = new JCheckBox("Lembrar de mim");
 		chkLembrar.setBackground(Color.WHITE);
 		card.add(chkLembrar, "cell 0 6");
@@ -96,7 +96,7 @@ public class Telaentrar extends JFrame {
 		lblEsqueceu.setForeground(new Color(106, 143, 123));
 		card.add(lblEsqueceu, "cell 0 6,alignx right");
 
-		// BOTÃO
+		// botao entrar
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.setBackground(new Color(60, 60, 60));
 		btnEntrar.setForeground(Color.WHITE);
