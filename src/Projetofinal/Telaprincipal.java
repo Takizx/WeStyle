@@ -1,93 +1,99 @@
 package Projetofinal;
 
-import java.awt.EventQueue; 
-import java.awt.Font;      
-import java.awt.Color;      
-
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import net.miginfocom.swing.MigLayout; // layout para organizar os componentes
+import javax.swing.border.LineBorder;
+
+import net.miginfocom.swing.MigLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Telaprincipal extends JFrame {
 
-    private static final long serialVersionUID = 1L;
 
-    // painel principal onde todos os componentes ficam
-    private JPanel contentPane;
+private static final long serialVersionUID = 1L;
 
-    public static void main(String[] args) {
-       
-        EventQueue.invokeLater(() -> {
-            try {
-                Telaprincipal frame = new Telaprincipal();
-                frame.setVisible(true); // torna a janela visivel
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+private JPanel contentPane;
 
-    public Telaprincipal() {
+public static void main(String[] args) {
+    EventQueue.invokeLater(() -> {
+        try {
+            Telaprincipal frame = new Telaprincipal();
+            frame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    });
+}
+
+ public Telaprincipal() {
+
+    setTitle("WeStyle");
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 1000, 706);
+
+    contentPane = new JPanel();
+    contentPane.setBorder(new EmptyBorder(30, 30, 30, 30));
+    contentPane.setBackground(new Color(106, 143, 123));
+
+    // centraliza tudo na tela
+    contentPane.setLayout(new MigLayout(
+            "align center center",
+            "",
+            ""
+    ));
+
+    setContentPane(contentPane);
+
+    // card branco central
+    JPanel card = new JPanel();
+    card.setBackground(Color.WHITE);
+    card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
+
+    card.setLayout(new MigLayout("wrap 1, insets 40, gap 20", "[grow,center]", "[]20[]30[]30[]20[][][][][][]"));
+
+    // tamanho fixo do card
+    contentPane.add(card, "w 450!, h 500!");
         
-        setTitle("WeStyle");
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // define posição e tamanho da janela
-        setBounds(100, 100, 1138, 913);
-
-        contentPane = new JPanel();
-
-        // margens
-        contentPane.setBorder(new EmptyBorder(30, 30, 30, 30));
-
-        // a cor de fundo
-        contentPane.setBackground(new Color(106, 143, 123));
-
-        setContentPane(contentPane);
-        
-        // wrap 1 → um componente por linha
-        // align center center → centraliza tudo horizontal e verticalmente
-        contentPane.setLayout(new MigLayout(
-                "wrap 1, align center center",
-                "[grow, center]",
-                "[]20[]30[]15[]"
-        ));
-
-        JLabel lblTitulo = new JLabel("WeStyle");
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 36)); // fonte grande e em negrito
-        lblTitulo.setForeground(Color.WHITE); // cor do texto branca
-        contentPane.add(lblTitulo);
-
-        JLabel lblSubtitulo = new JLabel("Moda que combina com você!");
-        lblSubtitulo.setFont(new Font("Arial", Font.PLAIN, 16));
-        lblSubtitulo.setForeground(Color.WHITE);
-        contentPane.add(lblSubtitulo);
-
-        // botão de entrar
-        JButton btnEntrar = new JButton("Entrar");
-        btnEntrar.setFont(new Font("Arial", Font.BOLD, 14));
-        btnEntrar.setBackground(Color.WHITE); // fundo branco
-        btnEntrar.setForeground(new Color(106, 143, 123)); // texto na cor do tema
-        btnEntrar.setOpaque(true); // permite exibir a cor de fundo
-        btnEntrar.setBorderPainted(false);
-        btnEntrar.setFocusPainted(false);
-        contentPane.add(btnEntrar, "width 200");
-
-        // botao de cadastrar
+            // botao entrar
+            JButton btnEntrar = new JButton("Entrar");
+            btnEntrar.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                }
+            });
+                
+                    // titulo
+                    JLabel lblTitulo = new JLabel("WeStyle");
+                    lblTitulo.setFont(new Font("Arial", Font.BOLD, 36));
+                    lblTitulo.setForeground(new Color(106, 143, 123));
+                    card.add(lblTitulo, "cell 0 2");
+            
+                // subtitulo
+                JLabel lblSubtitulo = new JLabel("Moda que combina com você!");
+                lblSubtitulo.setFont(new Font("Arial", Font.PLAIN, 16));
+                lblSubtitulo.setForeground(new Color(106, 143, 123));
+                card.add(lblSubtitulo, "cell 0 4");
+            btnEntrar.setFont(new Font("Arial", Font.BOLD, 14));
+            btnEntrar.setBackground(new Color(106, 143, 123));
+            btnEntrar.setForeground(new Color(255, 255, 255));
+            card.add(btnEntrar, "cell 0 6,width 220,height 45");
+    
+        // botao cadastrar
         JButton btnCadastrar = new JButton("Cadastrar-se");
         btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCadastrar.setBackground(Color.WHITE);
         btnCadastrar.setForeground(new Color(106, 143, 123));
-        btnCadastrar.setOpaque(true);
-        btnCadastrar.setBorderPainted(false);
-        btnCadastrar.setFocusPainted(false); // remove o quadrado de foco
-        contentPane.add(btnCadastrar, "width 200");
+        btnCadastrar.setBorder(new LineBorder(new Color(106, 143, 123), 1, true));
+        card.add(btnCadastrar, "cell 0 8,width 220,height 45");
 
-        // remove o foco inicial dos botões ao abrir a janela
-        EventQueue.invokeLater(() -> contentPane.requestFocusInWindow());
-    }
+    EventQueue.invokeLater(() -> contentPane.requestFocusInWindow());
+}
+
+
 }
