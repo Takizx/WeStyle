@@ -19,108 +19,105 @@ import java.awt.event.ActionEvent;
 
 public class Telacadastro extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField textFieldNome;
-	private JTextField textFieldEmail;
-	private JTextField textFieldSenha;
-	private JTextField textFieldConfirmarSenha;
+private static final long serialVersionUID = 1L;
+private JPanel contentPane;
+private JTextField textFieldNome;
+private JTextField textFieldEmail;
+private JTextField textFieldSenha;
+private JTextField textFieldConfirmarSenha;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Telacadastro frame = new Telacadastro();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+public static void main(String[] args) {
+    EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            try {
+                Telacadastro frame = new Telacadastro();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    });
+}
 
-	public Telacadastro() {
+public Telacadastro() {
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 700);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 1000, 700);
 
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(106, 143, 123));
-		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
+    contentPane = new JPanel();
+    contentPane.setBackground(new Color(106, 143, 123));
+    contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-		contentPane.setLayout(new MigLayout(
-				"align center center",
-				"",
-				""));
+    contentPane.setLayout(new MigLayout(
+            "align center center",
+            "",
+            ""));
 
-		setContentPane(contentPane);
+    setContentPane(contentPane);
 
-		// card central
-		JPanel card = new JPanel();
-		card.setBackground(Color.WHITE);
-		card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
+    JPanel card = new JPanel();
+    card.setBackground(Color.WHITE);
+    card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 
-		card.setLayout(new MigLayout("wrap, insets 40, gap 15", "[grow,fill]", "[][][][][][][][][][]"));
+    card.setLayout(new MigLayout("wrap, insets 40, gap 15", "[grow,fill]", "[][][][][][][][][][]"));
 
-		contentPane.add(card, "w 450!, h 620!");
+    contentPane.add(card, "w 450!, h 620!");
 
-		// titulo
-		JLabel lblTitulo = new JLabel("WeStyle", JLabel.CENTER);
-		lblTitulo.setForeground(new Color(106, 143, 123));
-		lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
-		card.add(lblTitulo, "alignx center");
+    JLabel lblTitulo = new JLabel("WeStyle", JLabel.CENTER);
+    lblTitulo.setForeground(new Color(106, 143, 123));
+    lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
+    card.add(lblTitulo, "alignx center");
 
-		JLabel lblSub = new JLabel("Criar conta");
-		lblSub.setFont(new Font("Arial", Font.BOLD, 17));
-		lblSub.setForeground(new Color(106, 143, 123));
-		card.add(lblSub, "alignx center");
+    JLabel lblSub = new JLabel("Criar conta");
+    lblSub.setFont(new Font("Arial", Font.BOLD, 17));
+    lblSub.setForeground(new Color(106, 143, 123));
+    card.add(lblSub, "alignx center");
 
-		// nome
-		JLabel lblNome = new JLabel("Nome");
-		card.add(lblNome);
+    JLabel lblNome = new JLabel("Nome");
+    card.add(lblNome);
 
-		textFieldNome = new JTextField();
-		card.add(textFieldNome, "height 40!");
+    textFieldNome = new JTextField();
+    card.add(textFieldNome, "height 40!");
 
-		// email
-		JLabel lblEmail = new JLabel("Email");
-		card.add(lblEmail);
+    JLabel lblEmail = new JLabel("Email");
+    card.add(lblEmail);
 
-		textFieldEmail = new JTextField();
-		card.add(textFieldEmail, "height 40!");
+    textFieldEmail = new JTextField();
+    card.add(textFieldEmail, "height 40!");
 
-		// senha
-		JLabel lblSenha = new JLabel("Senha");
-		card.add(lblSenha);
+    JLabel lblSenha = new JLabel("Senha");
+    card.add(lblSenha);
 
-		textFieldSenha = new JTextField();
-		card.add(textFieldSenha, "height 40!");
+    textFieldSenha = new JTextField();
+    card.add(textFieldSenha, "height 40!");
 
-		// confirmar senha
-		JLabel lblConfirmar = new JLabel("Confirmar senha");
-		card.add(lblConfirmar);
+    JLabel lblConfirmar = new JLabel("Confirmar senha");
+    card.add(lblConfirmar);
 
-		textFieldConfirmarSenha = new JTextField();
-		card.add(textFieldConfirmarSenha, "height 40!");
+    textFieldConfirmarSenha = new JTextField();
+    card.add(textFieldConfirmarSenha, "height 40!");
 
-		// termos
-		JCheckBox chkTermos = new JCheckBox("Aceito os termos de uso");
-		chkTermos.setBackground(Color.WHITE);
-		card.add(chkTermos);
+    JCheckBox chkTermos = new JCheckBox("Aceito os termos de uso");
+    chkTermos.setBackground(Color.WHITE);
+    card.add(chkTermos);
 
-		// botao cadastrar
-		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnCadastrar.setBackground(new Color(106, 143, 123));
-		btnCadastrar.setForeground(Color.WHITE);
-		card.add(btnCadastrar, "height 45!,gapy 10");
+    JButton btnCadastrar = new JButton("Cadastrar");
+    btnCadastrar.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
 
-		// voltar login
-		JLabel lblLogin = new JLabel("Já possui conta? Entrar");
-		lblLogin.setForeground(new Color(106, 143, 123));
-		card.add(lblLogin, "alignx center");
-	}
+            Telaprincipal tela = new Telaprincipal();
+            tela.setVisible(true);
+            dispose();
+
+        }
+    });
+
+    btnCadastrar.setBackground(new Color(106, 143, 123));
+    btnCadastrar.setForeground(Color.WHITE);
+    card.add(btnCadastrar, "height 45!,gapy 10");
+
+    JLabel lblLogin = new JLabel("Já possui conta? Entrar");
+    lblLogin.setForeground(new Color(106, 143, 123));
+    card.add(lblLogin, "alignx center");
+}
 }
