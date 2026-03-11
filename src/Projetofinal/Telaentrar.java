@@ -43,6 +43,7 @@ public Telaentrar() {
     setBounds(100, 100, 1000, 700);
 
     contentPane = new JPanel();
+    contentPane.setForeground(new Color(255, 255, 255));
     contentPane.setBackground(new Color(106, 143, 123));
     contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
 
@@ -105,8 +106,8 @@ public Telaentrar() {
         }
     });
 
-    btnEntrar.setBackground(new Color(60, 60, 60));
-    btnEntrar.setForeground(Color.WHITE);
+    btnEntrar.setBackground(new Color(106, 143, 123));
+    btnEntrar.setForeground(new Color(255, 255, 255));
     card.add(btnEntrar, "cell 0 7,height 45!,gapy 10");
 }
 }

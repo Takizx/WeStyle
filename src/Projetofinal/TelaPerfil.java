@@ -186,8 +186,8 @@ public class TelaPerfil extends JFrame {
 			}
 		});
 
-		btnSenha.setBackground(Color.WHITE);
-		btnSenha.setForeground(new Color(106,143,123));
+		btnSenha.setBackground(new Color(106, 143, 123));
+		btnSenha.setForeground(new Color(255, 255, 255));
 		btnSenha.setBorder(new LineBorder(new Color(106,143,123),1,true));
 		btnSenha.setFont(new Font("Arial",Font.BOLD,14));
 		card.add(btnSenha,"span,align center,w 200!,h 40!");

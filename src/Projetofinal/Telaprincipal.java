@@ -88,8 +88,8 @@ public Telaprincipal() {
 
     JButton btnCadastrar = new JButton("Cadastrar-se");
     btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
-    btnCadastrar.setBackground(Color.WHITE);
-    btnCadastrar.setForeground(new Color(106, 143, 123));
+    btnCadastrar.setBackground(new Color(106, 143, 123));
+    btnCadastrar.setForeground(new Color(255, 255, 255));
     btnCadastrar.setBorder(new LineBorder(new Color(106, 143, 123), 1, true));
 
     btnCadastrar.addActionListener(new ActionListener() {
