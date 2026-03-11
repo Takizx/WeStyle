@@ -74,30 +74,35 @@ public Telacadastro() {
     card.add(lblSub, "alignx center");
 
     JLabel lblNome = new JLabel("Nome");
+    lblNome.setForeground(new Color(106, 143, 132));
     card.add(lblNome);
 
     textFieldNome = new JTextField();
     card.add(textFieldNome, "height 40!");
 
     JLabel lblEmail = new JLabel("Email");
+    lblEmail.setForeground(new Color(106, 143, 132));
     card.add(lblEmail);
 
     textFieldEmail = new JTextField();
     card.add(textFieldEmail, "height 40!");
 
     JLabel lblSenha = new JLabel("Senha");
+    lblSenha.setForeground(new Color(106, 143, 132));
     card.add(lblSenha);
 
     textFieldSenha = new JTextField();
     card.add(textFieldSenha, "height 40!");
 
     JLabel lblConfirmar = new JLabel("Confirmar senha");
+    lblConfirmar.setForeground(new Color(106, 143, 132));
     card.add(lblConfirmar);
 
     textFieldConfirmarSenha = new JTextField();
     card.add(textFieldConfirmarSenha, "height 40!");
 
     JCheckBox chkTermos = new JCheckBox("Aceito os termos de uso");
+    chkTermos.setForeground(new Color(106, 143, 132));
     chkTermos.setBackground(Color.WHITE);
     card.add(chkTermos);
 
