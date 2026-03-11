@@ -33,6 +33,7 @@ public class TelaCarrinho extends JFrame {
 		navbar.setBorder(new MatteBorder(0,0,1,0,new Color(220,220,220)));
 
 		JLabel logo = new JLabel("WeStyle");
+		logo.setFont(new Font("Arial", Font.BOLD, 16));
 		logo.setOpaque(true);
 		logo.setBackground(new Color(106,143,123));
 		logo.setForeground(Color.WHITE);

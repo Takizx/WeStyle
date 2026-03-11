@@ -17,13 +17,13 @@ import java.awt.event.ActionEvent;
 public class Telaprincipal extends JFrame {
 
 private static final long serialVersionUID = 1L;
-
 private JPanel contentPane;
 
 public static void main(String[] args) {
     EventQueue.invokeLater(() -> {
         try {
             Telaprincipal frame = new Telaprincipal();
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frame.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -36,6 +36,7 @@ public Telaprincipal() {
     setTitle("WeStyle");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 1000, 706);
+    setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     contentPane = new JPanel();
     contentPane.setBorder(new EmptyBorder(30, 30, 30, 30));
@@ -57,17 +58,6 @@ public Telaprincipal() {
 
     contentPane.add(card, "w 450!, h 500!");
 
-    JButton btnEntrar = new JButton("Entrar");
-    btnEntrar.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-
-            Telaentrar tela = new Telaentrar();
-            tela.setVisible(true);
-            dispose();
-
-        }
-    });
-
     JLabel lblTitulo = new JLabel("WeStyle");
     lblTitulo.setFont(new Font("Arial", Font.BOLD, 36));
     lblTitulo.setForeground(new Color(106, 143, 123));
@@ -78,28 +68,42 @@ public Telaprincipal() {
     lblSubtitulo.setForeground(new Color(106, 143, 123));
     card.add(lblSubtitulo, "cell 0 4");
 
+    JButton btnEntrar = new JButton("Entrar");
     btnEntrar.setFont(new Font("Arial", Font.BOLD, 14));
     btnEntrar.setBackground(new Color(106, 143, 123));
     btnEntrar.setForeground(Color.WHITE);
-    card.add(btnEntrar, "cell 0 6,width 220,height 45");
 
-    JButton btnCadastrar = new JButton("Cadastrar-se");
-    btnCadastrar.addActionListener(new ActionListener() {
+    btnEntrar.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
 
-            Telacadastro tela = new Telacadastro();
+            Telaentrar tela = new Telaentrar();
+            tela.setExtendedState(JFrame.MAXIMIZED_BOTH);
             tela.setVisible(true);
             dispose();
 
         }
     });
 
+    card.add(btnEntrar, "cell 0 6,width 220,height 45");
+
+    JButton btnCadastrar = new JButton("Cadastrar-se");
     btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
     btnCadastrar.setBackground(Color.WHITE);
     btnCadastrar.setForeground(new Color(106, 143, 123));
     btnCadastrar.setBorder(new LineBorder(new Color(106, 143, 123), 1, true));
+
+    btnCadastrar.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+
+            Telacadastro tela = new Telacadastro();
+            tela.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            tela.setVisible(true);
+            dispose();
+
+        }
+    });
+
     card.add(btnCadastrar, "cell 0 8,width 220,height 45");
 
-    EventQueue.invokeLater(() -> contentPane.requestFocusInWindow());
 }
 }
