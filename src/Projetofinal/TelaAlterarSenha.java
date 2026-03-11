@@ -57,7 +57,7 @@ public class TelaAlterarSenha extends JFrame {
 
 		setContentPane(contentPane);
 
-		// card central
+		
 		JPanel card = new JPanel();
 		card.setBackground(Color.WHITE);
 		card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
@@ -69,13 +69,13 @@ public class TelaAlterarSenha extends JFrame {
 
 		contentPane.add(card,"w 450!, h 500!");
 
-		// titulo
+		
 		JLabel lblTitulo = new JLabel("                Alterar Senha");
 		lblTitulo.setFont(new Font("Arial",Font.BOLD,26));
 		lblTitulo.setForeground(new Color(106,143,123));
 		card.add(lblTitulo,"alignx center");
 
-		// senha atual
+		
 		JLabel lblAtual = new JLabel("Senha atual");
 		lblAtual.setForeground(new Color(106, 143, 132));
 		card.add(lblAtual);
@@ -83,7 +83,7 @@ public class TelaAlterarSenha extends JFrame {
 		textSenhaAtual = new JTextField();
 		card.add(textSenhaAtual,"height 40!");
 
-		// nova senha
+		
 		JLabel lblNova = new JLabel("Nova senha");
 		lblNova.setForeground(new Color(106, 143, 132));
 		card.add(lblNova);

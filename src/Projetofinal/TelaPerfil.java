@@ -45,14 +45,14 @@ public class TelaPerfil extends JFrame {
 		contentPane.setBorder(new EmptyBorder(20,20,20,20));
 		setContentPane(contentPane);
 
-		// layout principal
+		
 		contentPane.setLayout(new MigLayout(
 				"wrap, align center",
 				"[grow]",
 				"[]push[]push"
 		));
 
-		// ===== MENU SUPERIOR =====
+		
 		JPanel menu = new JPanel();
 		menu.setBackground(new Color(106, 143, 123));
 		menu.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
@@ -115,7 +115,7 @@ public class TelaPerfil extends JFrame {
 		btnNewButton_2.setForeground(new Color(255, 255, 255));
 		menu.add(btnNewButton_2, "cell 11 0");
 
-		// ===== CARD CENTRAL =====
+		
 		JPanel card = new JPanel();
 		card.setBackground(Color.WHITE);
 		card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
@@ -126,16 +126,16 @@ public class TelaPerfil extends JFrame {
 				"[][][][][][]"
 		));
 
-		// MESMO TAMANHO DAS OUTRAS TELAS
+		
 		contentPane.add(card,"align center, w 450!, h 500!");
 
-		// ===== TITULO =====
+	
 		JLabel lblTitulo = new JLabel("Perfil do Usuário");
 		lblTitulo.setFont(new Font("Arial",Font.BOLD,26));
 		lblTitulo.setForeground(new Color(106,143,123));
 		card.add(lblTitulo,"span, align center");
 
-		// ===== CAMPOS =====
+		
 		JLabel label = new JLabel("Nome Completo");
 		label.setForeground(new Color(106, 143, 132));
 		card.add(label);
@@ -162,7 +162,7 @@ public class TelaPerfil extends JFrame {
 		txtLocalizacao = new JTextField();
 		card.add(txtLocalizacao,"growx,h 35!");
 
-		// ===== BOTÕES =====
+		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
