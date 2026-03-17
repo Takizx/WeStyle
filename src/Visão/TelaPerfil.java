@@ -1,4 +1,4 @@
-package Projetofinal;
+package Visão;
 
 import java.awt.EventQueue;
 import java.awt.Color;
@@ -10,9 +10,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
 import net.miginfocom.swing.MigLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class TelaPerfil extends JFrame {
 
@@ -45,14 +44,12 @@ public class TelaPerfil extends JFrame {
 		contentPane.setBorder(new EmptyBorder(20,20,20,20));
 		setContentPane(contentPane);
 
-		
 		contentPane.setLayout(new MigLayout(
 				"wrap, align center",
 				"[grow]",
 				"[]push[]push"
 		));
 
-		
 		JPanel menu = new JPanel();
 		menu.setBackground(new Color(106, 143, 123));
 		menu.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
@@ -69,16 +66,6 @@ public class TelaPerfil extends JFrame {
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		btnNewButton_1.setForeground(new Color(255, 255, 255));
 		btnNewButton_1.setBackground(new Color(106, 143, 123));
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Telaprincipal tela = new Telaprincipal();
-				tela.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				tela.setVisible(true);
-				dispose();
-
-			}
-		});
 
 		JLabel lblNewLabel = new JLabel("                                                                                                                        adasdadasd");
 		lblNewLabel.setForeground(new Color(106, 143, 123));
@@ -91,16 +78,6 @@ public class TelaPerfil extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setBackground(new Color(106, 143, 123));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				TelaCarrinho tela = new TelaCarrinho();
-				tela.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				tela.setVisible(true);
-				dispose();
-
-			}
-		});
 		menu.add(btnNewButton, "cell 9 0");
 
 		JButton btnNewButton_3 = new JButton("Minhas Criações");
@@ -115,7 +92,6 @@ public class TelaPerfil extends JFrame {
 		btnNewButton_2.setForeground(new Color(255, 255, 255));
 		menu.add(btnNewButton_2, "cell 11 0");
 
-		
 		JPanel card = new JPanel();
 		card.setBackground(Color.WHITE);
 		card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
@@ -126,16 +102,13 @@ public class TelaPerfil extends JFrame {
 				"[][][][][][]"
 		));
 
-		
 		contentPane.add(card,"align center, w 450!, h 500!");
 
-	
 		JLabel lblTitulo = new JLabel("Perfil do Usuário");
 		lblTitulo.setFont(new Font("Arial",Font.BOLD,26));
 		lblTitulo.setForeground(new Color(106,143,123));
 		card.add(lblTitulo,"span, align center");
 
-		
 		JLabel label = new JLabel("Nome Completo");
 		label.setForeground(new Color(106, 143, 132));
 		card.add(label);
@@ -162,12 +135,7 @@ public class TelaPerfil extends JFrame {
 		txtLocalizacao = new JTextField();
 		card.add(txtLocalizacao,"growx,h 35!");
 
-		
 		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 
 		btnSalvar.setBackground(new Color(106,143,123));
 		btnSalvar.setForeground(Color.WHITE);
@@ -175,19 +143,9 @@ public class TelaPerfil extends JFrame {
 		card.add(btnSalvar,"span,align center,w 200!,h 40!");
 
 		JButton btnSenha = new JButton("Alterar Senha");
-		btnSenha.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-				TelaAlterarSenha tela = new TelaAlterarSenha();
-				tela.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				tela.setVisible(true);
-				dispose();
-
-			}
-		});
-
-		btnSenha.setBackground(Color.WHITE);
-		btnSenha.setForeground(new Color(106,143,123));
+		btnSenha.setBackground(new Color(106, 143, 123));
+		btnSenha.setForeground(new Color(255, 255, 255));
 		btnSenha.setBorder(new LineBorder(new Color(106,143,123),1,true));
 		btnSenha.setFont(new Font("Arial",Font.BOLD,14));
 		card.add(btnSenha,"span,align center,w 200!,h 40!");

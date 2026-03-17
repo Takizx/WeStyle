@@ -1,4 +1,4 @@
-package Projetofinal;
+package Visão;
 
 import java.awt.EventQueue;
 

@@ -1,4 +1,4 @@
-package Projetofinal;
+package Visão;
 
 import java.awt.EventQueue;
 import java.awt.Color;
@@ -9,15 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class TelaAlterarSenha extends JFrame {
 
@@ -57,7 +53,6 @@ public class TelaAlterarSenha extends JFrame {
 
 		setContentPane(contentPane);
 
-		
 		JPanel card = new JPanel();
 		card.setBackground(Color.WHITE);
 		card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
@@ -69,13 +64,11 @@ public class TelaAlterarSenha extends JFrame {
 
 		contentPane.add(card,"w 450!, h 500!");
 
-		
 		JLabel lblTitulo = new JLabel("                Alterar Senha");
 		lblTitulo.setFont(new Font("Arial",Font.BOLD,26));
 		lblTitulo.setForeground(new Color(106,143,123));
 		card.add(lblTitulo,"alignx center");
 
-		
 		JLabel lblAtual = new JLabel("Senha atual");
 		lblAtual.setForeground(new Color(106, 143, 132));
 		card.add(lblAtual);
@@ -83,7 +76,6 @@ public class TelaAlterarSenha extends JFrame {
 		textSenhaAtual = new JTextField();
 		card.add(textSenhaAtual,"height 40!");
 
-		
 		JLabel lblNova = new JLabel("Nova senha");
 		lblNova.setForeground(new Color(106, 143, 132));
 		card.add(lblNova);
@@ -91,7 +83,6 @@ public class TelaAlterarSenha extends JFrame {
 		textNovaSenha = new JTextField();
 		card.add(textNovaSenha,"height 40!");
 
-		// confirmar senha
 		JLabel lblConfirmar = new JLabel("Confirmar nova senha");
 		lblConfirmar.setForeground(new Color(106, 143, 132));
 		card.add(lblConfirmar);
@@ -99,29 +90,11 @@ public class TelaAlterarSenha extends JFrame {
 		textConfirmarSenha = new JTextField();
 		card.add(textConfirmarSenha,"height 40!");
 
-		// botao salvar
 		JButton btnSalvar = new JButton("Salvar nova senha");
 		btnSalvar.setBackground(new Color(106,143,123));
 		btnSalvar.setForeground(Color.WHITE);
 
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				String senha1 = textNovaSenha.getText();
-				String senha2 = textConfirmarSenha.getText();
-
-				if(!senha1.equals(senha2)) {
-
-					JOptionPane.showMessageDialog(null,"As senhas não coincidem!");
-
-				} else {
-
-					JOptionPane.showMessageDialog(null,"Senha alterada com sucesso!");
-
-				}
-
-			}
-		});
+		
 
 		card.add(btnSalvar,"height 45!,gapy 10");
 

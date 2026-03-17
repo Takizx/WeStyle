@@ -1,11 +1,9 @@
-package Projetofinal;
+package Visão;
 
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class TelaCarrinho extends JFrame {
 
@@ -41,41 +39,32 @@ public class TelaCarrinho extends JFrame {
 
 		JButton entrar = new JButton("Entrar");
 		entrar.setBackground(new Color(106, 143, 123));
-		entrar.setForeground(new Color(255, 255, 255));
-		entrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		entrar.setForeground(Color.WHITE);
+
+		
+		JButton btnInicio = criarBotaoNavbar("Início");
+		JButton btnCarrinho = criarBotaoNavbar("Carrinho");
+		JButton btnCriacoes = criarBotaoNavbar("Minhas Criações");
+		JButton btnPersonalizar = criarBotaoNavbar("Personalizar");
 
 		navbar.add(logo, "cell 0 0");
 		navbar.add(new JLabel(), "cell 1 0");
-		
-		JButton btnNewButton_3 = new JButton("Início");
-		btnNewButton_3.setBackground(new Color(106, 143, 123));
-		btnNewButton_3.setForeground(new Color(255, 255, 255));
-		navbar.add(btnNewButton_3, "cell 3 0");
-		
-		JButton btnNewButton_1 = new JButton("Carrinho");
-		btnNewButton_1.setBackground(new Color(106, 143, 123));
-		btnNewButton_1.setForeground(new Color(255, 255, 255));
-		navbar.add(btnNewButton_1, "cell 4 0");
-		
-		JButton btnNewButton = new JButton("Minhas Criações");
-		btnNewButton.setBackground(new Color(106, 143, 123));
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		navbar.add(btnNewButton, "cell 5 0");
-		
-		JButton btnNewButton_2 = new JButton("Personalizar");
-		btnNewButton_2.setBackground(new Color(106, 143, 123));
-		btnNewButton_2.setForeground(new Color(255, 255, 255));
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		navbar.add(btnNewButton_2, "cell 6 0");
+		navbar.add(btnInicio, "cell 3 0");
+		navbar.add(btnCarrinho, "cell 4 0");
+		navbar.add(btnCriacoes, "cell 5 0");
+		navbar.add(btnPersonalizar, "cell 6 0");
 		navbar.add(entrar, "cell 7 0");
 
 		contentPane.add(navbar, BorderLayout.NORTH);
+	}
+
+	private JButton criarBotaoNavbar(String texto) {
+		JButton btn = new JButton(texto);
+		btn.setBackground(new Color(106, 143, 123));
+		btn.setForeground(Color.WHITE);
+		btn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btn.setBorder(null);
+		return btn;
 	}
 
 	private void criarConteudo() {
@@ -84,7 +73,7 @@ public class TelaCarrinho extends JFrame {
 		area.setBackground(new Color(106, 143, 123));
 
 		JLabel titulo = new JLabel("Carrinho de Compras");
-		titulo.setForeground(new Color(255, 255, 255));
+		titulo.setForeground(Color.WHITE);
 		titulo.setFont(new Font("Arial",Font.BOLD,20));
 
 		area.add(titulo);
@@ -93,6 +82,7 @@ public class TelaCarrinho extends JFrame {
 		card.setBackground(new Color(106, 143, 123));
 		card.setBorder(new LineBorder(new Color(220,220,220),1,true));
 
+		// adicionando itens do carrinho
 		card.add(criarItem("Camiseta Oversize","M","R$ 89,90"));
 		card.add(criarItem("Moletom Streetwear","G","R$ 179,90"));
 		card.add(criarItem("Jaqueta Minimalista","M","R$ 249,90"));
@@ -101,13 +91,12 @@ public class TelaCarrinho extends JFrame {
 		totalPanel.setOpaque(false);
 
 		JLabel total = new JLabel("Total: R$ 518,70");
-		total.setForeground(new Color(255, 255, 255));
+		total.setForeground(Color.WHITE);
 		total.setFont(new Font("Arial",Font.BOLD,16));
 
 		JButton finalizar = new JButton("Finalizar Compra");
-		finalizar.setBackground(new Color(255, 255, 255));
-		finalizar.setForeground(new Color(106, 143, 123));
-
+		finalizar.setBackground(new Color(106, 143, 123));
+		finalizar.setForeground(Color.WHITE);
 
 		totalPanel.add(total);
 		totalPanel.add(finalizar);
@@ -126,20 +115,20 @@ public class TelaCarrinho extends JFrame {
 		item.setBackground(new Color(106, 143, 123));
 
 		JLabel imagem = new JLabel("IMG");
-		imagem.setForeground(new Color(255, 255, 255));
+		imagem.setForeground(Color.WHITE);
 		imagem.setPreferredSize(new Dimension(60,60));
 		imagem.setHorizontalAlignment(SwingConstants.CENTER);
 		imagem.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
 		JLabel nomeLabel = new JLabel(nome);
-		nomeLabel.setForeground(new Color(255, 255, 255));
+		nomeLabel.setForeground(Color.WHITE);
 		nomeLabel.setFont(new Font("Arial",Font.BOLD,14));
 
 		JLabel tamanhoLabel = new JLabel("Tamanho: " + tamanho);
-		tamanhoLabel.setForeground(new Color(255, 255, 255));
+		tamanhoLabel.setForeground(Color.WHITE);
 
 		JLabel precoLabel = new JLabel(preco);
-		precoLabel.setForeground(new Color(255, 255, 255));
+		precoLabel.setForeground(Color.WHITE);
 		precoLabel.setFont(new Font("Arial",Font.BOLD,14));
 
 		item.add(imagem,"span 1 2");
@@ -151,7 +140,6 @@ public class TelaCarrinho extends JFrame {
 	}
 
 	public static void main(String[] args) {
-
 		EventQueue.invokeLater(() -> {
 			try {
 				TelaCarrinho frame = new TelaCarrinho();
