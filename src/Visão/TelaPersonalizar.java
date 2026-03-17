@@ -136,9 +136,13 @@ public class TelaPersonalizar extends JFrame {
 		modelos.setLayout(new MigLayout("wrap 2", "[grow][grow]", ""));
 
 		JRadioButton camiseta = new JRadioButton("T-Shirt");
+		camiseta.setForeground(new Color(106, 143, 123));
 		JRadioButton manga = new JRadioButton("Oversize");
+		manga.setForeground(new Color(106, 143, 123));
 		JRadioButton moletom = new JRadioButton("Moletom");
+		moletom.setForeground(new Color(106, 143, 123));
 		JRadioButton regata = new JRadioButton("Regata");
+		regata.setForeground(new Color(106, 143, 123));
 
 		ButtonGroup grupo = new ButtonGroup();
 		grupo.add(camiseta);
@@ -179,6 +183,7 @@ public class TelaPersonalizar extends JFrame {
 		lblTamanho.setForeground(Color.WHITE);
 
 		JComboBox<String> tamanho = new JComboBox<>(new String[]{"P","M","G","GG"});
+		tamanho.setForeground(new Color(106, 143, 123));
 		tamanhoPanel.add(lblTamanho);
 		tamanhoPanel.add(tamanho,"growx");
 
@@ -198,6 +203,7 @@ public class TelaPersonalizar extends JFrame {
 				"Estampa florida",
 				"Estampa de bolinhas"
 		});
+		estampa.setForeground(new Color(106, 143, 123));
 		estampaPanel.add(lblEstampa);
 		estampaPanel.add(estampa,"growx");
 
