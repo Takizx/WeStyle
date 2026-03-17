@@ -1,4 +1,4 @@
-package Projetofinal;
+package Visão;
 
 import java.awt.EventQueue;
 import java.awt.Color;
@@ -14,8 +14,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import net.miginfocom.swing.MigLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Telaentrar extends JFrame {
 
@@ -95,17 +93,10 @@ public Telaentrar() {
     card.add(lblEsqueceu, "cell 0 6,alignx right");
 
     JButton btnEntrar = new JButton("Entrar");
-    btnEntrar.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
 
-            Telaprincipal tela = new Telaprincipal();
-            tela.setVisible(true);
-            dispose();
+    // Ação removida
 
-        }
-    });
-
-    btnEntrar.setBackground(new Color(60, 60, 60));
+    btnEntrar.setBackground(new Color(106, 143, 123));
     btnEntrar.setForeground(Color.WHITE);
     card.add(btnEntrar, "cell 0 7,height 45!,gapy 10");
 }

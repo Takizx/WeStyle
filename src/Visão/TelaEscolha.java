@@ -1,4 +1,4 @@
-package Projetofinal;
+package Visão;
 
 import java.awt.EventQueue;
 import java.awt.Color;
@@ -45,7 +45,6 @@ public class TelaEscolha extends JFrame {
 
 		setContentPane(contentPane);
 
-		
 		JPanel card = new JPanel();
 		card.setBackground(Color.WHITE);
 		card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
@@ -58,13 +57,11 @@ public class TelaEscolha extends JFrame {
 
 		contentPane.add(card,"w 450!, h 500!");
 
-		
 		JLabel lblTitulo = new JLabel("Bem-vindo ao WeStyle!");
 		lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
 		lblTitulo.setForeground(new Color(106,143,123));
 		card.add(lblTitulo);
 
-		
 		JLabel lblFrase = new JLabel("A moda começa com a sua ideia.");
 		lblFrase.setFont(new Font("Arial", Font.ITALIC, 16));
 		lblFrase.setForeground(new Color(106, 143, 132));
@@ -75,15 +72,16 @@ public class TelaEscolha extends JFrame {
 		lblPergunta.setForeground(new Color(106,143,123));
 		card.add(lblPergunta);
 
-		
 		JButton btnCatalogo = new JButton("Explorar Catálogo");
+
+		// SEM AÇÃO
+
 		btnCatalogo.setFont(new Font("Arial", Font.BOLD, 15));
 		btnCatalogo.setBackground(new Color(106,143,123));
 		btnCatalogo.setForeground(Color.WHITE);
 
 		card.add(btnCatalogo,"width 240!, height 50!");
 
-		
 		JButton btnPersonalizar = new JButton("Criar Minha Peça");
 		btnPersonalizar.setFont(new Font("Arial", Font.BOLD, 15));
 		btnPersonalizar.setBackground(new Color(106, 143, 123));
@@ -92,7 +90,6 @@ public class TelaEscolha extends JFrame {
 
 		card.add(btnPersonalizar,"width 240!, height 50!");
 
-		
 		JLabel lblExtra = new JLabel("Estilo é uma forma de dizer quem você é.");
 		lblExtra.setFont(new Font("Arial", Font.ITALIC, 15));
 		lblExtra.setForeground(new Color(106, 143, 132));
