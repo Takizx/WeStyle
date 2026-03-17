@@ -39,8 +39,7 @@ public class TelaCatalogo extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100,100,1400,900);
 
-		contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout());
+		contentPane = new JPanel(new BorderLayout());
 		setContentPane(contentPane);
 
 		/* NAVBAR */
@@ -54,10 +53,19 @@ public class TelaCatalogo extends JFrame {
 		logo.setForeground(Color.WHITE);
 		logo.setFont(new Font("Arial", Font.BOLD, 30));
 
-		JButton btnInicio = criarBotao("Início");
-		JButton btnPersonalizar = criarBotao("Personalizar");
-		JButton btnCatalogo = criarBotao("Catálogo");
-		JButton btnPedidos = criarBotao("Pedidos");
+		JButton btnInicio = new JButton("Início");
+		JButton btnPersonalizar = new JButton("Personalizar");
+		JButton btnCatalogo = new JButton("Catálogo");
+		JButton btnPedidos = new JButton("Pedidos");
+
+		JButton[] botoes = {btnInicio, btnPersonalizar, btnCatalogo, btnPedidos};
+
+		for (JButton b : botoes) {
+			b.setFont(new Font("Tahoma", Font.PLAIN, 25));
+			b.setForeground(Color.WHITE);
+			b.setBackground(verde);
+			b.setBorder(null);
+		}
 
 		navbar.add(logo);
 		navbar.add(new JLabel(""));
@@ -68,11 +76,15 @@ public class TelaCatalogo extends JFrame {
 
 		contentPane.add(navbar, BorderLayout.NORTH);
 
-		/* FUNDO */
+		/* FUNDO CENTRALIZADO */
 
 		JPanel fundo = new JPanel();
 		fundo.setBackground(verde);
-		fundo.setLayout(new MigLayout("wrap, align center top, gap 30", "[1100]", "[]20[]"));
+		fundo.setLayout(new MigLayout(
+				"wrap, align center top, gap 30",
+				"[1100]",   // largura fixa → CENTRALIZA
+				"[]20[]"
+		));
 
 		contentPane.add(fundo, BorderLayout.CENTER);
 
@@ -92,62 +104,141 @@ public class TelaCatalogo extends JFrame {
 
 		fundo.add(tituloPanel);
 
-		/* GRID DO CATALOGO */
+		/* CATALOGO */
 
 		JPanel catalogo = new JPanel();
 		catalogo.setOpaque(false);
-		catalogo.setLayout(new MigLayout("wrap 3, gap 25", "[grow][grow][grow]", ""));
-
-		catalogo.add(criarCard("Sunset Vibes", new Color(246,100,100)));
-		catalogo.add(criarCard("Minimal Wave", new Color(86,184,177)));
-		catalogo.add(criarCard("Urban Street", Color.BLACK));
-		catalogo.add(criarCard("Floral Dreams", new Color(155,89,182)));
-		catalogo.add(criarCard("Retro Dots", new Color(241,196,15)));
-		catalogo.add(criarCard("Ocean Blue", new Color(66,133,244)));
+		catalogo.setLayout(new MigLayout("wrap 3, gap 25", "[300][300][300]", ""));
 
 		fundo.add(catalogo);
-	}
 
-	private JButton criarBotao(String texto) {
+		/* ===== CARDS ===== */
 
-		JButton btn = new JButton(texto);
-		btn.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		btn.setForeground(Color.WHITE);
-		btn.setBackground(new Color(106,143,123));
-		btn.setBorder(null);
+		JPanel card1 = new JPanel();
+		card1.setBackground(verde);
+		card1.setBorder(new LineBorder(linha));
+		card1.setLayout(new MigLayout("wrap, insets 10", "[center]", ""));
 
-		return btn;
-	}
+		JPanel preview1 = new JPanel();
+		preview1.setBackground(new Color(246,100,100));
+		preview1.setPreferredSize(new Dimension(260,260));
 
-	private JPanel criarCard(String nome, Color cor) {
+		JLabel nome1 = new JLabel("Sunset Vibes");
+		nome1.setForeground(Color.WHITE);
 
-		JPanel card = new JPanel();
-		card.setBackground(verde);
-		card.setBorder(new LineBorder(linha));
-		card.setLayout(new MigLayout("wrap, insets 10", "[center]", ""));
+		JButton btn1 = new JButton("Ver Detalhes");
 
-		JPanel preview = new JPanel();
-		preview.setBackground(cor);
-		preview.setPreferredSize(new Dimension(300,300));
-		preview.setBorder(new LineBorder(Color.DARK_GRAY));
+		card1.add(preview1);
+		card1.add(nome1);
+		card1.add(btn1);
 
-		JLabel titulo = new JLabel(nome);
-		titulo.setForeground(Color.WHITE);
-		titulo.setFont(new Font("Arial", Font.BOLD, 18));
+		/* ===== CARD 2 ===== */
 
-		JButton detalhes = new JButton("Ver Detalhes");
+		JPanel card2 = new JPanel();
+		card2.setBackground(verde);
+		card2.setBorder(new LineBorder(linha));
+		card2.setLayout(new MigLayout("wrap, insets 10", "[center]", ""));
 
-		/* ABRIR TELA DETALHES */
+		JPanel preview2 = new JPanel();
+		preview2.setBackground(new Color(86,184,177));
+		preview2.setPreferredSize(new Dimension(260,260));
 
-		detalhes.addActionListener(e -> {
-			new TelaDetalhes(nome).setVisible(true);
-			dispose();
-		});
+		JLabel nome2 = new JLabel("Minimal Wave");
+		nome2.setForeground(Color.WHITE);
 
-		card.add(preview);
-		card.add(titulo);
-		card.add(detalhes);
+		JButton btn2 = new JButton("Ver Detalhes");
 
-		return card;
+		card2.add(preview2);
+		card2.add(nome2);
+		card2.add(btn2);
+
+		/* ===== CARD 3 ===== */
+
+		JPanel card3 = new JPanel();
+		card3.setBackground(verde);
+		card3.setBorder(new LineBorder(linha));
+		card3.setLayout(new MigLayout("wrap, insets 10", "[center]", ""));
+
+		JPanel preview3 = new JPanel();
+		preview3.setBackground(Color.BLACK);
+		preview3.setPreferredSize(new Dimension(260,260));
+
+		JLabel nome3 = new JLabel("Urban Street");
+		nome3.setForeground(Color.WHITE);
+
+		JButton btn3 = new JButton("Ver Detalhes");
+
+		card3.add(preview3);
+		card3.add(nome3);
+		card3.add(btn3);
+
+		/* ===== CARD 4 ===== */
+
+		JPanel card4 = new JPanel();
+		card4.setBackground(verde);
+		card4.setBorder(new LineBorder(linha));
+		card4.setLayout(new MigLayout("wrap, insets 10", "[center]", ""));
+
+		JPanel preview4 = new JPanel();
+		preview4.setBackground(new Color(155,89,182));
+		preview4.setPreferredSize(new Dimension(260,260));
+
+		JLabel nome4 = new JLabel("Floral Dreams");
+		nome4.setForeground(Color.WHITE);
+
+		JButton btn4 = new JButton("Ver Detalhes");
+
+		card4.add(preview4);
+		card4.add(nome4);
+		card4.add(btn4);
+
+		/* ===== CARD 5 ===== */
+
+		JPanel card5 = new JPanel();
+		card5.setBackground(verde);
+		card5.setBorder(new LineBorder(linha));
+		card5.setLayout(new MigLayout("wrap, insets 10", "[center]", ""));
+
+		JPanel preview5 = new JPanel();
+		preview5.setBackground(new Color(241,196,15));
+		preview5.setPreferredSize(new Dimension(260,260));
+
+		JLabel nome5 = new JLabel("Retro Dots");
+		nome5.setForeground(Color.WHITE);
+
+		JButton btn5 = new JButton("Ver Detalhes");
+
+		card5.add(preview5);
+		card5.add(nome5);
+		card5.add(btn5);
+
+		/* ===== CARD 6 ===== */
+
+		JPanel card6 = new JPanel();
+		card6.setBackground(verde);
+		card6.setBorder(new LineBorder(linha));
+		card6.setLayout(new MigLayout("wrap, insets 10", "[center]", ""));
+
+		JPanel preview6 = new JPanel();
+		preview6.setBackground(new Color(66,133,244));
+		preview6.setPreferredSize(new Dimension(260,260));
+
+		JLabel nome6 = new JLabel("Ocean Blue");
+		nome6.setForeground(Color.WHITE);
+
+		JButton btn6 = new JButton("Ver Detalhes");
+
+		card6.add(preview6);
+		card6.add(nome6);
+		card6.add(btn6);
+
+		/* ADD CARDS */
+
+		catalogo.add(card1);
+		catalogo.add(card2);
+		catalogo.add(card3);
+		catalogo.add(card4);
+		catalogo.add(card5);
+		catalogo.add(card6);
 	}
 }
