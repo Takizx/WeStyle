@@ -10,4 +10,4 @@ public class Main {
             tela.setVisible(true);
         });
     }
-}
+} 
