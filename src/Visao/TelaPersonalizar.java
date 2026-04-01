@@ -1,4 +1,4 @@
-package Visão;
+package Visao;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,7 +18,7 @@ import javax.swing.border.MatteBorder;
 
 import net.miginfocom.swing.MigLayout;
 
-public class TelaDetalhes extends JFrame {
+public class TelaPersonalizar extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel previewCamisa;
@@ -27,7 +29,7 @@ public class TelaDetalhes extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
-				TelaDetalhes frame = new TelaDetalhes("Preview");
+				TelaPersonalizar frame = new TelaPersonalizar();
 				frame.setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -35,9 +37,9 @@ public class TelaDetalhes extends JFrame {
 		});
 	}
 
-	public TelaDetalhes(String nomeRoupa) {
+	public TelaPersonalizar() {
 
-		setTitle("WeStyle - Detalhes");
+		setTitle("WeStyle - Personalizar");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1400, 900);
 
@@ -55,17 +57,35 @@ public class TelaDetalhes extends JFrame {
 		logo.setForeground(Color.WHITE);
 		logo.setFont(new Font("Arial", Font.BOLD, 30));
 
-		JButton btnInicio = criarBotao("Início");
-		JButton btnPersonalizar = criarBotao("Personalizar");
-		JButton btnCatalogo = criarBotao("Catálogo");
-		JButton btnPedidos = criarBotao("Pedidos");
+		JButton btnInicio = new JButton("Início");
+		btnInicio.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		btnInicio.setForeground(Color.WHITE);
+		btnInicio.setBackground(verde);
+	
+		JButton btnCarrinho = new JButton("Carrinho");
+		btnCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		btnCarrinho.setForeground(Color.WHITE);
+		btnCarrinho.setBackground(verde);
+	
+
+		JButton btnCriacoes = new JButton("Minhas Criações");
+		btnCriacoes.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		btnCriacoes.setBackground(verde);
+		btnCriacoes.setForeground(Color.WHITE);
+		
+
+		JButton btnPersonalizar = new JButton("Personalizar");
+		btnPersonalizar.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		btnPersonalizar.setBackground(verde);
+		btnPersonalizar.setForeground(Color.WHITE);
+		
 
 		navbar.add(logo);
 		navbar.add(new JLabel(""));
-		navbar.add(btnInicio);
-		navbar.add(btnPersonalizar);
-		navbar.add(btnCatalogo);
-		navbar.add(btnPedidos);
+		navbar.add(btnInicio, "align center");
+		navbar.add(btnCarrinho, "align center");
+		navbar.add(btnCriacoes, "align center");
+		navbar.add(btnPersonalizar, "align center");
 
 		contentPane.add(navbar, BorderLayout.NORTH);
 
@@ -81,18 +101,17 @@ public class TelaDetalhes extends JFrame {
 		previewPanel.setBorder(new LineBorder(linha));
 		previewPanel.setLayout(new MigLayout("wrap, insets 25", "[center]", ""));
 
-		JLabel lblNomeRoupa = new JLabel(nomeRoupa);
-		lblNomeRoupa.setForeground(Color.WHITE);
-		lblNomeRoupa.setFont(new Font("Arial", Font.BOLD, 26));
+		JLabel lblPreview = new JLabel("Preview em Tempo Real");
+		lblPreview.setForeground(Color.WHITE);
+		lblPreview.setFont(new Font("Arial", Font.BOLD, 20));
 
 		previewCamisa = new JPanel();
 		previewCamisa.setPreferredSize(new Dimension(500,600));
 		previewCamisa.setBackground(Color.WHITE);
 		previewCamisa.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
-		previewPanel.add(lblNomeRoupa);
+		previewPanel.add(lblPreview);
 		previewPanel.add(previewCamisa);
-
 		fundo.add(previewPanel);
 
 		
@@ -100,23 +119,42 @@ public class TelaDetalhes extends JFrame {
 		painelDireito.setOpaque(false);
 		painelDireito.setLayout(new MigLayout("wrap, gap 25", "[grow,fill]", ""));
 
-		
-		JButton voltar = new JButton("<-- Voltar");
-		voltar.setBackground(new Color(255, 255, 255));
-		voltar.setForeground(new Color(106, 143, 123));
-		voltar.setFont(new Font("Arial", Font.BOLD, 16));
-		
-		painelDireito.add(voltar);
-
-		JLabel titulo = new JLabel("Detalhes da Peça");
+		JLabel titulo = new JLabel("Personalize Sua Peça");
 		titulo.setForeground(Color.WHITE);
 		titulo.setFont(new Font("Arial", Font.BOLD, 30));
 
-		JLabel descricao = new JLabel("Escolha a cor e o tamanho desejado");
-		descricao.setForeground(Color.WHITE);
+		JLabel subtitulo = new JLabel("Crie uma peça única que expressa sua identidade");
+		subtitulo.setForeground(Color.WHITE);
 
 		painelDireito.add(titulo);
-		painelDireito.add(descricao);
+		painelDireito.add(subtitulo);
+
+		
+		JPanel modelos = new JPanel();
+		modelos.setBackground(verde);
+		modelos.setBorder(new LineBorder(linha));
+		modelos.setLayout(new MigLayout("wrap 2", "[grow][grow]", ""));
+
+		JRadioButton camiseta = new JRadioButton("T-Shirt");
+		camiseta.setForeground(new Color(106, 143, 123));
+		JRadioButton manga = new JRadioButton("Oversize");
+		manga.setForeground(new Color(106, 143, 123));
+		JRadioButton moletom = new JRadioButton("Moletom");
+		moletom.setForeground(new Color(106, 143, 123));
+		JRadioButton regata = new JRadioButton("Regata");
+		regata.setForeground(new Color(106, 143, 123));
+
+		ButtonGroup grupo = new ButtonGroup();
+		grupo.add(camiseta);
+		grupo.add(manga);
+		grupo.add(moletom);
+		grupo.add(regata);
+
+		modelos.add(camiseta);
+		modelos.add(manga);
+		modelos.add(moletom);
+		modelos.add(regata);
+		painelDireito.add(modelos);
 
 		
 		JPanel cores = new JPanel();
@@ -135,7 +173,7 @@ public class TelaDetalhes extends JFrame {
 
 		painelDireito.add(cores);
 
-		
+	
 		JPanel tamanhoPanel = new JPanel();
 		tamanhoPanel.setBackground(verde);
 		tamanhoPanel.setBorder(new LineBorder(linha));
@@ -146,33 +184,35 @@ public class TelaDetalhes extends JFrame {
 
 		JComboBox<String> tamanho = new JComboBox<>(new String[]{"P","M","G","GG"});
 		tamanho.setForeground(new Color(106, 143, 123));
-		tamanho.setBackground(new Color(255, 255, 255));
 		tamanhoPanel.add(lblTamanho);
 		tamanhoPanel.add(tamanho,"growx");
 
 		painelDireito.add(tamanhoPanel);
 
 		
-		JButton comprar = new JButton("Adicionar ao Carrinho");
-		comprar.setForeground(new Color(106, 143, 123));
-		comprar.setBackground(new Color(255, 255, 255));
-		
-		painelDireito.add(comprar);
+		JPanel estampaPanel = new JPanel();
+		estampaPanel.setBackground(verde);
+		estampaPanel.setBorder(new LineBorder(linha));
+		estampaPanel.setLayout(new MigLayout("wrap", "[grow]", ""));
 
+		JLabel lblEstampa = new JLabel("Estampa");
+		lblEstampa.setForeground(Color.WHITE);
+
+		JComboBox<String> estampa = new JComboBox<>(new String[]{
+				"Sem estampa",
+				"Estampa florida",
+				"Estampa de bolinhas"
+		});
+		estampa.setForeground(new Color(106, 143, 123));
+		estampaPanel.add(lblEstampa);
+		estampaPanel.add(estampa,"growx");
+
+		painelDireito.add(estampaPanel);
 		fundo.add(painelDireito);
 	}
 
-	private JButton criarBotao(String texto) {
-		JButton btn = new JButton(texto);
-		btn.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		btn.setForeground(Color.WHITE);
-		btn.setBackground(new Color(106,143,123));
-		btn.setBorder(null);
-		
-		return btn;
-	}
-
 	private JPanel criarCor(Color cor) {
+
 		JPanel p = new JPanel();
 		p.setPreferredSize(new Dimension(80,80));
 		p.setBackground(cor);

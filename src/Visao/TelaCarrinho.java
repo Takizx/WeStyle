@@ -1,4 +1,4 @@
-package Visão;
+package Visao;
 
 import java.awt.*;
 import javax.swing.*;

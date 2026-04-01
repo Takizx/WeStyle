@@ -7,10 +7,10 @@ public class Produto {
     private double preco;
     private String tamanho;
 
-    // Construtores
+    
     public Produto() {}
 
-    // Getters e Setters (O DAO usa esses caras)
+  
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getNome() { return nome; }

@@ -9,10 +9,10 @@ import Modelo.Usuario;
 
 public class UsuarioDAO {
     
-    // Configurações de conexão com o MySQL da escola
+ 
     private String url = "jdbc:mysql://localhost:3306/we_style";
     private String user = "root";
-    private String password = "admin"; // Senha que funcionou na sua máquina
+    private String password = "admin"; 
 
     
     public boolean cadastrarUsuario(Usuario usuario) {
@@ -45,7 +45,7 @@ public class UsuarioDAO {
             stmt.setString(2, senha);
             
             try (ResultSet rs = stmt.executeQuery()) {
-                // Se o banco encontrar uma linha com esse email e senha, retorna true
+                // se o banco encontrar uma linha com esse email e senha, retorna true
                 return rs.next();
             }
             
