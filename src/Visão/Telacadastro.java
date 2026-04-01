@@ -3,6 +3,8 @@ package Visão;
 import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,8 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 
 import net.miginfocom.swing.MigLayout;
+
+// Importações dos seus novos pacotes
+import Modelo.Usuario;
+import Controle.UsuarioDAO;
 
 public class Telacadastro extends JFrame {
 
@@ -105,8 +112,55 @@ public class Telacadastro extends JFrame {
         card.add(chkTermos);
 
         JButton btnCadastrar = new JButton("Cadastrar");
+        
+        // --- LÓGICA DO BOTÃO INSERIDA AQUI ---
+        btnCadastrar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                String nome = textFieldNome.getText();
+                String email = textFieldEmail.getText();
+                String senha = textFieldSenha.getText();
+                String confirmar = textFieldConfirmarSenha.getText();
 
-    
+                // Validações básicas
+                if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.");
+                    return;
+                }
+
+                if (!senha.equals(confirmar)) {
+                    JOptionPane.showMessageDialog(null, "As senhas não coincidem!");
+                    return;
+                }
+                
+                if (!chkTermos.isSelected()) {
+                    JOptionPane.showMessageDialog(null, "Você precisa aceitar os termos de uso.");
+                    return;
+                }
+
+                // Criar o objeto modelo
+                Usuario novoUsuario = new Usuario();
+                novoUsuario.setNome(nome);
+                novoUsuario.setEmail(email);
+                novoUsuario.setSenha(senha);
+
+                // Chamar o controle (DAO) para salvar no banco
+                UsuarioDAO dao = new UsuarioDAO();
+                if (dao.cadastrarUsuario(novoUsuario)) {
+                    JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+                    
+                    // Limpar os campos após o sucesso
+                    textFieldNome.setText("");
+                    textFieldEmail.setText("");
+                    textFieldSenha.setText("");
+                    textFieldConfirmarSenha.setText("");
+                    chkTermos.setSelected(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro ao salvar no banco de dados. Verifique a conexão.");
+                }
+            }
+        });
+        // --- FIM DA LÓGICA ---
 
         btnCadastrar.setBackground(new Color(106, 143, 123));
         btnCadastrar.setForeground(Color.WHITE);
