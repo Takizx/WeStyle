@@ -1,4 +1,4 @@
-package Visão;
+package Visao;
 
 import java.awt.EventQueue;
 
@@ -10,4 +10,4 @@ public class Main {
             tela.setVisible(true);
         });
     }
-}
+} 

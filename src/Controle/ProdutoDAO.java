@@ -11,15 +11,12 @@ import Modelo.Produto;
 
 public class ProdutoDAO {
 
-    // Configurações de conexão (mesmas que usamos no UsuarioDAO)
+    
     private String url = "jdbc:mysql://localhost:3306/we_style";
     private String user = "root";
     private String password = "admin";
 
-    /**
-     * Este método faz o SELECT no banco e transforma as linhas da tabela
-     * em uma lista de objetos que o Java entende.
-     */
+  
     public List<Produto> listarProdutos() {
         List<Produto> lista = new ArrayList<>();
         String sql = "SELECT * FROM produto";

@@ -1,8 +1,10 @@
-package Visão;
+package Visao;
 
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,11 +19,15 @@ public class Telaprincipal extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
 
+    /**
+     * Este main é o ponto de entrada principal do seu projeto.
+     * Para rodar o sistema inteiro, você deve dar Play por aqui.
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
                 Telaprincipal frame = new Telaprincipal();
-                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                // Abre maximizado, mas centralizado caso mude o tamanho
                 frame.setVisible(true);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -30,30 +36,23 @@ public class Telaprincipal extends JFrame {
     }
 
     public Telaprincipal() {
-
-        setTitle("WeStyle");
+        setTitle("WeStyle - Bem-vindo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 706);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Inicia em tela cheia
+        setLocationRelativeTo(null); // Centraliza se não estiver maximizado
 
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(30, 30, 30, 30));
         contentPane.setBackground(new Color(106, 143, 123));
-
-        contentPane.setLayout(new MigLayout(
-                "align center center",
-                "",
-                ""
-        ));
-
+        contentPane.setLayout(new MigLayout("align center center", "", ""));
         setContentPane(contentPane);
 
+        // Card Branco Central
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-
         card.setLayout(new MigLayout("wrap 1, insets 40, gap 20", "[grow,center]", "[]20[]30[]30[]20[][][][][][]"));
-
         contentPane.add(card, "w 450!, h 500!");
 
         JLabel lblTitulo = new JLabel("WeStyle");
@@ -66,21 +65,35 @@ public class Telaprincipal extends JFrame {
         lblSubtitulo.setForeground(new Color(106, 143, 123));
         card.add(lblSubtitulo, "cell 0 4");
 
+        // --- BOTÃO ENTRAR ---
         JButton btnEntrar = new JButton("Entrar");
         btnEntrar.setFont(new Font("Arial", Font.BOLD, 14));
         btnEntrar.setBackground(new Color(106, 143, 123));
         btnEntrar.setForeground(Color.WHITE);
-
-        
+        btnEntrar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Abre a tela de login (entrar)
+                new Telaentrar().setVisible(true);
+                // Fecha a tela principal
+                dispose();
+            }
+        });
         card.add(btnEntrar, "cell 0 6,width 220,height 45");
 
+        // --- BOTÃO CADASTRAR-SE ---
         JButton btnCadastrar = new JButton("Cadastrar-se");
         btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
         btnCadastrar.setBackground(new Color(106, 143, 123));
-        btnCadastrar.setForeground(new Color(255, 255, 255));
+        btnCadastrar.setForeground(Color.WHITE);
         btnCadastrar.setBorder(new LineBorder(new Color(106, 143, 123), 1, true));
-
-        
+        btnCadastrar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Abre a tela de cadastro
+                new Telacadastro().setVisible(true);
+                // Fecha a tela principal
+                dispose();
+            }
+        });
         card.add(btnCadastrar, "cell 0 8,width 220,height 45");
     }
 }

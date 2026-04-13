@@ -1,10 +1,11 @@
-package Visão;
+package Visao;
 
 import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Cursor;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,10 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
-// Importações dos seus novos pacotes
 import Modelo.Usuario;
 import Controle.UsuarioDAO;
 
@@ -45,30 +46,24 @@ public class Telacadastro extends JFrame {
     }
 
     public Telacadastro() {
-
+        setTitle("WeStyle - Criar Conta");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 700);
+        setBounds(100, 100, 1000, 750);
+        setLocationRelativeTo(null); // Centraliza a tela
 
         contentPane = new JPanel();
         contentPane.setBackground(new Color(106, 143, 123));
         contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-
-        contentPane.setLayout(new MigLayout(
-                "align center center",
-                "",
-                ""));
-
+        contentPane.setLayout(new MigLayout("align center center", "", ""));
         setContentPane(contentPane);
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
+        card.setLayout(new MigLayout("wrap, insets 40, gap 12", "[grow,fill]", "[][][][][][][][][][][]"));
+        contentPane.add(card, "w 450!, h 650!");
 
-        card.setLayout(new MigLayout("wrap, insets 40, gap 15", "[grow,fill]", "[][][][][][][][][][]"));
-
-        contentPane.add(card, "w 450!, h 620!");
-
-        JLabel lblTitulo = new JLabel("WeStyle", JLabel.CENTER);
+        JLabel lblTitulo = new JLabel("WeStyle", SwingConstants.CENTER);
         lblTitulo.setForeground(new Color(106, 143, 123));
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
         card.add(lblTitulo, "alignx center");
@@ -76,53 +71,55 @@ public class Telacadastro extends JFrame {
         JLabel lblSub = new JLabel("Criar conta");
         lblSub.setFont(new Font("Arial", Font.BOLD, 17));
         lblSub.setForeground(new Color(106, 143, 123));
-        card.add(lblSub, "alignx center");
+        card.add(lblSub, "alignx center, gapy 5");
 
         JLabel lblNome = new JLabel("Nome");
         lblNome.setForeground(new Color(106, 143, 132));
-        card.add(lblNome);
+        card.add(lblNome, "gapy 5");
 
         textFieldNome = new JTextField();
-        card.add(textFieldNome, "height 40!");
+        card.add(textFieldNome, "height 35!");
 
         JLabel lblEmail = new JLabel("Email");
         lblEmail.setForeground(new Color(106, 143, 132));
         card.add(lblEmail);
 
         textFieldEmail = new JTextField();
-        card.add(textFieldEmail, "height 40!");
+        card.add(textFieldEmail, "height 35!");
 
         JLabel lblSenha = new JLabel("Senha");
         lblSenha.setForeground(new Color(106, 143, 132));
         card.add(lblSenha);
 
         textFieldSenha = new JTextField();
-        card.add(textFieldSenha, "height 40!");
+        card.add(textFieldSenha, "height 35!");
 
         JLabel lblConfirmar = new JLabel("Confirmar senha");
         lblConfirmar.setForeground(new Color(106, 143, 132));
         card.add(lblConfirmar);
 
         textFieldConfirmarSenha = new JTextField();
-        card.add(textFieldConfirmarSenha, "height 40!");
+        card.add(textFieldConfirmarSenha, "height 35!");
 
         JCheckBox chkTermos = new JCheckBox("Aceito os termos de uso");
         chkTermos.setForeground(new Color(106, 143, 132));
         chkTermos.setBackground(Color.WHITE);
-        card.add(chkTermos);
+        card.add(chkTermos, "gapy 5");
 
+        // --- BOTÃO CADASTRAR ---
         JButton btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.setBackground(new Color(106, 143, 123));
+        btnCadastrar.setForeground(Color.WHITE);
+        btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCadastrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        // --- LÓGICA DO BOTÃO INSERIDA AQUI ---
         btnCadastrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
                 String nome = textFieldNome.getText();
                 String email = textFieldEmail.getText();
                 String senha = textFieldSenha.getText();
                 String confirmar = textFieldConfirmarSenha.getText();
 
-                // Validações básicas
                 if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.");
                     return;
@@ -138,36 +135,46 @@ public class Telacadastro extends JFrame {
                     return;
                 }
 
-                // Criar o objeto modelo
                 Usuario novoUsuario = new Usuario();
                 novoUsuario.setNome(nome);
                 novoUsuario.setEmail(email);
                 novoUsuario.setSenha(senha);
 
-                // Chamar o controle (DAO) para salvar no banco
                 UsuarioDAO dao = new UsuarioDAO();
                 if (dao.cadastrarUsuario(novoUsuario)) {
                     JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
                     
-                    // Limpar os campos após o sucesso
-                    textFieldNome.setText("");
-                    textFieldEmail.setText("");
-                    textFieldSenha.setText("");
-                    textFieldConfirmarSenha.setText("");
-                    chkTermos.setSelected(false);
+                    // APÓS CADASTRAR, LEVA PARA O LOGIN
+                    new Telaentrar().setVisible(true);
+                    dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Erro ao salvar no banco de dados. Verifique a conexão.");
+                    JOptionPane.showMessageDialog(null, "Erro ao salvar. Verifique a conexão com o banco.");
                 }
             }
         });
-        // --- FIM DA LÓGICA ---
+        card.add(btnCadastrar, "height 45!, gapy 10");
 
-        btnCadastrar.setBackground(new Color(106, 143, 123));
-        btnCadastrar.setForeground(Color.WHITE);
-        card.add(btnCadastrar, "height 45!,gapy 10");
+        // --- BOTÃO PARA QUEM JÁ TEM CONTA ---
+        JButton btnIrLogin = new JButton("Já possui conta? Entre aqui");
+        btnIrLogin.setBorder(null);
+        btnIrLogin.setBackground(Color.WHITE);
+        btnIrLogin.setForeground(new Color(106, 143, 123));
+        btnIrLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnIrLogin.addActionListener(e -> {
+            new Telaentrar().setVisible(true);
+            dispose();
+        });
+        card.add(btnIrLogin, "alignx center, gapy 5");
 
-        JLabel lblLogin = new JLabel("Já possui conta? Entrar");
-        lblLogin.setForeground(new Color(106, 143, 123));
-        card.add(lblLogin, "alignx center");
+        // --- BOTÃO VOLTAR PARA A PRINCIPAL ---
+        JButton btnVoltar = new JButton("Voltar ao início");
+        btnVoltar.setBorder(null);
+        btnVoltar.setBackground(Color.WHITE);
+        btnVoltar.setForeground(new Color(106, 143, 123));
+        btnVoltar.addActionListener(e -> {
+            new Telaprincipal().setVisible(true);
+            dispose();
+        });
+        card.add(btnVoltar, "alignx center");
     }
 }
