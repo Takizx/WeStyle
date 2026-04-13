@@ -46,6 +46,7 @@ public class Telaentrar extends JFrame {
         setTitle("WeStyle - Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
+        setLocationRelativeTo(null); // Centraliza a tela
 
         contentPane = new JPanel();
         contentPane.setBackground(new Color(106, 143, 123));
@@ -56,8 +57,8 @@ public class Telaentrar extends JFrame {
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-        card.setLayout(new MigLayout("wrap, insets 40, gap 15", "[grow,fill]", "[][][][][][][][]"));
-        contentPane.add(card, "w 450!, h 500!");
+        card.setLayout(new MigLayout("wrap, insets 40, gap 15", "[grow,fill]", "[][][][][][][][][]"));
+        contentPane.add(card, "w 450!, h 550!");
 
         JLabel lblTitulo = new JLabel("WeStyle", JLabel.CENTER);
         lblTitulo.setForeground(new Color(106, 143, 123));
@@ -92,6 +93,7 @@ public class Telaentrar extends JFrame {
         lblEsqueceu.setForeground(new Color(106, 143, 123));
         card.add(lblEsqueceu, "gapleft push");
 
+        // --- BOTÃO ENTRAR ---
         JButton btnEntrar = new JButton("Entrar");
         btnEntrar.setBackground(new Color(106, 143, 123));
         btnEntrar.setForeground(Color.WHITE);
@@ -111,25 +113,20 @@ public class Telaentrar extends JFrame {
                 Usuario usuarioEncontrado = dao.validarLogin(email, senha);
                 
                 if (usuarioEncontrado != null) {
-                
                     Sessao.setUsuario(usuarioEncontrado);
-                    
                     JOptionPane.showMessageDialog(null, "Login realizado com sucesso! Bem-vindo, " + usuarioEncontrado.getNome());
                     
-                   
-                    new TelaEscolha().setVisible(true);
-                    
-                    
+                    // REDIRECIONA PARA O CATÁLOGO
+                    new TelaCatalogo().setVisible(true);
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "E-mail ou senha incorretos.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-
         card.add(btnEntrar, "cell 0 7,height 45!,gapy 10");
         
-       
+        // --- BOTÃO PARA IR AO CADASTRO ---
         JButton btnIrCadastro = new JButton("Não tem conta? Cadastre-se");
         btnIrCadastro.setBorder(null);
         btnIrCadastro.setBackground(Color.WHITE);
@@ -139,5 +136,16 @@ public class Telaentrar extends JFrame {
             dispose();
         });
         card.add(btnIrCadastro, "cell 0 8, alignx center");
+
+        // --- BOTÃO VOLTAR PARA A PRINCIPAL ---
+        JButton btnVoltar = new JButton("Voltar");
+        btnVoltar.setBorder(null);
+        btnVoltar.setBackground(Color.WHITE);
+        btnVoltar.setForeground(Color.GRAY);
+        btnVoltar.addActionListener(e -> {
+            new Telaprincipal().setVisible(true);
+            dispose();
+        });
+        card.add(btnVoltar, "cell 0 9, alignx center, gapy 5");
     }
 }

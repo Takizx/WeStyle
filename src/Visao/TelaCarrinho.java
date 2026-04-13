@@ -11,24 +11,25 @@ public class TelaCarrinho extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private List<String[]> itensNoCarrinho; // Lista que recebe [Nome, Preço]
+	private List<String[]> itensNoCarrinho; 
 	private double somaTotal = 0.0;
 
-	// Construtor padrão (importante para o WindowBuilder não dar erro)
+	Color verde = new Color(106, 143, 123);
+
 	public TelaCarrinho() {
 		this(new ArrayList<>());
 	}
 
-	// Construtor que recebe os itens vindos do catálogo
 	public TelaCarrinho(List<String[]> itens) {
 		this.itensNoCarrinho = itens;
 
 		setTitle("WeStyle - Carrinho");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1200, 700);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		contentPane = new JPanel(new BorderLayout());
-		contentPane.setBackground(new Color(106, 143, 123));
+		contentPane.setBackground(verde);
 		setContentPane(contentPane);
 
 		criarNavbar();
@@ -37,7 +38,7 @@ public class TelaCarrinho extends JFrame {
 
 	private void criarNavbar() {
 		JPanel navbar = new JPanel(new MigLayout("insets 10", "[][grow][][][][][]", "[]"));
-		navbar.setBackground(new Color(106, 143, 123));
+		navbar.setBackground(verde);
 		navbar.setBorder(new MatteBorder(0, 0, 1, 0, Color.WHITE));
 
 		JLabel logo = new JLabel("WeStyle");
@@ -56,7 +57,7 @@ public class TelaCarrinho extends JFrame {
 
 	private JButton criarBotaoNavbar(String texto) {
 		JButton btn = new JButton(texto);
-		btn.setBackground(new Color(106, 143, 123));
+		btn.setBackground(verde);
 		btn.setForeground(Color.WHITE);
 		btn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btn.setBorder(null);
@@ -73,40 +74,38 @@ public class TelaCarrinho extends JFrame {
 
 	private void criarConteudo() {
 		JPanel area = new JPanel(new MigLayout("wrap, insets 30", "[grow,fill]", ""));
-		area.setBackground(new Color(106, 143, 123));
+		area.setBackground(verde);
 
 		JLabel titulo = new JLabel("Carrinho de Compras");
 		titulo.setForeground(Color.WHITE);
 		titulo.setFont(new Font("Arial", Font.BOLD, 26));
 		area.add(titulo, "gapy 10");
 
-		// Painel Central (Card)
 		JPanel card = new JPanel(new MigLayout("wrap, insets 20, gap 15", "[grow,fill]", ""));
-		card.setBackground(new Color(106, 143, 123));
+		card.setBackground(verde);
 		card.setBorder(new LineBorder(Color.WHITE, 1, true));
 
-		somaTotal = 0; // Reset da soma para calcular os itens recebidos
+		somaTotal = 0; 
 
 		if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
-			// SE O CARRINHO ESTIVER VAZIO
 			JLabel vazio = new JLabel("Seu carrinho está vazio...");
 			vazio.setForeground(Color.WHITE);
 			vazio.setFont(new Font("Arial", Font.ITALIC, 20));
 			vazio.setHorizontalAlignment(SwingConstants.CENTER);
 			card.add(vazio, "align center, gapy 50");
 		} else {
-			// SE TIVER ITENS, ADICIONA NA TELA
 			for (String[] item : itensNoCarrinho) {
-				String nome = item[0];
+				String nomeComTamanho = item[0]; // Ex: "Sunset Vibes (M)"
 				String precoStr = item[1];
-				card.add(criarItemUI(nome, "Único", "R$ " + precoStr));
 				
-				// Soma o valor (converte string para double)
+				// Adiciona o item na interface
+				card.add(criarItemUI(nomeComTamanho, precoStr));
+				
+				// Soma o valor
 				somaTotal += Double.parseDouble(precoStr);
 			}
 		}
 
-		// Rodapé do Card com Total e Botão
 		JPanel totalPanel = new JPanel(new MigLayout("", "[grow][right]", ""));
 		totalPanel.setOpaque(false);
 
@@ -117,15 +116,14 @@ public class TelaCarrinho extends JFrame {
 		JButton btnFinalizar = new JButton("Finalizar Compra");
 		btnFinalizar.setFont(new Font("Arial", Font.BOLD, 14));
 		btnFinalizar.setBackground(Color.WHITE);
-		btnFinalizar.setForeground(new Color(106, 143, 123));
+		btnFinalizar.setForeground(verde);
 		btnFinalizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
-		// AÇÃO PARA IR PARA TELA FINALIZAR
 		btnFinalizar.addActionListener(e -> {
 			if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Adicione pelo menos um item para continuar!");
 			} else {
-				// PASSA A LISTA E A SOMA PARA A TELA DE PAGAMENTO
+				// Envia os itens e o valor total para a tela finalizar
 				new TelaFinalizar(itensNoCarrinho, somaTotal).setVisible(true);
 				dispose();
 			}
@@ -139,19 +137,19 @@ public class TelaCarrinho extends JFrame {
 		contentPane.add(area, BorderLayout.CENTER);
 	}
 
-	private JPanel criarItemUI(String nome, String tamanho, String preco) {
+	private JPanel criarItemUI(String nome, String preco) {
 		JPanel item = new JPanel(new MigLayout("insets 10", "[][grow][right]", "[]"));
 		item.setBorder(new MatteBorder(0, 0, 1, 0, Color.WHITE));
-		item.setBackground(new Color(106, 143, 123));
+		item.setBackground(verde);
 
-		JLabel icone = new JLabel("👕"); // Emoji de camiseta
+		JLabel icone = new JLabel("👕"); 
 		icone.setFont(new Font("Arial", Font.PLAIN, 25));
 
 		JLabel nomeLabel = new JLabel(nome);
 		nomeLabel.setForeground(Color.WHITE);
 		nomeLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-		JLabel precoLabel = new JLabel(preco);
+		JLabel precoLabel = new JLabel("R$ " + preco);
 		precoLabel.setForeground(Color.WHITE);
 		precoLabel.setFont(new Font("Arial", Font.BOLD, 16));
 

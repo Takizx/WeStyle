@@ -11,8 +11,6 @@ public class TelaCatalogo extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel catalogo;
-	
-	
 	private JCheckBox chk1, chk2, chk3, chk4;
 
 	Color verde = new Color(106, 143, 123);
@@ -37,7 +35,6 @@ public class TelaCatalogo extends JFrame {
 		contentPane = new JPanel(new BorderLayout());
 		setContentPane(contentPane);
 
-		
 		JPanel navbar = new JPanel();
 		navbar.setBackground(verde);
 		navbar.setBorder(new MatteBorder(0, 0, 1, 0, linha));
@@ -53,7 +50,6 @@ public class TelaCatalogo extends JFrame {
 		navbar.add(criarBotaoNav("Pedidos"));
 		contentPane.add(navbar, BorderLayout.NORTH);
 
-		
 		JPanel fundo = new JPanel();
 		fundo.setBackground(verde);
 		fundo.setLayout(new MigLayout("wrap, fill, insets 20", "[center]", "[][][grow][]"));
@@ -68,18 +64,18 @@ public class TelaCatalogo extends JFrame {
 		subtitulo.setForeground(Color.WHITE);
 		fundo.add(subtitulo, "cell 0 1");
 
-		
 		catalogo = new JPanel();
 		catalogo.setOpaque(false);
 		catalogo.setLayout(new MigLayout("insets 0, gap 20, align center", "[270!][270!][270!][270!]", "[]"));
 		fundo.add(catalogo, "cell 0 2, growx");
 
-		
+		// CARD 1 - Sunset Vibes (Vermelho)
 		JPanel card1 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card1.setBackground(verde);
 		card1.setBorder(new LineBorder(linha));
 		JPanel prev1 = new JPanel();
-		prev1.setBackground(new Color(246, 100, 100));
+		Color cor1 = new Color(246, 100, 100);
+		prev1.setBackground(cor1);
 		JLabel nome1 = new JLabel("Sunset Vibes");
 		nome1.setForeground(Color.WHITE);
 		nome1.setFont(new Font("Arial", Font.BOLD, 17));
@@ -88,18 +84,23 @@ public class TelaCatalogo extends JFrame {
 		chk1 = new JCheckBox("Selecionar");
 		chk1.setBackground(verde);
 		chk1.setForeground(Color.WHITE);
+		JButton btnDet1 = new JButton("Ver Detalhes");
+		// CORREÇÃO: Adicionado o parâmetro "89.90"
+		btnDet1.addActionListener(e -> { new TelaDetalhes("Sunset Vibes", cor1, "89.90").setVisible(true); dispose(); });
 		card1.add(prev1, "width 230!, height 230!");
 		card1.add(nome1);
 		card1.add(preco1);
-		card1.add(chk1);
+		card1.add(chk1, "split 2");
+		card1.add(btnDet1);
 		catalogo.add(card1);
 
-		
+		// CARD 2 - Minimal Wave (Ciano/Verde Água)
 		JPanel card2 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card2.setBackground(verde);
 		card2.setBorder(new LineBorder(linha));
 		JPanel prev2 = new JPanel();
-		prev2.setBackground(new Color(86, 184, 177));
+		Color cor2 = new Color(86, 184, 177);
+		prev2.setBackground(cor2);
 		JLabel nome2 = new JLabel("Minimal Wave");
 		nome2.setForeground(Color.WHITE);
 		nome2.setFont(new Font("Arial", Font.BOLD, 17));
@@ -108,18 +109,23 @@ public class TelaCatalogo extends JFrame {
 		chk2 = new JCheckBox("Selecionar");
 		chk2.setBackground(verde);
 		chk2.setForeground(Color.WHITE);
+		JButton btnDet2 = new JButton("Ver Detalhes");
+		// CORREÇÃO: Adicionado o parâmetro "75.00"
+		btnDet2.addActionListener(e -> { new TelaDetalhes("Minimal Wave", cor2, "75.00").setVisible(true); dispose(); });
 		card2.add(prev2, "width 230!, height 230!");
 		card2.add(nome2);
 		card2.add(preco2);
-		card2.add(chk2);
+		card2.add(chk2, "split 2");
+		card2.add(btnDet2);
 		catalogo.add(card2);
 
-		
+		// CARD 3 - Urban Street (Preto)
 		JPanel card3 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card3.setBackground(verde);
 		card3.setBorder(new LineBorder(linha));
 		JPanel prev3 = new JPanel();
-		prev3.setBackground(Color.BLACK);
+		Color cor3 = Color.BLACK;
+		prev3.setBackground(cor3);
 		JLabel nome3 = new JLabel("Urban Street");
 		nome3.setForeground(Color.WHITE);
 		nome3.setFont(new Font("Arial", Font.BOLD, 17));
@@ -128,18 +134,23 @@ public class TelaCatalogo extends JFrame {
 		chk3 = new JCheckBox("Selecionar");
 		chk3.setBackground(verde);
 		chk3.setForeground(Color.WHITE);
+		JButton btnDet3 = new JButton("Ver Detalhes");
+		// CORREÇÃO: Adicionado o parâmetro "110.00"
+		btnDet3.addActionListener(e -> { new TelaDetalhes("Urban Street", cor3, "110.00").setVisible(true); dispose(); });
 		card3.add(prev3, "width 230!, height 230!");
 		card3.add(nome3);
 		card3.add(preco3);
-		card3.add(chk3);
+		card3.add(chk3, "split 2");
+		card3.add(btnDet3);
 		catalogo.add(card3);
 
-		
+		// CARD 4 - Floral Dreams (Roxo)
 		JPanel card4 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card4.setBackground(verde);
 		card4.setBorder(new LineBorder(linha));
 		JPanel prev4 = new JPanel();
-		prev4.setBackground(new Color(155, 89, 182));
+		Color cor4 = new Color(155, 89, 182);
+		prev4.setBackground(cor4);
 		JLabel nome4 = new JLabel("Floral Dreams");
 		nome4.setForeground(Color.WHITE);
 		nome4.setFont(new Font("Arial", Font.BOLD, 17));
@@ -148,34 +159,15 @@ public class TelaCatalogo extends JFrame {
 		chk4 = new JCheckBox("Selecionar");
 		chk4.setBackground(verde);
 		chk4.setForeground(Color.WHITE);
+		JButton btnDet4 = new JButton("Ver Detalhes");
+		// CORREÇÃO: Adicionado o parâmetro "95.00"
+		btnDet4.addActionListener(e -> { new TelaDetalhes("Floral Dreams", cor4, "95.00").setVisible(true); dispose(); });
 		card4.add(prev4, "width 230!, height 230!");
 		card4.add(nome4);
 		card4.add(preco4);
-		card4.add(chk4);
+		card4.add(chk4, "split 2");
+		card4.add(btnDet4);
 		catalogo.add(card4);
-
-		
-		JButton btnIrCarrinho = new JButton("IR PARA O CARRINHO");
-		btnIrCarrinho.setFont(new Font("Arial", Font.BOLD, 18));
-		btnIrCarrinho.setBackground(Color.WHITE);
-		btnIrCarrinho.setForeground(verde);
-		btnIrCarrinho.setPreferredSize(new Dimension(300, 50));
-		
-		btnIrCarrinho.addActionListener(e -> {
-			List<String[]> selecionados = new ArrayList<>();
-
-			
-			if (chk1.isSelected()) selecionados.add(new String[]{"Sunset Vibes", "89.90"});
-			if (chk2.isSelected()) selecionados.add(new String[]{"Minimal Wave", "75.00"});
-			if (chk3.isSelected()) selecionados.add(new String[]{"Urban Street", "110.00"});
-			if (chk4.isSelected()) selecionados.add(new String[]{"Floral Dreams", "95.00"});
-
-		
-			new TelaCarrinho(selecionados).setVisible(true);
-			dispose();
-		});
-		
-		fundo.add(btnIrCarrinho, "cell 0 3, gapy 20, align center");
 	}
 
 	private JButton criarBotaoNav(String texto) {
