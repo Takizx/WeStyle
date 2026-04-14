@@ -3,6 +3,7 @@ package Visao;
 import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Cursor;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -32,15 +33,17 @@ public class TelaEscolha extends JFrame {
 		setTitle("WeStyle");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 706);
+		
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(106,143,123));
 		contentPane.setBorder(new EmptyBorder(20,20,20,20));
 
 		contentPane.setLayout(new MigLayout(
-				"align center center",
-				"",
-				""
+				"fill, align center center",
+				"[center]",
+				"[center]"
 		));
 
 		setContentPane(contentPane);
@@ -73,12 +76,15 @@ public class TelaEscolha extends JFrame {
 		card.add(lblPergunta);
 
 		JButton btnCatalogo = new JButton("Explorar Catálogo");
-
-		// SEM AÇÃO
-
 		btnCatalogo.setFont(new Font("Arial", Font.BOLD, 15));
 		btnCatalogo.setBackground(new Color(106,143,123));
 		btnCatalogo.setForeground(Color.WHITE);
+		btnCatalogo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
+		btnCatalogo.addActionListener(e -> {
+			new TelaCatalogo().setVisible(true);
+			dispose();
+		});
 
 		card.add(btnCatalogo,"width 240!, height 50!");
 
@@ -87,6 +93,12 @@ public class TelaEscolha extends JFrame {
 		btnPersonalizar.setBackground(new Color(106, 143, 123));
 		btnPersonalizar.setForeground(new Color(255, 255, 255));
 		btnPersonalizar.setBorder(new LineBorder(new Color(106,143,123),1,true));
+		btnPersonalizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
+		btnPersonalizar.addActionListener(e -> {
+			new TelaPersonalizar().setVisible(true);
+			dispose();
+		});
 
 		card.add(btnPersonalizar,"width 240!, height 50!");
 

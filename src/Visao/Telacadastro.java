@@ -49,12 +49,14 @@ public class Telacadastro extends JFrame {
         setTitle("WeStyle - Criar Conta");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 750);
-        setLocationRelativeTo(null); // Centraliza a tela
+        
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         contentPane = new JPanel();
         contentPane.setBackground(new Color(106, 143, 123));
         contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-        contentPane.setLayout(new MigLayout("align center center", "", ""));
+        
+        contentPane.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
         setContentPane(contentPane);
 
         JPanel card = new JPanel();
@@ -106,7 +108,6 @@ public class Telacadastro extends JFrame {
         chkTermos.setBackground(Color.WHITE);
         card.add(chkTermos, "gapy 5");
 
-        // --- BOTÃO CADASTRAR ---
         JButton btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBackground(new Color(106, 143, 123));
         btnCadastrar.setForeground(Color.WHITE);
@@ -143,8 +144,6 @@ public class Telacadastro extends JFrame {
                 UsuarioDAO dao = new UsuarioDAO();
                 if (dao.cadastrarUsuario(novoUsuario)) {
                     JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
-                    
-                    // APÓS CADASTRAR, LEVA PARA O LOGIN
                     new Telaentrar().setVisible(true);
                     dispose();
                 } else {
@@ -154,7 +153,6 @@ public class Telacadastro extends JFrame {
         });
         card.add(btnCadastrar, "height 45!, gapy 10");
 
-        // --- BOTÃO PARA QUEM JÁ TEM CONTA ---
         JButton btnIrLogin = new JButton("Já possui conta? Entre aqui");
         btnIrLogin.setBorder(null);
         btnIrLogin.setBackground(Color.WHITE);
@@ -166,11 +164,11 @@ public class Telacadastro extends JFrame {
         });
         card.add(btnIrLogin, "alignx center, gapy 5");
 
-        // --- BOTÃO VOLTAR PARA A PRINCIPAL ---
         JButton btnVoltar = new JButton("Voltar ao início");
         btnVoltar.setBorder(null);
         btnVoltar.setBackground(Color.WHITE);
         btnVoltar.setForeground(new Color(106, 143, 123));
+        btnVoltar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnVoltar.addActionListener(e -> {
             new Telaprincipal().setVisible(true);
             dispose();

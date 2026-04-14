@@ -9,6 +9,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class TelaCatalogo extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel catalogo;
 	private JCheckBox chk1, chk2, chk3, chk4;
@@ -31,6 +32,9 @@ public class TelaCatalogo extends JFrame {
 		setTitle("WeStyle - Catálogo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1400, 900);
+		
+		// --- UNICA ALTERAÇÃO: ABRE EM TELA CHEIA ---
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		contentPane = new JPanel(new BorderLayout());
 		setContentPane(contentPane);
@@ -69,7 +73,6 @@ public class TelaCatalogo extends JFrame {
 		catalogo.setLayout(new MigLayout("insets 0, gap 20, align center", "[270!][270!][270!][270!]", "[]"));
 		fundo.add(catalogo, "cell 0 2, growx");
 
-		// CARD 1 - Sunset Vibes (Vermelho)
 		JPanel card1 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card1.setBackground(verde);
 		card1.setBorder(new LineBorder(linha));
@@ -85,7 +88,8 @@ public class TelaCatalogo extends JFrame {
 		chk1.setBackground(verde);
 		chk1.setForeground(Color.WHITE);
 		JButton btnDet1 = new JButton("Ver Detalhes");
-		// CORREÇÃO: Adicionado o parâmetro "89.90"
+		btnDet1.setBackground(Color.WHITE);
+		btnDet1.setForeground(verde);
 		btnDet1.addActionListener(e -> { new TelaDetalhes("Sunset Vibes", cor1, "89.90").setVisible(true); dispose(); });
 		card1.add(prev1, "width 230!, height 230!");
 		card1.add(nome1);
@@ -94,7 +98,6 @@ public class TelaCatalogo extends JFrame {
 		card1.add(btnDet1);
 		catalogo.add(card1);
 
-		// CARD 2 - Minimal Wave (Ciano/Verde Água)
 		JPanel card2 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card2.setBackground(verde);
 		card2.setBorder(new LineBorder(linha));
@@ -110,7 +113,8 @@ public class TelaCatalogo extends JFrame {
 		chk2.setBackground(verde);
 		chk2.setForeground(Color.WHITE);
 		JButton btnDet2 = new JButton("Ver Detalhes");
-		// CORREÇÃO: Adicionado o parâmetro "75.00"
+		btnDet2.setBackground(Color.WHITE);
+		btnDet2.setForeground(verde);
 		btnDet2.addActionListener(e -> { new TelaDetalhes("Minimal Wave", cor2, "75.00").setVisible(true); dispose(); });
 		card2.add(prev2, "width 230!, height 230!");
 		card2.add(nome2);
@@ -119,7 +123,6 @@ public class TelaCatalogo extends JFrame {
 		card2.add(btnDet2);
 		catalogo.add(card2);
 
-		// CARD 3 - Urban Street (Preto)
 		JPanel card3 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card3.setBackground(verde);
 		card3.setBorder(new LineBorder(linha));
@@ -135,7 +138,8 @@ public class TelaCatalogo extends JFrame {
 		chk3.setBackground(verde);
 		chk3.setForeground(Color.WHITE);
 		JButton btnDet3 = new JButton("Ver Detalhes");
-		// CORREÇÃO: Adicionado o parâmetro "110.00"
+		btnDet3.setBackground(Color.WHITE);
+		btnDet3.setForeground(verde);
 		btnDet3.addActionListener(e -> { new TelaDetalhes("Urban Street", cor3, "110.00").setVisible(true); dispose(); });
 		card3.add(prev3, "width 230!, height 230!");
 		card3.add(nome3);
@@ -144,7 +148,6 @@ public class TelaCatalogo extends JFrame {
 		card3.add(btnDet3);
 		catalogo.add(card3);
 
-		// CARD 4 - Floral Dreams (Roxo)
 		JPanel card4 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card4.setBackground(verde);
 		card4.setBorder(new LineBorder(linha));
@@ -160,7 +163,8 @@ public class TelaCatalogo extends JFrame {
 		chk4.setBackground(verde);
 		chk4.setForeground(Color.WHITE);
 		JButton btnDet4 = new JButton("Ver Detalhes");
-		// CORREÇÃO: Adicionado o parâmetro "95.00"
+		btnDet4.setBackground(Color.WHITE);
+		btnDet4.setForeground(verde);
 		btnDet4.addActionListener(e -> { new TelaDetalhes("Floral Dreams", cor4, "95.00").setVisible(true); dispose(); });
 		card4.add(prev4, "width 230!, height 230!");
 		card4.add(nome4);
