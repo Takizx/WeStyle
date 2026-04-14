@@ -153,7 +153,7 @@ public class TelaPersonalizar extends JFrame {
 
 		// 5. Preço da Peça
 		painelDireito.add(new JLabel("Preço (R$)") {{ setForeground(Color.WHITE); }});
-		txtPrecoPeca = new JTextField("99.90");
+		txtPrecoPeca = new JTextField("");
 		painelDireito.add(txtPrecoPeca, "h 35!");
 
 		// --- BOTÃO ENVIAR ---
