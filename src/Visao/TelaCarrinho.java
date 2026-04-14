@@ -37,7 +37,7 @@ public class TelaCarrinho extends JFrame {
 	}
 
 	private void criarNavbar() {
-		JPanel navbar = new JPanel(new MigLayout("insets 10", "[][grow][][][][][]", "[]"));
+		JPanel navbar = new JPanel(new MigLayout("insets 10", "[][grow][][][][]", "[]"));
 		navbar.setBackground(verde);
 		navbar.setBorder(new MatteBorder(0, 0, 1, 0, Color.WHITE));
 
@@ -94,15 +94,10 @@ public class TelaCarrinho extends JFrame {
 			vazio.setHorizontalAlignment(SwingConstants.CENTER);
 			card.add(vazio, "align center, gapy 50");
 		} else {
-			for (String[] item : itensNoCarrinho) {
-				String nomeComTamanho = item[0]; // Ex: "Sunset Vibes (M)"
-				String precoStr = item[1];
-				
-				// Adiciona o item na interface
-				card.add(criarItemUI(nomeComTamanho, precoStr));
-				
-				// Soma o valor
-				somaTotal += Double.parseDouble(precoStr);
+			for (int i = 0; i < itensNoCarrinho.size(); i++) {
+				String[] item = itensNoCarrinho.get(i);
+				card.add(criarItemUI(item[0], item[1], i));
+				somaTotal += Double.parseDouble(item[1]);
 			}
 		}
 
@@ -123,7 +118,6 @@ public class TelaCarrinho extends JFrame {
 			if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Adicione pelo menos um item para continuar!");
 			} else {
-				// Envia os itens e o valor total para a tela finalizar
 				new TelaFinalizar(itensNoCarrinho, somaTotal).setVisible(true);
 				dispose();
 			}
@@ -137,8 +131,8 @@ public class TelaCarrinho extends JFrame {
 		contentPane.add(area, BorderLayout.CENTER);
 	}
 
-	private JPanel criarItemUI(String nome, String preco) {
-		JPanel item = new JPanel(new MigLayout("insets 10", "[][grow][right]", "[]"));
+	private JPanel criarItemUI(String nome, String preco, int index) {
+		JPanel item = new JPanel(new MigLayout("insets 10", "[][grow][right][right]", "[]"));
 		item.setBorder(new MatteBorder(0, 0, 1, 0, Color.WHITE));
 		item.setBackground(verde);
 
@@ -153,9 +147,29 @@ public class TelaCarrinho extends JFrame {
 		precoLabel.setForeground(Color.WHITE);
 		precoLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.setBackground(Color.WHITE);
+		btnAlterar.setForeground(verde);
+		btnAlterar.addActionListener(e -> {
+			itensNoCarrinho.remove(index);
+			new TelaCatalogo().setVisible(true);
+			dispose();
+		});
+
+		JButton btnRemover = new JButton("Remover");
+		btnRemover.setBackground(Color.WHITE);
+		btnRemover.setForeground(verde);
+		btnRemover.addActionListener(e -> {
+			itensNoCarrinho.remove(index);
+			new TelaCarrinho(itensNoCarrinho).setVisible(true);
+			dispose();
+		});
+
 		item.add(icone, "gapx 10");
 		item.add(nomeLabel, "gapx 15");
-		item.add(precoLabel);
+		item.add(precoLabel, "gapx 15");
+		item.add(btnAlterar);
+		item.add(btnRemover);
 
 		return item;
 	}

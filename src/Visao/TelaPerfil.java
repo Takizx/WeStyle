@@ -13,10 +13,12 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
+import Modelo.Sessao;
 
 public class TelaPerfil extends JFrame {
 
@@ -42,7 +44,8 @@ public class TelaPerfil extends JFrame {
 
         setTitle("Perfil - WeStyle");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 750);
+        setBounds(100, 100, 1200, 850);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         contentPane = new JPanel();
         contentPane.setBackground(new Color(106, 143, 123));
@@ -50,102 +53,94 @@ public class TelaPerfil extends JFrame {
         setContentPane(contentPane);
 
         contentPane.setLayout(new MigLayout(
-                "wrap, align center",
-                "[grow]",
-                "[]push[]push"
+                "wrap, fillx, insets 20",
+                "[grow, center]",
+                "[]40[]"
         ));
 
         JPanel menu = new JPanel();
         menu.setBackground(new Color(106, 143, 123));
-        menu.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-        menu.setLayout(new MigLayout("", "[][][][][][][][][][][][]push[]push[][]", "[]"));
-
-        contentPane.add(menu, "growx");
+        menu.setBorder(new LineBorder(Color.WHITE, 1, true));
+        menu.setLayout(new MigLayout("insets 10", "[left]push[center][center][center][center][center]", "[]"));
 
         JLabel logo = new JLabel("WeStyle");
         logo.setFont(new Font("Arial", Font.BOLD, 30));
-        logo.setForeground(new Color(255, 255, 255));
-        menu.add(logo, "cell 0 0");
+        logo.setForeground(Color.WHITE);
+        menu.add(logo);
 
-        JButton btnInicio = new JButton("Inicio");
-        btnInicio.setFont(new Font("Tahoma", Font.PLAIN, 25));
-        btnInicio.setForeground(new Color(255, 255, 255));
-        btnInicio.setBackground(new Color(106, 143, 123));
+        JButton btnInicio = criarBotaoNav("Inicio");
+        menu.add(btnInicio);
 
-        JLabel espacamento = new JLabel("                                                                                                                        ");
-        menu.add(espacamento, "cell 7 0");
-        menu.add(btnInicio, "cell 8 0");
+        JButton btnCarrinho = criarBotaoNav("Carrinho");
+        menu.add(btnCarrinho);
 
-        JButton btnCarrinho = new JButton("Carrinho");
-        btnCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 25));
-        btnCarrinho.setForeground(new Color(255, 255, 255));
-        btnCarrinho.setBackground(new Color(106, 143, 123));
-        menu.add(btnCarrinho, "cell 9 0");
+        JButton btnCriacoes = criarBotaoNav("Minhas Criações");
+        menu.add(btnCriacoes);
 
-        JButton btnCriacoes = new JButton("Minhas Criações");
-        btnCriacoes.setFont(new Font("Tahoma", Font.PLAIN, 25));
-        btnCriacoes.setForeground(new Color(255, 255, 255));
-        btnCriacoes.setBackground(new Color(106, 143, 123));
-        menu.add(btnCriacoes, "cell 10 0");
+        JButton btnPersonalizar = criarBotaoNav("Personalizar");
+        menu.add(btnPersonalizar);
 
-        JButton btnPersonalizar = new JButton("Personalizar");
-        btnPersonalizar.setFont(new Font("Tahoma", Font.PLAIN, 25));
-        btnPersonalizar.setBackground(new Color(106, 143, 123));
-        btnPersonalizar.setForeground(new Color(255, 255, 255));
-        menu.add(btnPersonalizar, "cell 11 0");
+        JButton btnSairMenu = criarBotaoNav("Sair");
+        btnSairMenu.addActionListener(e -> efetuarLogoff());
+        menu.add(btnSairMenu);
+
+        contentPane.add(menu, "growx, h 80!");
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-
         card.setLayout(new MigLayout(
                 "wrap 2, insets 40, gap 20",
-                "[grow][grow]",
-                "[][][][][][][]"
+                "[grow, fill][grow, fill]",
+                "[]40[][][][][][]"
         ));
 
-        contentPane.add(card, "align center, w 550!, h 550!");
-
         JLabel lblTitulo = new JLabel("Perfil do Usuário");
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 26));
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 32));
         lblTitulo.setForeground(new Color(106, 143, 123));
-        card.add(lblTitulo, "span, align center");
+        card.add(lblTitulo, "span, align center, gapy 10 30");
 
         JLabel labelNome = new JLabel("Nome Completo");
-        labelNome.setForeground(new Color(106, 143, 132));
+        labelNome.setFont(new Font("Arial", Font.BOLD, 14));
+        labelNome.setForeground(new Color(106, 143, 123));
         card.add(labelNome);
         
         JLabel labelEmail = new JLabel("E-mail");
-        labelEmail.setForeground(new Color(106, 143, 132));
+        labelEmail.setFont(new Font("Arial", Font.BOLD, 14));
+        labelEmail.setForeground(new Color(106, 143, 123));
         card.add(labelEmail);
 
         txtNome = new JTextField();
-        card.add(txtNome, "growx,h 35!");
+        card.add(txtNome, "h 40!");
 
         txtEmail = new JTextField();
-        card.add(txtEmail, "growx,h 35!");
+        card.add(txtEmail, "h 40!");
 
         JLabel labelTelefone = new JLabel("Telefone");
-        labelTelefone.setForeground(new Color(106, 143, 132));
+        labelTelefone.setFont(new Font("Arial", Font.BOLD, 14));
+        labelTelefone.setForeground(new Color(106, 143, 123));
         card.add(labelTelefone);
         
         JLabel labelEndereco = new JLabel("Endereço de Entrega");
-        labelEndereco.setForeground(new Color(106, 143, 132));
+        labelEndereco.setFont(new Font("Arial", Font.BOLD, 14));
+        labelEndereco.setForeground(new Color(106, 143, 123));
         card.add(labelEndereco);
 
         txtTelefone = new JTextField();
-        card.add(txtTelefone, "growx,h 35!");
+        card.add(txtTelefone, "h 40!");
 
         comboEnderecos = new JComboBox<>();
         comboEnderecos.setBackground(Color.WHITE);
-        card.add(comboEnderecos, "growx,h 35!");
+        card.add(comboEnderecos, "h 40!");
+
+        card.add(new JLabel("")); 
 
         JButton btnNovoEndereco = new JButton("Adicionar Novo Endereço");
         btnNovoEndereco.setBackground(new Color(106, 143, 123));
         btnNovoEndereco.setForeground(Color.WHITE);
+        btnNovoEndereco.setFont(new Font("Arial", Font.BOLD, 12));
         btnNovoEndereco.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 String novoEndereco = (String) JOptionPane.showInputDialog(
                         null, 
                         "Digite o novo endereço completo:", 
@@ -162,16 +157,51 @@ public class TelaPerfil extends JFrame {
                 }
             }
         });
-        
-        card.add(new JLabel("")); 
-        card.add(btnNovoEndereco, "growx, h 35!");
-        // ---------------------------
+        card.add(btnNovoEndereco, "h 35!");
+
+        JPanel panelBotoes = new JPanel(new MigLayout("insets 0", "[grow][grow]", "[]"));
+        panelBotoes.setOpaque(false);
 
         JButton btnSalvar = new JButton("Salvar Perfil");
         btnSalvar.setBackground(new Color(106, 143, 123));
         btnSalvar.setForeground(Color.WHITE);
-        btnSalvar.setFont(new Font("Arial", Font.BOLD, 14));
-        card.add(btnSalvar, "span,align center,w 200!,h 40!, gapy 10");
+        btnSalvar.setFont(new Font("Arial", Font.BOLD, 16));
+        panelBotoes.add(btnSalvar, "growx, h 50!");
 
+        JButton btnLogoff = new JButton("Deslogar");
+        btnLogoff.setBackground(new Color(106, 143, 123));
+        btnLogoff.setForeground(Color.WHITE);
+        btnLogoff.setFont(new Font("Arial", Font.BOLD, 16));
+        btnLogoff.addActionListener(e -> efetuarLogoff());
+        panelBotoes.add(btnLogoff, "growx, h 50!");
+
+        card.add(panelBotoes, "span, growx, gapy 30");
+
+        contentPane.add(card, "w 800!, h 650!");
+    }
+
+    private JButton criarBotaoNav(String texto) {
+        JButton btn = new JButton(texto);
+        btn.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btn.setForeground(Color.WHITE);
+        btn.setBackground(new Color(106, 143, 123));
+        btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
+        btn.setContentAreaFilled(false);
+        return btn;
+    }
+
+    private void efetuarLogoff() {
+        UIManager.put("OptionPane.yesButtonText", "Sim");
+        UIManager.put("OptionPane.noButtonText", "Não");
+        
+        int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Logoff", JOptionPane.YES_NO_OPTION);
+        
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            Sessao.encerrarSessao();
+            JOptionPane.showMessageDialog(null, "Deslogado com sucesso!");
+            new Telaprincipal().setVisible(true);
+            dispose();
+        }
     }
 }
