@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
+import Modelo.DadosCompartilhados; // Certifique-se de importar a classe onde salvou a lista
 
 public class TelaCatalogo extends JFrame {
 
@@ -33,7 +34,6 @@ public class TelaCatalogo extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1400, 900);
 		
-		// --- UNICA ALTERAÇÃO: ABRE EM TELA CHEIA ---
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		contentPane = new JPanel(new BorderLayout());
@@ -70,8 +70,17 @@ public class TelaCatalogo extends JFrame {
 
 		catalogo = new JPanel();
 		catalogo.setOpaque(false);
-		catalogo.setLayout(new MigLayout("insets 0, gap 20, align center", "[270!][270!][270!][270!]", "[]"));
-		fundo.add(catalogo, "cell 0 2, growx");
+		// Mudei o layout para "wrap 4" para que quando você criar a 5ª peça, ela vá para a linha de baixo
+		catalogo.setLayout(new MigLayout("insets 0, gap 20, align center, wrap 4", "[270!][270!][270!][270!]", "[]"));
+		
+		// Coloquei um ScrollPane para você conseguir descer a tela se criar muitas peças
+		JScrollPane scroll = new JScrollPane(catalogo);
+		scroll.setOpaque(false);
+		scroll.getViewport().setOpaque(false);
+		scroll.setBorder(null);
+		fundo.add(scroll, "cell 0 2, grow");
+
+		// --- SEUS CARDS FIXOS ORIGINAIS (NÃO MEXI EM NADA) ---
 
 		JPanel card1 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card1.setBackground(verde);
@@ -172,6 +181,46 @@ public class TelaCatalogo extends JFrame {
 		card4.add(chk4, "split 2");
 		card4.add(btnDet4);
 		catalogo.add(card4);
+
+		// --- AQUI COMEÇA A PARTE DAS PEÇAS QUE VOCÊ CRIAR ---
+		
+		for (DadosCompartilhados.PecaPersonalizada peca : DadosCompartilhados.pecasCriadas) {
+			JPanel cardNovo = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
+			cardNovo.setBackground(verde);
+			cardNovo.setBorder(new LineBorder(linha));
+			
+			JPanel prevNovo = new JPanel();
+			prevNovo.setBackground(peca.cor); // Cor que você escolheu na tela personalizar
+			
+			JLabel nomeNovo = new JLabel(peca.nome); // Nome que você escreveu
+			nomeNovo.setForeground(Color.WHITE);
+			nomeNovo.setFont(new Font("Arial", Font.BOLD, 17));
+			
+			JLabel precoNovo = new JLabel("R$ " + peca.preco); // Preço que você escolheu
+			precoNovo.setForeground(Color.WHITE);
+			
+			JCheckBox chkNovo = new JCheckBox("Selecionar");
+			chkNovo.setBackground(verde);
+			chkNovo.setForeground(Color.WHITE);
+			
+			JButton btnDetNovo = new JButton("Ver Detalhes");
+			btnDetNovo.setBackground(Color.WHITE);
+			btnDetNovo.setForeground(verde);
+			
+			// Abre a tela de detalhes com os dados da sua criação!
+			btnDetNovo.addActionListener(e -> { 
+				new TelaDetalhes(peca.nome, peca.cor, peca.preco).setVisible(true); 
+				dispose(); 
+			});
+			
+			cardNovo.add(prevNovo, "width 230!, height 230!");
+			cardNovo.add(nomeNovo);
+			cardNovo.add(precoNovo);
+			cardNovo.add(chkNovo, "split 2");
+			cardNovo.add(btnDetNovo);
+			
+			catalogo.add(cardNovo);
+		}
 	}
 
 	private JButton criarBotaoNav(String texto) {
@@ -180,6 +229,13 @@ public class TelaCatalogo extends JFrame {
 		b.setForeground(Color.WHITE);
 		b.setBackground(verde);
 		b.setBorder(null);
+		b.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		b.addActionListener(e -> {
+			if(texto.equals("Personalizar")) {
+				new TelaPersonalizar().setVisible(true);
+				dispose();
+			}
+		});
 		return b;
 	}
 }
