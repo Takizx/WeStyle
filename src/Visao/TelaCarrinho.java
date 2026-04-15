@@ -67,6 +67,9 @@ public class TelaCarrinho extends JFrame {
 			if(texto.equals("Catálogo")) {
 				new TelaCatalogo().setVisible(true);
 				dispose();
+			} else if(texto.equals("Personalizar")) {
+				new TelaPersonalizar().setVisible(true);
+				dispose();
 			}
 		});
 		return btn;
@@ -97,7 +100,15 @@ public class TelaCarrinho extends JFrame {
 			for (int i = 0; i < itensNoCarrinho.size(); i++) {
 				String[] item = itensNoCarrinho.get(i);
 				card.add(criarItemUI(item[0], item[1], i));
-				somaTotal += Double.parseDouble(item[1]);
+				
+				try {
+					String precoLimpo = item[1].replace("R$", "").replace(",", ".").trim();
+					if (!precoLimpo.isEmpty()) {
+						somaTotal += Double.parseDouble(precoLimpo);
+					}
+				} catch (Exception e) {
+					System.err.println("Erro ao converter preco do item: " + item[1]);
+				}
 			}
 		}
 
@@ -118,7 +129,7 @@ public class TelaCarrinho extends JFrame {
 			if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Adicione pelo menos um item para continuar!");
 			} else {
-				new TelaFinalizar(itensNoCarrinho, somaTotal).setVisible(true);
+				JOptionPane.showMessageDialog(null, "Compra finalizada com sucesso!");
 				dispose();
 			}
 		});
@@ -151,7 +162,6 @@ public class TelaCarrinho extends JFrame {
 		btnAlterar.setBackground(Color.WHITE);
 		btnAlterar.setForeground(verde);
 		btnAlterar.addActionListener(e -> {
-			itensNoCarrinho.remove(index);
 			new TelaCatalogo().setVisible(true);
 			dispose();
 		});

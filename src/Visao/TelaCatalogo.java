@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
-import Modelo.DadosCompartilhados; // Certifique-se de importar a classe onde salvou a lista
+import Modelo.DadosCompartilhados; 
 
 public class TelaCatalogo extends JFrame {
 
@@ -37,6 +37,7 @@ public class TelaCatalogo extends JFrame {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		contentPane = new JPanel(new BorderLayout());
+		contentPane.setBackground(verde); 
 		setContentPane(contentPane);
 
 		JPanel navbar = new JPanel();
@@ -56,7 +57,7 @@ public class TelaCatalogo extends JFrame {
 
 		JPanel fundo = new JPanel();
 		fundo.setBackground(verde);
-		fundo.setLayout(new MigLayout("wrap, fill, insets 20", "[center]", "[][][grow][]"));
+		fundo.setLayout(new MigLayout("wrap, fill, insets 20", "[center]", "[][][:50:][grow][]"));
 		contentPane.add(fundo, BorderLayout.CENTER);
 
 		JLabel titulo = new JLabel("Catálogo WeStyle");
@@ -69,18 +70,18 @@ public class TelaCatalogo extends JFrame {
 		fundo.add(subtitulo, "cell 0 1");
 
 		catalogo = new JPanel();
-		catalogo.setOpaque(false);
-		// Mudei o layout para "wrap 4" para que quando você criar a 5ª peça, ela vá para a linha de baixo
-		catalogo.setLayout(new MigLayout("insets 0, gap 20, align center, wrap 4", "[270!][270!][270!][270!]", "[]"));
+		catalogo.setOpaque(true);
+		catalogo.setBackground(verde);
+		catalogo.setLayout(new MigLayout("insets 30 0 0 0, gap 20, align center, wrap 4", "[270!][270!][270!][270!]", "[]"));
 		
-		// Coloquei um ScrollPane para você conseguir descer a tela se criar muitas peças
 		JScrollPane scroll = new JScrollPane(catalogo);
-		scroll.setOpaque(false);
-		scroll.getViewport().setOpaque(false);
+		scroll.setBackground(verde);
+		scroll.setOpaque(true);
+		scroll.getViewport().setBackground(verde);
+		scroll.getViewport().setOpaque(true);
 		scroll.setBorder(null);
-		fundo.add(scroll, "cell 0 2, grow");
+		fundo.add(scroll, "cell 0 3, grow"); 
 
-		// --- SEUS CARDS FIXOS ORIGINAIS (NÃO MEXI EM NADA) ---
 
 		JPanel card1 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card1.setBackground(verde);
@@ -182,42 +183,58 @@ public class TelaCatalogo extends JFrame {
 		card4.add(btnDet4);
 		catalogo.add(card4);
 
-		// --- AQUI COMEÇA A PARTE DAS PEÇAS QUE VOCÊ CRIAR ---
-		
-		for (DadosCompartilhados.PecaPersonalizada peca : DadosCompartilhados.pecasCriadas) {
-			JPanel cardNovo = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
+		for (int i = 0; i < DadosCompartilhados.pecasCriadas.size(); i++) {
+			DadosCompartilhados.PecaPersonalizada peca = DadosCompartilhados.pecasCriadas.get(i);
+			final int index = i;
+
+			JPanel cardNovo = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]5[]"));
 			cardNovo.setBackground(verde);
 			cardNovo.setBorder(new LineBorder(linha));
 			
 			JPanel prevNovo = new JPanel();
-			prevNovo.setBackground(peca.cor); // Cor que você escolheu na tela personalizar
+			prevNovo.setBackground(peca.cor); 
 			
-			JLabel nomeNovo = new JLabel(peca.nome); // Nome que você escreveu
+			JLabel nomeNovo = new JLabel(peca.nome); 
 			nomeNovo.setForeground(Color.WHITE);
 			nomeNovo.setFont(new Font("Arial", Font.BOLD, 17));
 			
-			JLabel precoNovo = new JLabel("R$ " + peca.preco); // Preço que você escolheu
+			JLabel precoNovo = new JLabel("R$ " + peca.preco); 
 			precoNovo.setForeground(Color.WHITE);
-			
-			JCheckBox chkNovo = new JCheckBox("Selecionar");
-			chkNovo.setBackground(verde);
-			chkNovo.setForeground(Color.WHITE);
 			
 			JButton btnDetNovo = new JButton("Ver Detalhes");
 			btnDetNovo.setBackground(Color.WHITE);
 			btnDetNovo.setForeground(verde);
-			
-			// Abre a tela de detalhes com os dados da sua criação!
 			btnDetNovo.addActionListener(e -> { 
 				new TelaDetalhes(peca.nome, peca.cor, peca.preco).setVisible(true); 
 				dispose(); 
 			});
-			
+
 			cardNovo.add(prevNovo, "width 230!, height 230!");
 			cardNovo.add(nomeNovo);
 			cardNovo.add(precoNovo);
-			cardNovo.add(chkNovo, "split 2");
-			cardNovo.add(btnDetNovo);
+
+			// BOTÕES DE ALTERAR E EXCLUIR (Sempre visíveis para peças criadas)
+			JButton btnAlterar = new JButton("Alterar");
+			btnAlterar.setBackground(Color.WHITE);
+			btnAlterar.setForeground(verde);
+			btnAlterar.addActionListener(e -> {
+				new TelaPersonalizar(index, peca.nome, peca.cor, peca.preco).setVisible(true);
+				dispose();
+			});
+
+			JButton btnExcluir = new JButton("Excluir");
+			btnExcluir.setBackground(Color.WHITE);
+			btnExcluir.setForeground(verde);
+			btnExcluir.addActionListener(e -> {
+				DadosCompartilhados.pecasCriadas.remove(index);
+				DadosCompartilhados.salvarDados();
+				new TelaCatalogo().setVisible(true);
+				dispose();
+			});
+
+			cardNovo.add(btnDetNovo, "split 3");
+			cardNovo.add(btnAlterar);
+			cardNovo.add(btnExcluir);
 			
 			catalogo.add(cardNovo);
 		}

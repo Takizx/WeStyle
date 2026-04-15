@@ -6,12 +6,13 @@ import java.util.List;
 
 public class DadosCompartilhados {
     public static List<PecaPersonalizada> pecasCriadas = new ArrayList<>();
-    
+    public static String usuarioTipo = "Cliente"; 
+
     public static class PecaPersonalizada {
         public String nome;
         public Color cor;
         public String estampa;
-        public String preco; 
+        public String preco;
 
         public PecaPersonalizada(String nome, Color cor, String estampa, String preco) {
             this.nome = nome;
@@ -19,5 +20,11 @@ public class DadosCompartilhados {
             this.estampa = estampa;
             this.preco = preco;
         }
+    }
+
+    public static void salvarDados() {
+           }
+
+    public static void carregarDados() {
     }
 }
