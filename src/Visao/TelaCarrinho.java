@@ -64,7 +64,7 @@ public class TelaCarrinho extends JFrame {
 		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
 		btn.addActionListener(e -> {
-			if(texto.equals("Catálogo")) {
+			if(texto.equals("Catálogo") || texto.equals("Início")) {
 				new TelaCatalogo().setVisible(true);
 				dispose();
 			} else if(texto.equals("Personalizar")) {
@@ -90,13 +90,7 @@ public class TelaCarrinho extends JFrame {
 
 		somaTotal = 0; 
 
-		if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
-			JLabel vazio = new JLabel("Seu carrinho está vazio...");
-			vazio.setForeground(Color.WHITE);
-			vazio.setFont(new Font("Arial", Font.ITALIC, 20));
-			vazio.setHorizontalAlignment(SwingConstants.CENTER);
-			card.add(vazio, "align center, gapy 50");
-		} else {
+		if (itensNoCarrinho != null && !itensNoCarrinho.isEmpty()) {
 			for (int i = 0; i < itensNoCarrinho.size(); i++) {
 				String[] item = itensNoCarrinho.get(i);
 				card.add(criarItemUI(item[0], item[1], i));
@@ -107,9 +101,13 @@ public class TelaCarrinho extends JFrame {
 						somaTotal += Double.parseDouble(precoLimpo);
 					}
 				} catch (Exception e) {
-					System.err.println("Erro ao converter preco do item: " + item[1]);
 				}
 			}
+		} else {
+			JLabel vazio = new JLabel("Seu carrinho está vazio...");
+			vazio.setForeground(Color.WHITE);
+			vazio.setFont(new Font("Arial", Font.ITALIC, 20));
+			card.add(vazio, "align center, gapy 50");
 		}
 
 		JPanel totalPanel = new JPanel(new MigLayout("", "[grow][right]", ""));
@@ -125,14 +123,6 @@ public class TelaCarrinho extends JFrame {
 		btnFinalizar.setForeground(verde);
 		btnFinalizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
-		btnFinalizar.addActionListener(e -> {
-			if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Adicione pelo menos um item para continuar!");
-			} else {
-				new TelaFinalizar(itensNoCarrinho, somaTotal).setVisible(true);
-				dispose();
-			}
-		});
 
 		totalPanel.add(lblTotal);
 		totalPanel.add(btnFinalizar, "width 200!, height 45!");
