@@ -138,7 +138,6 @@ public class TelaFinalizar extends JFrame {
             lblPix.setFont(new Font("Arial", Font.BOLD, 14));
             pnl.add(lblPix, "align center");
             
-            // Simulação de QR Code (um quadrado preto/branco)
             JPanel qrCode = new JPanel();
             qrCode.setBackground(Color.BLACK);
             qrCode.setPreferredSize(new Dimension(180, 180));

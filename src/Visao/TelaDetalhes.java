@@ -30,7 +30,6 @@ public class TelaDetalhes extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
-				// Exemplo com preço padrão para teste
 				TelaDetalhes frame = new TelaDetalhes("Peça Selecionada", Color.WHITE, "0.00");
 				frame.setVisible(true);
 			} catch (Exception e) {
@@ -39,7 +38,6 @@ public class TelaDetalhes extends JFrame {
 		});
 	}
 
-	// Adicionei o parâmetro precoRoupa no seu construtor
 	public TelaDetalhes(String nomeRoupa, Color corInicial, String precoRoupa) {
 
 		setTitle("WeStyle - Detalhes: " + nomeRoupa);
@@ -168,7 +166,6 @@ public class TelaDetalhes extends JFrame {
 
 		painelDireito.add(tamanhoPanel);
 
-		// AÇÃO DO BOTÃO COMPRAR IMPLEMENTADA
 		JButton comprar = new JButton("Adicionar ao Carrinho");
 		comprar.setFont(new Font("Arial", Font.BOLD, 18));
 		comprar.setForeground(verde);
@@ -179,7 +176,6 @@ public class TelaDetalhes extends JFrame {
 			String tamanhoFinal = (String) tamanho.getSelectedItem();
 			List<String[]> selecionados = new ArrayList<>();
 			
-			// Formata o nome para incluir o tamanho escolhido
 			String itemCompleto = nomeRoupa + " (" + tamanhoFinal + ")";
 			
 			selecionados.add(new String[]{itemCompleto, precoRoupa});

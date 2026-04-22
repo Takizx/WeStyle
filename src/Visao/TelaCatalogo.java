@@ -213,7 +213,6 @@ public class TelaCatalogo extends JFrame {
 			cardNovo.add(nomeNovo);
 			cardNovo.add(precoNovo);
 
-			// BOTÕES DE ALTERAR E EXCLUIR (Sempre visíveis para peças criadas)
 			JButton btnAlterar = new JButton("Alterar");
 			btnAlterar.setBackground(Color.WHITE);
 			btnAlterar.setForeground(verde);
