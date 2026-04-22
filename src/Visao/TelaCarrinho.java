@@ -129,7 +129,7 @@ public class TelaCarrinho extends JFrame {
 			if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Adicione pelo menos um item para continuar!");
 			} else {
-				JOptionPane.showMessageDialog(null, "Compra finalizada com sucesso!");
+				new TelaFinalizar(itensNoCarrinho, somaTotal).setVisible(true);
 				dispose();
 			}
 		});
