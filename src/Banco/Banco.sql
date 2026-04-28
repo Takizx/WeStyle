@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS we_style;
-
-
-
 CREATE DATABASE we_style;
 
 USE we_style;
