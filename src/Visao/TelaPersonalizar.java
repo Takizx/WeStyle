@@ -210,9 +210,16 @@ public class TelaPersonalizar extends JFrame {
         lblEstampa.setForeground(Color.WHITE);
         painelDireito.add(lblEstampa);
 
-        JComboBox<String> comboEstampa = new JComboBox<>(new String[]{"Sem estampa", "Estampa florida"});
-        comboEstampa.setForeground(new Color(106, 143, 123));
-        painelDireito.add(comboEstampa, "h 35!");
+        JButton btnEscolherEstampa = new JButton("Personalizar Estampa");
+        btnEscolherEstampa.setBackground(Color.WHITE);
+        btnEscolherEstampa.setForeground(verde);
+        btnEscolherEstampa.setFont(new Font("Arial", Font.BOLD, 14));
+        btnEscolherEstampa.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnEscolherEstampa.addActionListener(e -> {
+            new TelaEstampa().setVisible(true);
+            dispose();
+        });
+        painelDireito.add(btnEscolherEstampa, "h 35!");
 
         JLabel lblNome = new JLabel("Nome da Criação");
         lblNome.setForeground(Color.WHITE);
@@ -249,7 +256,7 @@ public class TelaPersonalizar extends JFrame {
                 DadosCompartilhados.PecaPersonalizada peca = new DadosCompartilhados.PecaPersonalizada(
                     nome, 
                     previewCamisa.getBackground(), 
-                    comboEstampa.getSelectedItem().toString(), 
+                    "Personalizada", 
                     preco
                 );
 
@@ -279,8 +286,11 @@ public class TelaPersonalizar extends JFrame {
         b.setBorder(null);
         b.setCursor(new Cursor(Cursor.HAND_CURSOR));
         b.addActionListener(e -> {
-            if(texto.equals("Catálogo")) {
+            if(texto.equals("Catálogo") || texto.equals("Início")) {
                 new TelaCatalogo().setVisible(true);
+                dispose();
+            } else if(texto.equals("Carrinho")) {
+                new TelaCarrinho().setVisible(true);
                 dispose();
             }
         });
