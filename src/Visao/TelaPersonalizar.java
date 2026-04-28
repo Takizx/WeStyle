@@ -7,209 +7,293 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
-
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-
 import net.miginfocom.swing.MigLayout;
+import Modelo.DadosCompartilhados;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TelaPersonalizar extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JPanel previewCamisa;
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private JPanel previewCamisa;
+    private JTextField txtNomePeca;
+    private JTextField txtPrecoPeca;
+    private int indexEdicao = -1;
 
-	Color verde = new Color(106,143,123);
-	Color linha = new Color(200,220,210);
+    Color verde = new Color(106, 143, 123);
+    Color linha = new Color(200, 220, 210);
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-			try {
-				TelaPersonalizar frame = new TelaPersonalizar();
-				frame.setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                TelaPersonalizar frame = new TelaPersonalizar();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
-	public TelaPersonalizar() {
+    public TelaPersonalizar() {
+        configurarTela();
+    }
 
-		setTitle("WeStyle - Personalizar");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1400, 900);
-		
-		// ADICIONADO PARA TELA CHEIA
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+    public TelaPersonalizar(int index, String nome, Color cor, String preco) {
+        this.indexEdicao = index;
+        configurarTela();
+        txtNomePeca.setText(nome);
+        txtPrecoPeca.setText(preco);
+        previewCamisa.setBackground(cor);
+    }
 
-		contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout());
-		setContentPane(contentPane);
+    private void configurarTela() {
+        setTitle("WeStyle - Personalizar");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 1400, 900);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-		JPanel navbar = new JPanel();
-		navbar.setBackground(verde);
-		navbar.setBorder(new MatteBorder(0,0,1,0,linha));
-		navbar.setLayout(new MigLayout("insets 15", "[left][grow][center][center][center][center][grow]", ""));
+        contentPane = new JPanel();
+        contentPane.setLayout(new BorderLayout());
+        setContentPane(contentPane);
 
-		JLabel logo = new JLabel("WeStyle");
-		logo.setForeground(Color.WHITE);
-		logo.setFont(new Font("Arial", Font.BOLD, 30));
+        JPanel navbar = new JPanel();
+        navbar.setBackground(verde);
+        navbar.setBorder(new MatteBorder(0, 0, 1, 0, linha));
+        navbar.setLayout(new MigLayout("insets 15", "[left][grow][center][center][center][center][grow]", ""));
 
-		navbar.add(logo);
-		navbar.add(new JLabel(""), "growx");
-		navbar.add(criarBotaoNav("Início"));
-		navbar.add(criarBotaoNav("Carrinho"));
-		navbar.add(criarBotaoNav("Minhas Criações"));
-		navbar.add(criarBotaoNav("Personalizar"));
+        JLabel logo = new JLabel("WeStyle");
+        logo.setForeground(Color.WHITE);
+        logo.setFont(new Font("Arial", Font.BOLD, 30));
+        navbar.add(logo);
+        navbar.add(new JLabel(""), "growx");
+        navbar.add(criarBotaoNav("Início"));
+        navbar.add(criarBotaoNav("Catálogo"));
+        navbar.add(criarBotaoNav("Carrinho"));
+        navbar.add(criarBotaoNav("Personalizar"));
+        contentPane.add(navbar, BorderLayout.NORTH);
 
-		contentPane.add(navbar, BorderLayout.NORTH);
+        JPanel fundo = new JPanel();
+        fundo.setBackground(verde);
+        fundo.setLayout(new MigLayout("align center center, insets 20", "[650!][500!]", "[]"));
+        contentPane.add(fundo, BorderLayout.CENTER);
 
-		JPanel fundo = new JPanel();
-		fundo.setBackground(verde);
-		// Ajuste no MigLayout para centralizar tudo na tela cheia
-		fundo.setLayout(new MigLayout("align center center, insets 20", "[650!][650!]", "[]"));
-		contentPane.add(fundo, BorderLayout.CENTER);
+        JPanel previewPanel = new JPanel();
+        previewPanel.setOpaque(false);
+        previewPanel.setBorder(new LineBorder(linha));
+        previewPanel.setLayout(new MigLayout("wrap, insets 25", "[center]", ""));
 
-		JPanel previewPanel = new JPanel();
-		previewPanel.setOpaque(false); // Removido fundo sólido para não conflitar
-		previewPanel.setBorder(new LineBorder(linha));
-		previewPanel.setLayout(new MigLayout("wrap, insets 25", "[center]", ""));
+        JLabel lblPreview = new JLabel("Preview em Tempo Real");
+        lblPreview.setForeground(Color.WHITE);
+        lblPreview.setFont(new Font("Arial", Font.BOLD, 20));
+        previewPanel.add(lblPreview);
 
-		JLabel lblPreview = new JLabel("Preview em Tempo Real");
-		lblPreview.setForeground(Color.WHITE);
-		lblPreview.setFont(new Font("Arial", Font.BOLD, 20));
+        previewCamisa = new JPanel();
+        previewCamisa.setPreferredSize(new Dimension(450, 550));
+        previewCamisa.setBackground(Color.WHITE);
+        previewCamisa.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        previewPanel.add(previewCamisa, "width 450!, height 550!");
+        fundo.add(previewPanel);
 
-		previewCamisa = new JPanel();
-		previewCamisa.setPreferredSize(new Dimension(450,550));
-		previewCamisa.setBackground(Color.WHITE);
-		previewCamisa.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        JPanel painelDireito = new JPanel();
+        painelDireito.setOpaque(false);
+        painelDireito.setLayout(new MigLayout("wrap, gap 15", "[grow,fill]", ""));
 
-		previewPanel.add(lblPreview);
-		previewPanel.add(previewCamisa, "width 450!, height 550!");
-		fundo.add(previewPanel);
+        JLabel titulo = new JLabel("Personalize Sua Peça");
+        titulo.setForeground(Color.WHITE);
+        titulo.setFont(new Font("Arial", Font.BOLD, 30));
+        painelDireito.add(titulo);
 
-		JPanel painelDireito = new JPanel();
-		painelDireito.setOpaque(false);
-		painelDireito.setLayout(new MigLayout("wrap, gap 20", "[grow,fill]", ""));
+        JPanel modelos = new JPanel(new MigLayout("wrap 2, insets 15", "[grow][grow]", ""));
+        modelos.setBackground(verde);
+        modelos.setBorder(new LineBorder(linha));
+        
+        JRadioButton camiseta = new JRadioButton("T-Shirt", true);
+        camiseta.setOpaque(false);
+        camiseta.setForeground(Color.WHITE);
+        JRadioButton manga = new JRadioButton("Oversize");
+        manga.setOpaque(false);
+        manga.setForeground(Color.WHITE);
+        JRadioButton moletom = new JRadioButton("Moletom");
+        moletom.setOpaque(false);
+        moletom.setForeground(Color.WHITE);
+        JRadioButton regata = new JRadioButton("Regata");
+        regata.setOpaque(false);
+        regata.setForeground(Color.WHITE);
+        
+        ButtonGroup grupo = new ButtonGroup();
+        grupo.add(camiseta); grupo.add(manga); grupo.add(moletom); grupo.add(regata);
+        modelos.add(camiseta); modelos.add(manga); modelos.add(moletom); modelos.add(regata);
+        painelDireito.add(modelos);
 
-		JLabel titulo = new JLabel("Personalize Sua Peça");
-		titulo.setForeground(Color.WHITE);
-		titulo.setFont(new Font("Arial", Font.BOLD, 30));
+        JPanel cores = new JPanel(new MigLayout("wrap 4, insets 10", "[]10[]10[]10[]", "[]10[]"));
+        cores.setBackground(verde);
+        cores.setBorder(new LineBorder(linha));
 
-		JLabel subtitulo = new JLabel("Crie uma peça única que expressa sua identidade");
-		subtitulo.setForeground(Color.WHITE);
+        JPanel p1 = new JPanel();
+        p1.setPreferredSize(new Dimension(60, 60));
+        p1.setBackground(Color.WHITE);
+        p1.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        p1.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(Color.WHITE); } });
+        cores.add(p1);
 
-		painelDireito.add(titulo);
-		painelDireito.add(subtitulo);
+        JPanel p2 = new JPanel();
+        p2.setPreferredSize(new Dimension(60, 60));
+        p2.setBackground(Color.BLACK);
+        p2.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        p2.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(Color.BLACK); } });
+        cores.add(p2);
 
-		JPanel modelos = new JPanel();
-		modelos.setBackground(verde);
-		modelos.setBorder(new LineBorder(linha));
-		modelos.setLayout(new MigLayout("wrap 2, insets 15", "[grow][grow]", ""));
+        JPanel p3 = new JPanel();
+        p3.setPreferredSize(new Dimension(60, 60));
+        p3.setBackground(Color.RED);
+        p3.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        p3.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(Color.RED); } });
+        cores.add(p3);
 
-		JRadioButton camiseta = new JRadioButton("T-Shirt");
-		camiseta.setForeground(verde);
-		JRadioButton manga = new JRadioButton("Oversize");
-		manga.setForeground(verde);
-		JRadioButton moletom = new JRadioButton("Moletom");
-		moletom.setForeground(verde);
-		JRadioButton regata = new JRadioButton("Regata");
-		regata.setForeground(verde);
+        JPanel p4 = new JPanel();
+        p4.setPreferredSize(new Dimension(60, 60));
+        p4.setBackground(Color.BLUE);
+        p4.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        p4.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(Color.BLUE); } });
+        cores.add(p4);
 
-		ButtonGroup grupo = new ButtonGroup();
-		grupo.add(camiseta);
-		grupo.add(manga);
-		grupo.add(moletom);
-		grupo.add(regata);
+        JPanel p5 = new JPanel();
+        p5.setPreferredSize(new Dimension(60, 60));
+        p5.setBackground(new Color(26, 188, 156));
+        p5.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        p5.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(new Color(26, 188, 156)); } });
+        cores.add(p5);
 
-		modelos.add(camiseta);
-		modelos.add(manga);
-		modelos.add(moletom);
-		modelos.add(regata);
-		painelDireito.add(modelos);
+        JPanel p6 = new JPanel();
+        p6.setPreferredSize(new Dimension(60, 60));
+        p6.setBackground(new Color(241, 196, 15));
+        p6.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        p6.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(new Color(241, 196, 15)); } });
+        cores.add(p6);
 
-		JPanel cores = new JPanel();
-		cores.setBackground(verde);
-		cores.setBorder(new LineBorder(linha));
-		cores.setLayout(new MigLayout("wrap 4, insets 10", "[]10[]10[]10[]", "[]10[]"));
+        JPanel p7 = new JPanel();
+        p7.setPreferredSize(new Dimension(60, 60));
+        p7.setBackground(new Color(155, 89, 182));
+        p7.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        p7.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(new Color(155, 89, 182)); } });
+        cores.add(p7);
 
-		cores.add(criarCor(Color.WHITE));
-		cores.add(criarCor(Color.BLACK));
-		cores.add(criarCor(Color.RED));
-		cores.add(criarCor(Color.BLUE));
-		cores.add(criarCor(new Color(26,188,156)));
-		cores.add(criarCor(new Color(241,196,15)));
-		cores.add(criarCor(new Color(155,89,182)));
-		cores.add(criarCor(new Color(231,76,160)));
+        JPanel p8 = new JPanel();
+        p8.setPreferredSize(new Dimension(60, 60));
+        p8.setBackground(new Color(231, 76, 160));
+        p8.setBorder(new LineBorder(Color.LIGHT_GRAY));
+        p8.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(new Color(231, 76, 160)); } });
+        cores.add(p8);
 
-		painelDireito.add(cores);
+        painelDireito.add(cores);
 
-		JPanel tamanhoPanel = new JPanel();
-		tamanhoPanel.setBackground(verde);
-		tamanhoPanel.setBorder(new LineBorder(linha));
-		tamanhoPanel.setLayout(new MigLayout("wrap, insets 10", "[grow]", ""));
+        JLabel lblTamanho = new JLabel("Tamanho");
+        lblTamanho.setForeground(Color.WHITE);
+        painelDireito.add(lblTamanho);
 
-		JLabel lblTamanho = new JLabel("Tamanho");
-		lblTamanho.setForeground(Color.WHITE);
+        JComboBox<String> comboTamanho = new JComboBox<>(new String[]{"P", "M", "G", "GG"});
+        comboTamanho.setForeground(new Color(106, 143, 123));
+        painelDireito.add(comboTamanho, "h 35!");
 
-		JComboBox<String> tamanho = new JComboBox<>(new String[]{"P","M","G","GG"});
-		tamanho.setForeground(verde);
-		tamanhoPanel.add(lblTamanho);
-		tamanhoPanel.add(tamanho,"growx, h 35!");
+        JLabel lblEstampa = new JLabel("Estampa");
+        lblEstampa.setForeground(Color.WHITE);
+        painelDireito.add(lblEstampa);
 
-		painelDireito.add(tamanhoPanel);
+        JButton btnEscolherEstampa = new JButton("Personalizar Estampa");
+        btnEscolherEstampa.setBackground(Color.WHITE);
+        btnEscolherEstampa.setForeground(verde);
+        btnEscolherEstampa.setFont(new Font("Arial", Font.BOLD, 14));
+        btnEscolherEstampa.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnEscolherEstampa.addActionListener(e -> {
+            new TelaEstampa().setVisible(true);
+            dispose();
+        });
+        painelDireito.add(btnEscolherEstampa, "h 35!");
 
-		JPanel estampaPanel = new JPanel();
-		estampaPanel.setBackground(verde);
-		estampaPanel.setBorder(new LineBorder(linha));
-		estampaPanel.setLayout(new MigLayout("wrap, insets 10", "[grow]", ""));
+        JLabel lblNome = new JLabel("Nome da Criação");
+        lblNome.setForeground(Color.WHITE);
+        painelDireito.add(lblNome);
 
-		JLabel lblEstampa = new JLabel("Estampa");
-		lblEstampa.setForeground(Color.WHITE);
+        txtNomePeca = new JTextField();
+        txtNomePeca.setForeground(new Color(106, 143, 123));
+        painelDireito.add(txtNomePeca, "h 35!");
 
-		JComboBox<String> estampa = new JComboBox<>(new String[]{
-				"Sem estampa",
-				"Estampa florida",
-				"Estampa de bolinhas"
-		});
-		estampa.setForeground(verde);
-		estampaPanel.add(lblEstampa);
-		estampaPanel.add(estampa,"growx, h 35!");
+        JLabel lblPreco = new JLabel("Preço (R$)");
+        lblPreco.setForeground(Color.WHITE);
+        painelDireito.add(lblPreco);
 
-		painelDireito.add(estampaPanel);
-		fundo.add(painelDireito);
-	}
+        txtPrecoPeca = new JTextField("");
+        txtPrecoPeca.setForeground(new Color(106, 143, 123));
+        painelDireito.add(txtPrecoPeca, "h 35!");
 
-	private JButton criarBotaoNav(String texto) {
-		JButton b = new JButton(texto);
-		b.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		b.setForeground(Color.WHITE);
-		b.setBackground(verde);
-		b.setBorder(null);
-		b.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		b.setFocusPainted(false);
-		return b;
-	}
+        JButton btnEnviar = new JButton("Enviar para o Catálogo");
+        btnEnviar.setBackground(Color.WHITE);
+        btnEnviar.setForeground(verde);
+        btnEnviar.setFont(new Font("Arial", Font.BOLD, 18));
+        btnEnviar.addActionListener(e -> {
+            String nome = txtNomePeca.getText().trim();
+            String preco = txtPrecoPeca.getText().trim();
 
-	private JPanel criarCor(Color cor) {
-		JPanel p = new JPanel();
-		p.setPreferredSize(new Dimension(60,60));
-		p.setBackground(cor);
-		p.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		p.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            if (nome.isEmpty() || preco.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, preencha o nome e o preço da peça!");
+                return;
+            }
 
-		p.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent e) {
-				previewCamisa.setBackground(cor);
-			}
-		});
+            try {
+                Double.parseDouble(preco.replace(",", "."));
+                
+                DadosCompartilhados.PecaPersonalizada peca = new DadosCompartilhados.PecaPersonalizada(
+                    nome, 
+                    previewCamisa.getBackground(), 
+                    "Personalizada", 
+                    preco
+                );
 
-		return p;
-	}
+                if (indexEdicao >= 0) {
+                    DadosCompartilhados.pecasCriadas.set(indexEdicao, peca);
+                } else {
+                    DadosCompartilhados.pecasCriadas.add(peca);
+                }
+
+                DadosCompartilhados.salvarDados();
+                new TelaCatalogo().setVisible(true);
+                dispose();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Preço inválido! Digite apenas números.");
+            }
+        });
+        painelDireito.add(btnEnviar, "gapy 20, h 50!");
+
+        fundo.add(painelDireito);
+    }
+
+    private JButton criarBotaoNav(String texto) {
+        JButton b = new JButton(texto);
+        b.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        b.setForeground(Color.WHITE);
+        b.setBackground(verde);
+        b.setBorder(null);
+        b.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b.addActionListener(e -> {
+            if(texto.equals("Catálogo") || texto.equals("Início")) {
+                new TelaCatalogo().setVisible(true);
+                dispose();
+            } else if(texto.equals("Carrinho")) {
+                new TelaCarrinho().setVisible(true);
+                dispose();
+            }
+        });
+        return b;
+    }
 }

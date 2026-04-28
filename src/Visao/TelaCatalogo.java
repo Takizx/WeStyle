@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
+import Modelo.DadosCompartilhados; 
 
 public class TelaCatalogo extends JFrame {
 
@@ -33,10 +34,10 @@ public class TelaCatalogo extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1400, 900);
 		
-		// --- UNICA ALTERAÇÃO: ABRE EM TELA CHEIA ---
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		contentPane = new JPanel(new BorderLayout());
+		contentPane.setBackground(verde); 
 		setContentPane(contentPane);
 
 		JPanel navbar = new JPanel();
@@ -56,7 +57,7 @@ public class TelaCatalogo extends JFrame {
 
 		JPanel fundo = new JPanel();
 		fundo.setBackground(verde);
-		fundo.setLayout(new MigLayout("wrap, fill, insets 20", "[center]", "[][][grow][]"));
+		fundo.setLayout(new MigLayout("wrap, fill, insets 20", "[center]", "[][][:50:][grow][]"));
 		contentPane.add(fundo, BorderLayout.CENTER);
 
 		JLabel titulo = new JLabel("Catálogo WeStyle");
@@ -69,9 +70,18 @@ public class TelaCatalogo extends JFrame {
 		fundo.add(subtitulo, "cell 0 1");
 
 		catalogo = new JPanel();
-		catalogo.setOpaque(false);
-		catalogo.setLayout(new MigLayout("insets 0, gap 20, align center", "[270!][270!][270!][270!]", "[]"));
-		fundo.add(catalogo, "cell 0 2, growx");
+		catalogo.setOpaque(true);
+		catalogo.setBackground(verde);
+		catalogo.setLayout(new MigLayout("insets 30 0 0 0, gap 20, align center, wrap 4", "[270!][270!][270!][270!]", "[]"));
+		
+		JScrollPane scroll = new JScrollPane(catalogo);
+		scroll.setBackground(verde);
+		scroll.setOpaque(true);
+		scroll.getViewport().setBackground(verde);
+		scroll.getViewport().setOpaque(true);
+		scroll.setBorder(null);
+		fundo.add(scroll, "cell 0 3, grow"); 
+
 
 		JPanel card1 = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]"));
 		card1.setBackground(verde);
@@ -172,6 +182,61 @@ public class TelaCatalogo extends JFrame {
 		card4.add(chk4, "split 2");
 		card4.add(btnDet4);
 		catalogo.add(card4);
+
+		for (int i = 0; i < DadosCompartilhados.pecasCriadas.size(); i++) {
+			DadosCompartilhados.PecaPersonalizada peca = DadosCompartilhados.pecasCriadas.get(i);
+			final int index = i;
+
+			JPanel cardNovo = new JPanel(new MigLayout("wrap, insets 10, align center", "[center]", "[]10[]5[]5[]5[]"));
+			cardNovo.setBackground(verde);
+			cardNovo.setBorder(new LineBorder(linha));
+			
+			JPanel prevNovo = new JPanel();
+			prevNovo.setBackground(peca.cor); 
+			
+			JLabel nomeNovo = new JLabel(peca.nome); 
+			nomeNovo.setForeground(Color.WHITE);
+			nomeNovo.setFont(new Font("Arial", Font.BOLD, 17));
+			
+			JLabel precoNovo = new JLabel("R$ " + peca.preco); 
+			precoNovo.setForeground(Color.WHITE);
+			
+			JButton btnDetNovo = new JButton("Ver Detalhes");
+			btnDetNovo.setBackground(Color.WHITE);
+			btnDetNovo.setForeground(verde);
+			btnDetNovo.addActionListener(e -> { 
+				new TelaDetalhes(peca.nome, peca.cor, peca.preco).setVisible(true); 
+				dispose(); 
+			});
+
+			cardNovo.add(prevNovo, "width 230!, height 230!");
+			cardNovo.add(nomeNovo);
+			cardNovo.add(precoNovo);
+
+			JButton btnAlterar = new JButton("Alterar");
+			btnAlterar.setBackground(Color.WHITE);
+			btnAlterar.setForeground(verde);
+			btnAlterar.addActionListener(e -> {
+				new TelaPersonalizar(index, peca.nome, peca.cor, peca.preco).setVisible(true);
+				dispose();
+			});
+
+			JButton btnExcluir = new JButton("Excluir");
+			btnExcluir.setBackground(Color.WHITE);
+			btnExcluir.setForeground(verde);
+			btnExcluir.addActionListener(e -> {
+				DadosCompartilhados.pecasCriadas.remove(index);
+				DadosCompartilhados.salvarDados();
+				new TelaCatalogo().setVisible(true);
+				dispose();
+			});
+
+			cardNovo.add(btnDetNovo, "split 3");
+			cardNovo.add(btnAlterar);
+			cardNovo.add(btnExcluir);
+			
+			catalogo.add(cardNovo);
+		}
 	}
 
 	private JButton criarBotaoNav(String texto) {
@@ -180,6 +245,13 @@ public class TelaCatalogo extends JFrame {
 		b.setForeground(Color.WHITE);
 		b.setBackground(verde);
 		b.setBorder(null);
+		b.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		b.addActionListener(e -> {
+			if(texto.equals("Personalizar")) {
+				new TelaPersonalizar().setVisible(true);
+				dispose();
+			}
+		});
 		return b;
 	}
 }

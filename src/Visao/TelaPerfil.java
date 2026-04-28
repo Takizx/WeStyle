@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -16,9 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
 import net.miginfocom.swing.MigLayout;
 import Modelo.Sessao;
+import Modelo.DadosCompartilhados;
 
 public class TelaPerfil extends JFrame {
 
@@ -41,7 +40,6 @@ public class TelaPerfil extends JFrame {
     }
 
     public TelaPerfil() {
-
         setTitle("Perfil - WeStyle");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1200, 850);
@@ -52,11 +50,7 @@ public class TelaPerfil extends JFrame {
         contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
         setContentPane(contentPane);
 
-        contentPane.setLayout(new MigLayout(
-                "wrap, fillx, insets 20",
-                "[grow, center]",
-                "[]40[]"
-        ));
+        contentPane.setLayout(new MigLayout("wrap, fillx, insets 20", "[grow, center]", "[]40[]"));
 
         JPanel menu = new JPanel();
         menu.setBackground(new Color(106, 143, 123));
@@ -68,17 +62,10 @@ public class TelaPerfil extends JFrame {
         logo.setForeground(Color.WHITE);
         menu.add(logo);
 
-        JButton btnInicio = criarBotaoNav("Inicio");
-        menu.add(btnInicio);
-
-        JButton btnCarrinho = criarBotaoNav("Carrinho");
-        menu.add(btnCarrinho);
-
-        JButton btnCriacoes = criarBotaoNav("Minhas Criações");
-        menu.add(btnCriacoes);
-
-        JButton btnPersonalizar = criarBotaoNav("Personalizar");
-        menu.add(btnPersonalizar);
+        menu.add(criarBotaoNav("Inicio"));
+        menu.add(criarBotaoNav("Carrinho"));
+        menu.add(criarBotaoNav("Minhas Criações"));
+        menu.add(criarBotaoNav("Personalizar"));
 
         JButton btnSairMenu = criarBotaoNav("Sair");
         btnSairMenu.addActionListener(e -> efetuarLogoff());
@@ -89,26 +76,15 @@ public class TelaPerfil extends JFrame {
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-        card.setLayout(new MigLayout(
-                "wrap 2, insets 40, gap 20",
-                "[grow, fill][grow, fill]",
-                "[]40[][][][][][]"
-        ));
+        card.setLayout(new MigLayout("wrap 2, insets 40, gap 20", "[grow, fill][grow, fill]", "[]40[][][][][][]"));
 
         JLabel lblTitulo = new JLabel("Perfil do Usuário");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 32));
         lblTitulo.setForeground(new Color(106, 143, 123));
         card.add(lblTitulo, "span, align center, gapy 10 30");
 
-        JLabel labelNome = new JLabel("Nome Completo");
-        labelNome.setFont(new Font("Arial", Font.BOLD, 14));
-        labelNome.setForeground(new Color(106, 143, 123));
-        card.add(labelNome);
-        
-        JLabel labelEmail = new JLabel("E-mail");
-        labelEmail.setFont(new Font("Arial", Font.BOLD, 14));
-        labelEmail.setForeground(new Color(106, 143, 123));
-        card.add(labelEmail);
+        card.add(new JLabel("Nome Completo"));
+        card.add(new JLabel("E-mail"));
 
         txtNome = new JTextField();
         card.add(txtNome, "h 40!");
@@ -116,15 +92,8 @@ public class TelaPerfil extends JFrame {
         txtEmail = new JTextField();
         card.add(txtEmail, "h 40!");
 
-        JLabel labelTelefone = new JLabel("Telefone");
-        labelTelefone.setFont(new Font("Arial", Font.BOLD, 14));
-        labelTelefone.setForeground(new Color(106, 143, 123));
-        card.add(labelTelefone);
-        
-        JLabel labelEndereco = new JLabel("Endereço de Entrega");
-        labelEndereco.setFont(new Font("Arial", Font.BOLD, 14));
-        labelEndereco.setForeground(new Color(106, 143, 123));
-        card.add(labelEndereco);
+        card.add(new JLabel("Telefone"));
+        card.add(new JLabel("Endereço de Entrega"));
 
         txtTelefone = new JTextField();
         card.add(txtTelefone, "h 40!");
@@ -138,23 +107,11 @@ public class TelaPerfil extends JFrame {
         JButton btnNovoEndereco = new JButton("Adicionar Novo Endereço");
         btnNovoEndereco.setBackground(new Color(106, 143, 123));
         btnNovoEndereco.setForeground(Color.WHITE);
-        btnNovoEndereco.setFont(new Font("Arial", Font.BOLD, 12));
-        btnNovoEndereco.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String novoEndereco = (String) JOptionPane.showInputDialog(
-                        null, 
-                        "Digite o novo endereço completo:", 
-                        "Adicionar Endereço", 
-                        JOptionPane.PLAIN_MESSAGE, 
-                        null, 
-                        null, 
-                        ""
-                );
-                
-                if (novoEndereco != null && !novoEndereco.trim().isEmpty()) {
-                    comboEnderecos.addItem(novoEndereco);
-                    comboEnderecos.setSelectedItem(novoEndereco);
-                }
+        btnNovoEndereco.addActionListener(e -> {
+            String novoEndereco = JOptionPane.showInputDialog(null, "Digite o endereço completo:");
+            if (novoEndereco != null && !novoEndereco.trim().isEmpty()) {
+                comboEnderecos.addItem(novoEndereco);
+                comboEnderecos.setSelectedItem(novoEndereco);
             }
         });
         card.add(btnNovoEndereco, "h 35!");
@@ -165,18 +122,24 @@ public class TelaPerfil extends JFrame {
         JButton btnSalvar = new JButton("Salvar Perfil");
         btnSalvar.setBackground(new Color(106, 143, 123));
         btnSalvar.setForeground(Color.WHITE);
-        btnSalvar.setFont(new Font("Arial", Font.BOLD, 16));
+        btnSalvar.addActionListener(e -> {
+            Object selected = comboEnderecos.getSelectedItem();
+            if (selected != null) {
+                DadosCompartilhados.enderecoEntrega = selected.toString();
+            }
+            JOptionPane.showMessageDialog(null, "Perfil salvo com sucesso!");
+            new TelaCatalogo().setVisible(true);
+            dispose();
+        });
         panelBotoes.add(btnSalvar, "growx, h 50!");
 
         JButton btnLogoff = new JButton("Deslogar");
         btnLogoff.setBackground(new Color(106, 143, 123));
         btnLogoff.setForeground(Color.WHITE);
-        btnLogoff.setFont(new Font("Arial", Font.BOLD, 16));
         btnLogoff.addActionListener(e -> efetuarLogoff());
         panelBotoes.add(btnLogoff, "growx, h 50!");
 
         card.add(panelBotoes, "span, growx, gapy 30");
-
         contentPane.add(card, "w 800!, h 650!");
     }
 
@@ -188,15 +151,22 @@ public class TelaPerfil extends JFrame {
         btn.setBorderPainted(false);
         btn.setFocusPainted(false);
         btn.setContentAreaFilled(false);
+        btn.addActionListener(e -> {
+            if(texto.equals("Catálogo") || texto.equals("Inicio")) {
+                new TelaCatalogo().setVisible(true);
+                dispose();
+            } else if(texto.equals("Personalizar")) {
+                new TelaPersonalizar().setVisible(true);
+                dispose();
+            }
+        });
         return btn;
     }
 
     private void efetuarLogoff() {
         UIManager.put("OptionPane.yesButtonText", "Sim");
         UIManager.put("OptionPane.noButtonText", "Não");
-        
         int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Logoff", JOptionPane.YES_NO_OPTION);
-        
         if (confirmacao == JOptionPane.YES_OPTION) {
             Sessao.encerrarSessao();
             JOptionPane.showMessageDialog(null, "Deslogado com sucesso!");

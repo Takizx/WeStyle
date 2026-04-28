@@ -14,98 +14,105 @@ import net.miginfocom.swing.MigLayout;
 
 public class TelaEscolha extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+private static final long serialVersionUID = 1L;
+private JPanel contentPane;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-			try {
-				TelaEscolha frame = new TelaEscolha();
-				frame.setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
+public static void main(String[] args) {
+	EventQueue.invokeLater(() -> {
+		try {
+			TelaEscolha frame = new TelaEscolha();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	});
+}
 
-	public TelaEscolha() {
+public TelaEscolha() {
 
-		setTitle("WeStyle");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 706);
-		
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+	setTitle("WeStyle");
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	setBounds(100, 100, 1000, 706);
+	
+	setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(106,143,123));
-		contentPane.setBorder(new EmptyBorder(20,20,20,20));
+	contentPane = new JPanel();
+	contentPane.setBackground(new Color(106,143,123));
+	contentPane.setBorder(new EmptyBorder(20,20,20,20));
 
-		contentPane.setLayout(new MigLayout(
-				"fill, align center center",
-				"[center]",
-				"[center]"
-		));
+	contentPane.setLayout(new MigLayout(
+			"fill, align center center",
+			"[center]",
+			"[center]"
+	));
 
-		setContentPane(contentPane);
+	setContentPane(contentPane);
 
-		JPanel card = new JPanel();
-		card.setBackground(Color.WHITE);
-		card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
+	JPanel card = new JPanel();
+	card.setBackground(Color.WHITE);
+	card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
 
-		card.setLayout(new MigLayout(
-				"wrap 1, insets 40, gap 20",
-				"[grow,center]",
-				"[]20[]30[]20[]"
-		));
+	card.setLayout(new MigLayout(
+			"wrap 1, insets 40, gap 15",
+			"[grow,center]",
+			"[]20[]30[]20[]15[]15[]"
+	));
 
-		contentPane.add(card,"w 450!, h 500!");
+	contentPane.add(card,"w 450!, h 550!");
 
-		JLabel lblTitulo = new JLabel("Bem-vindo ao WeStyle!");
-		lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
-		lblTitulo.setForeground(new Color(106,143,123));
-		card.add(lblTitulo);
+	JLabel lblTitulo = new JLabel("Bem-vindo ao WeStyle!");
+	lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
+	lblTitulo.setForeground(new Color(106,143,123));
+	card.add(lblTitulo);
 
-		JLabel lblFrase = new JLabel("A moda começa com a sua ideia.");
-		lblFrase.setFont(new Font("Arial", Font.ITALIC, 16));
-		lblFrase.setForeground(new Color(106, 143, 132));
-		card.add(lblFrase);
+	JLabel lblFrase = new JLabel("A moda começa com a sua ideia.");
+	lblFrase.setFont(new Font("Arial", Font.ITALIC, 16));
+	lblFrase.setForeground(new Color(106, 143, 132));
+	card.add(lblFrase);
 
-		JLabel lblPergunta = new JLabel("O que você gostaria de fazer hoje?");
-		lblPergunta.setFont(new Font("Arial", Font.BOLD, 16));
-		lblPergunta.setForeground(new Color(106,143,123));
-		card.add(lblPergunta);
+	JLabel lblPergunta = new JLabel("O que você gostaria de fazer hoje?");
+	lblPergunta.setFont(new Font("Arial", Font.BOLD, 16));
+	lblPergunta.setForeground(new Color(106,143,123));
+	card.add(lblPergunta);
 
-		JButton btnCatalogo = new JButton("Explorar Catálogo");
-		btnCatalogo.setFont(new Font("Arial", Font.BOLD, 15));
-		btnCatalogo.setBackground(new Color(106,143,123));
-		btnCatalogo.setForeground(Color.WHITE);
-		btnCatalogo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		
-		btnCatalogo.addActionListener(e -> {
-			new TelaCatalogo().setVisible(true);
-			dispose();
-		});
+	JButton btnCatalogo = new JButton("Explorar Catálogo");
+	btnCatalogo.setFont(new Font("Arial", Font.BOLD, 15));
+	btnCatalogo.setBackground(new Color(106,143,123));
+	btnCatalogo.setForeground(Color.WHITE);
+	btnCatalogo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	btnCatalogo.addActionListener(e -> {
+		new TelaCatalogo().setVisible(true);
+		dispose();
+	});
+	card.add(btnCatalogo,"width 240!, height 50!");
 
-		card.add(btnCatalogo,"width 240!, height 50!");
+	JButton btnPersonalizar = new JButton("Criar Minha Peça");
+	btnPersonalizar.setFont(new Font("Arial", Font.BOLD, 15));
+	btnPersonalizar.setBackground(new Color(106, 143, 123));
+	btnPersonalizar.setForeground(new Color(255, 255, 255));
+	btnPersonalizar.setBorder(new LineBorder(new Color(106,143,123),1,true));
+	btnPersonalizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	btnPersonalizar.addActionListener(e -> {
+		new TelaPersonalizar().setVisible(true);
+		dispose();
+	});
+	card.add(btnPersonalizar,"width 240!, height 50!");
 
-		JButton btnPersonalizar = new JButton("Criar Minha Peça");
-		btnPersonalizar.setFont(new Font("Arial", Font.BOLD, 15));
-		btnPersonalizar.setBackground(new Color(106, 143, 123));
-		btnPersonalizar.setForeground(new Color(255, 255, 255));
-		btnPersonalizar.setBorder(new LineBorder(new Color(106,143,123),1,true));
-		btnPersonalizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		
-		btnPersonalizar.addActionListener(e -> {
-			new TelaPersonalizar().setVisible(true);
-			dispose();
-		});
+	JLabel lblExtra = new JLabel("Estilo é uma forma de dizer quem você é.");
+	lblExtra.setFont(new Font("Arial", Font.ITALIC, 15));
+	lblExtra.setForeground(new Color(106, 143, 132));
+	card.add(lblExtra,"gapy 10");
 
-		card.add(btnPersonalizar,"width 240!, height 50!");
-
-		JLabel lblExtra = new JLabel("Estilo é uma forma de dizer quem você é.");
-		lblExtra.setFont(new Font("Arial", Font.ITALIC, 15));
-		lblExtra.setForeground(new Color(106, 143, 132));
-
-		card.add(lblExtra,"gapy 20");
-	}
+	JButton btnPerfil = new JButton("Meu Perfil");
+	btnPerfil.setFont(new Font("Arial", Font.BOLD, 14));
+	btnPerfil.setBackground(new Color(106, 143, 123));
+	btnPerfil.setForeground(new Color(255, 255, 255));
+	btnPerfil.setBorder(new LineBorder(new Color(106, 143, 123), 1, true));
+	btnPerfil.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	btnPerfil.addActionListener(e -> {
+		new TelaPerfil().setVisible(true);
+		dispose();
+	});
+	card.add(btnPerfil, "width 180!, height 40!, gapy 10");
+}
 }
