@@ -144,56 +144,65 @@ public class TelaPersonalizar extends JFrame {
         p1.setPreferredSize(new Dimension(60, 60));
         p1.setBackground(Color.WHITE);
         p1.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        p1.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(Color.WHITE); } });
+        p1.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) 
+        { previewCamisa.setBackground(Color.WHITE); } });
         cores.add(p1);
+        
 
         JPanel p2 = new JPanel();
         p2.setPreferredSize(new Dimension(60, 60));
         p2.setBackground(Color.BLACK);
         p2.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        p2.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(Color.BLACK); } });
+        p2.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) 
+        { previewCamisa.setBackground(Color.BLACK); } });
         cores.add(p2);
 
         JPanel p3 = new JPanel();
         p3.setPreferredSize(new Dimension(60, 60));
         p3.setBackground(Color.RED);
         p3.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        p3.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(Color.RED); } });
+        p3.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) 
+        { previewCamisa.setBackground(Color.RED); } });
         cores.add(p3);
 
         JPanel p4 = new JPanel();
         p4.setPreferredSize(new Dimension(60, 60));
         p4.setBackground(Color.BLUE);
         p4.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        p4.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(Color.BLUE); } });
+        p4.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e)
+        { previewCamisa.setBackground(Color.BLUE); } });
         cores.add(p4);
 
         JPanel p5 = new JPanel();
         p5.setPreferredSize(new Dimension(60, 60));
         p5.setBackground(new Color(26, 188, 156));
         p5.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        p5.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(new Color(26, 188, 156)); } });
+        p5.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) 
+        { previewCamisa.setBackground(new Color(26, 188, 156)); } });
         cores.add(p5);
 
         JPanel p6 = new JPanel();
         p6.setPreferredSize(new Dimension(60, 60));
         p6.setBackground(new Color(241, 196, 15));
         p6.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        p6.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(new Color(241, 196, 15)); } });
+        p6.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) 
+        { previewCamisa.setBackground(new Color(241, 196, 15)); } });
         cores.add(p6);
 
         JPanel p7 = new JPanel();
         p7.setPreferredSize(new Dimension(60, 60));
         p7.setBackground(new Color(155, 89, 182));
         p7.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        p7.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(new Color(155, 89, 182)); } });
+        p7.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) 
+        { previewCamisa.setBackground(new Color(155, 89, 182)); } });
         cores.add(p7);
 
         JPanel p8 = new JPanel();
         p8.setPreferredSize(new Dimension(60, 60));
         p8.setBackground(new Color(231, 76, 160));
         p8.setBorder(new LineBorder(Color.LIGHT_GRAY));
-        p8.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(new Color(231, 76, 160)); } });
+        p8.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) 
+        { previewCamisa.setBackground(new Color(231, 76, 160)); } });
         cores.add(p8);
 
         painelDireito.add(cores);
@@ -238,40 +247,11 @@ public class TelaPersonalizar extends JFrame {
         painelDireito.add(txtPrecoPeca, "h 35!");
 
         JButton btnEnviar = new JButton("Enviar para o Catálogo");
-        btnEnviar.setBackground(Color.WHITE);
-        btnEnviar.setForeground(verde);
+        btnEnviar.setBackground(Color.WHITE); 
+        btnEnviar.setForeground(verde);       
         btnEnviar.setFont(new Font("Arial", Font.BOLD, 18));
+        btnEnviar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnEnviar.addActionListener(e -> {
-            String nome = txtNomePeca.getText().trim();
-            String preco = txtPrecoPeca.getText().trim();
-
-            if (nome.isEmpty() || preco.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Por favor, preencha o nome e o preço da peça!");
-                return;
-            }
-
-            try {
-                Double.parseDouble(preco.replace(",", "."));
-                
-                DadosCompartilhados.PecaPersonalizada peca = new DadosCompartilhados.PecaPersonalizada(
-                    nome, 
-                    previewCamisa.getBackground(), 
-                    "Personalizada", 
-                    preco
-                );
-
-                if (indexEdicao >= 0) {
-                    DadosCompartilhados.pecasCriadas.set(indexEdicao, peca);
-                } else {
-                    DadosCompartilhados.pecasCriadas.add(peca);
-                }
-
-                DadosCompartilhados.salvarDados();
-                new TelaCatalogo().setVisible(true);
-                dispose();
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Preço inválido! Digite apenas números.");
-            }
         });
         painelDireito.add(btnEnviar, "gapy 20, h 50!");
 
@@ -286,11 +266,8 @@ public class TelaPersonalizar extends JFrame {
         b.setBorder(null);
         b.setCursor(new Cursor(Cursor.HAND_CURSOR));
         b.addActionListener(e -> {
-            if(texto.equals("Catálogo") || texto.equals("Início")) {
+            if(texto.equals("Catálogo")) {
                 new TelaCatalogo().setVisible(true);
-                dispose();
-            } else if(texto.equals("Carrinho")) {
-                new TelaCarrinho().setVisible(true);
                 dispose();
             }
         });
