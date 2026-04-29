@@ -9,6 +9,7 @@ import java.awt.Cursor;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
@@ -93,14 +94,14 @@ public class Telacadastro extends JFrame {
         lblSenha.setForeground(new Color(106, 143, 132));
         card.add(lblSenha);
 
-        textFieldSenha = new JTextField();
+        textFieldSenha = new JPasswordField(20);
         card.add(textFieldSenha, "height 35!");
 
         JLabel lblConfirmar = new JLabel("Confirmar senha");
         lblConfirmar.setForeground(new Color(106, 143, 132));
         card.add(lblConfirmar);
 
-        textFieldConfirmarSenha = new JTextField();
+        textFieldConfirmarSenha = new JPasswordField(20);
         card.add(textFieldConfirmarSenha, "height 35!");
 
         JCheckBox chkTermos = new JCheckBox("Aceito os termos de uso");
