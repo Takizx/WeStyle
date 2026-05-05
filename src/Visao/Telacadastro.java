@@ -127,6 +127,11 @@ public class Telacadastro extends JFrame {
                     return;
                 }
 
+                if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+                    JOptionPane.showMessageDialog(null, "Por favor, insira um e-mail válido");
+                    return;
+                }
+
                 if (!senha.equals(confirmar)) {
                     JOptionPane.showMessageDialog(null, "As senhas não coincidem!");
                     return;
@@ -148,7 +153,7 @@ public class Telacadastro extends JFrame {
                     new Telaentrar().setVisible(true);
                     dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Erro ao salvar. Verifique a conexão com o banco.");
+                    JOptionPane.showMessageDialog(null, "Erro");
                 }
             }
         });

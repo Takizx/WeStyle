@@ -1,3 +1,5 @@
+DROP database we_style;
+
 CREATE DATABASE we_style;
 
 USE we_style;
@@ -58,6 +60,16 @@ CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categ
 
 );
 
+CREATE TABLE estampa (
+
+id_estampa INT PRIMARY KEY AUTO_INCREMENT,
+
+nome VARCHAR(100) NOT NULL,
+
+imagem VARCHAR(255) DEFAULT 'padrao.png'
+
+);
+
 
 
 CREATE TABLE pedido (
@@ -110,18 +122,19 @@ INSERT INTO categoria (id_categoria, nome_categoria) VALUES (1, 'Coleção WeSty
 
 
 
-INSERT INTO produto (nome, descricao, preco, tamanho, estoque, id_categoria, imagem)
+INSERT INTO estampa (nome, imagem)
 
 VALUES
 
-('Sunset Vibes', 'Estampa exclusiva pôr do sol', 89.90, 'G', 10, 1, 'sunset.png'),
+('Caveria', 'Estampa Caveira.png'),
 
-('Minimal Wave', 'Design clean branco', 75.00, 'M', 15, 1, 'wave.png'),
+('Stitch', 'Estampa Stitch.png'),
 
-('Urban Street', 'Estilo oversized preto', 110.00, 'GG', 5, 1, 'urban.png'),
+('Cachorro', 'Estampa Cachorro.png'),
 
-('Floral Dreams', 'Estampa floral suave', 95.00, 'P', 8, 1, 'floral.png');
+('Lobo', 'Estampa Lobo.png');
 
 
 
-SELECT * FROM
+
+
