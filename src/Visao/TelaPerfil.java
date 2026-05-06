@@ -3,8 +3,6 @@ package Visao;
 import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -83,8 +81,12 @@ public class TelaPerfil extends JFrame {
         lblTitulo.setForeground(new Color(106, 143, 123));
         card.add(lblTitulo, "span, align center, gapy 10 30");
 
-        card.add(new JLabel("Nome Completo"));
-        card.add(new JLabel("E-mail"));
+        JLabel label = new JLabel("Nome Completo");
+        label.setForeground(new Color(0, 0, 0));
+        card.add(label);
+        JLabel label_1 = new JLabel("E-mail");
+        label_1.setForeground(new Color(0, 0, 0));
+        card.add(label_1);
 
         txtNome = new JTextField();
         card.add(txtNome, "h 40!");
@@ -92,8 +94,12 @@ public class TelaPerfil extends JFrame {
         txtEmail = new JTextField();
         card.add(txtEmail, "h 40!");
 
-        card.add(new JLabel("Telefone"));
-        card.add(new JLabel("Endereço de Entrega"));
+        JLabel label_2 = new JLabel("Telefone");
+        label_2.setForeground(new Color(0, 0, 0));
+        card.add(label_2);
+        JLabel label_3 = new JLabel("Endereço de Entrega");
+        label_3.setForeground(new Color(0, 0, 0));
+        card.add(label_3);
 
         txtTelefone = new JTextField();
         card.add(txtTelefone, "h 40!");

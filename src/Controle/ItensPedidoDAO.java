@@ -4,10 +4,46 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItensPedidoDAO {
+
+    public int criarPedido(double valorTotal) {
+        Connection conn = new Conexao().conectaBD();
+        String sql = "INSERT INTO pedido (status_pedido, valor_total, id_usuario, data_pedido) VALUES ('Pendente', ?, 1, NOW())";
+        
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pstm.setDouble(1, valorTotal);
+            pstm.execute();
+            
+            ResultSet rs = pstm.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1); 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public int buscarIdProduto(String nome) {
+        Connection conn = new Conexao().conectaBD();
+        String sql = "SELECT id_produto FROM produto WHERE nome = ? LIMIT 1";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, nome);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id_produto");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; 
+    }
 
     public void incluirItem(int idPedido, int idProduto, int qtd, double preco) {
         Connection conn = new Conexao().conectaBD();
@@ -24,7 +60,7 @@ public class ItensPedidoDAO {
             e.printStackTrace();
         }
     }
-
+    
     public List<String[]> listarItensPorPedido(int idPedido) {
         List<String[]> lista = new ArrayList<>();
         Connection conn = new Conexao().conectaBD();
@@ -45,18 +81,5 @@ public class ItensPedidoDAO {
             e.printStackTrace();
         }
         return lista;
-    }
-
-    public void excluirItem(int idItem) {
-        Connection conn = new Conexao().conectaBD();
-        String sql = "DELETE FROM itens_pedido WHERE id_item = ?";
-        try {
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setInt(1, idItem);
-            pstm.execute();
-            pstm.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

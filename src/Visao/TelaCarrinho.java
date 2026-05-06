@@ -117,15 +117,22 @@ public class TelaCarrinho extends JFrame {
 		lblTotal.setForeground(Color.WHITE);
 		lblTotal.setFont(new Font("Arial", Font.BOLD, 22));
 
-		JButton btnFinalizar = new JButton("Finalizar Compra");
-		btnFinalizar.setFont(new Font("Arial", Font.BOLD, 14));
-		btnFinalizar.setBackground(Color.WHITE);
-		btnFinalizar.setForeground(verde);
-		btnFinalizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		JButton btnPagamento = new JButton("Ir para o Pagamento");
+		btnPagamento.setFont(new Font("Arial", Font.BOLD, 14));
+		btnPagamento.setBackground(Color.WHITE);
+		btnPagamento.setForeground(verde);
+		btnPagamento.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
+		btnPagamento.addActionListener(e -> {
+			if (itensNoCarrinho.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "O carrinho está vazio!");
+			} else {
+				JOptionPane.showMessageDialog(null, "Ainda n ta funcionando");
+			}
+		});
 
 		totalPanel.add(lblTotal);
-		totalPanel.add(btnFinalizar, "width 200!, height 45!");
+		totalPanel.add(btnPagamento, "width 220!, height 45!");
 
 		card.add(totalPanel, "gapy 30");
 		area.add(card);

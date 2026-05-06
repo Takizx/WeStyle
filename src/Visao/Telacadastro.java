@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -16,11 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-
 import net.miginfocom.swing.MigLayout;
-
 import Modelo.Usuario;
 import Controle.UsuarioDAO;
 
@@ -32,6 +28,7 @@ public class Telacadastro extends JFrame {
     private JTextField textFieldEmail;
     private JTextField textFieldSenha;
     private JTextField textFieldConfirmarSenha;
+    private JLabel lblMensagem; 
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -63,8 +60,8 @@ public class Telacadastro extends JFrame {
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-        card.setLayout(new MigLayout("wrap, insets 40, gap 12", "[grow,fill]", "[][][][][][][][][][][]"));
-        contentPane.add(card, "w 450!, h 650!");
+        card.setLayout(new MigLayout("wrap, insets 40, gap 12", "[grow,fill]", "[][][][][][][][][][][][]"));
+        contentPane.add(card, "w 450!, h 680!");
 
         JLabel lblTitulo = new JLabel("WeStyle", SwingConstants.CENTER);
         lblTitulo.setForeground(new Color(106, 143, 123));
@@ -109,6 +106,11 @@ public class Telacadastro extends JFrame {
         chkTermos.setBackground(Color.WHITE);
         card.add(chkTermos, "gapy 5");
 
+        lblMensagem = new JLabel("");
+        lblMensagem.setFont(new Font("Arial", Font.BOLD, 12));
+        lblMensagem.setHorizontalAlignment(SwingConstants.CENTER);
+        card.add(lblMensagem, "height 20!, gapy 5");
+
         JButton btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBackground(new Color(106, 143, 123));
         btnCadastrar.setForeground(Color.WHITE);
@@ -122,23 +124,29 @@ public class Telacadastro extends JFrame {
                 String senha = textFieldSenha.getText();
                 String confirmar = textFieldConfirmarSenha.getText();
 
+                lblMensagem.setText("");
+
                 if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos.");
+                    lblMensagem.setForeground(Color.RED);
+                    lblMensagem.setText("Por favor, preencha todos os campos.");
                     return;
                 }
 
-                if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-                    JOptionPane.showMessageDialog(null, "Por favor, insira um e-mail válido");
+                if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+                    lblMensagem.setForeground(Color.RED);
+                    lblMensagem.setText("Formato de e-mail inválido.");
                     return;
                 }
 
                 if (!senha.equals(confirmar)) {
-                    JOptionPane.showMessageDialog(null, "As senhas não coincidem!");
+                    lblMensagem.setForeground(Color.RED);
+                    lblMensagem.setText("As senhas não coincidem!");
                     return;
                 }
                 
                 if (!chkTermos.isSelected()) {
-                    JOptionPane.showMessageDialog(null, "Você precisa aceitar os termos de uso.");
+                    lblMensagem.setForeground(Color.RED);
+                    lblMensagem.setText("Você precisa aceitar os termos de uso.");
                     return;
                 }
 
@@ -149,15 +157,22 @@ public class Telacadastro extends JFrame {
 
                 UsuarioDAO dao = new UsuarioDAO();
                 if (dao.cadastrarUsuario(novoUsuario)) {
-                    JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
-                    new Telaentrar().setVisible(true);
-                    dispose();
+                    lblMensagem.setForeground(new Color(34, 139, 34));
+                    lblMensagem.setText("Usuário cadastrado com sucesso!");
+                    
+                    javax.swing.Timer timer = new javax.swing.Timer(1500, ev -> {
+                        new Telaentrar().setVisible(true);
+                        dispose();
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Erro");
+                    lblMensagem.setForeground(Color.RED);
+                    lblMensagem.setText("Erro ao cadastrar no banco.");
                 }
             }
         });
-        card.add(btnCadastrar, "height 45!, gapy 10");
+        card.add(btnCadastrar, "height 45!, gapy 5");
 
         JButton btnIrLogin = new JButton("Já possui conta? Entre aqui");
         btnIrLogin.setBorder(null);
