@@ -1,5 +1,5 @@
-DROP database we_style;
 
+DROP DATABASE we_style;
 CREATE DATABASE we_style;
 
 USE we_style;

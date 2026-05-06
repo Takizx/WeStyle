@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -18,7 +17,6 @@ import java.awt.Cursor;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import net.miginfocom.swing.MigLayout;
-import Modelo.DadosCompartilhados;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
