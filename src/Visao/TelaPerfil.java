@@ -74,42 +74,41 @@ public class TelaPerfil extends JFrame {
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-        card.setLayout(new MigLayout("wrap 2, insets 40, gap 20", "[grow, fill][grow, fill]", "[]40[][][][][][]"));
+        card.setLayout(new MigLayout("wrap 2, insets 40, gap 20", "[grow,fill][grow,fill]", "[]40[][][][][][]"));
 
         JLabel lblTitulo = new JLabel("Perfil do Usuário");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 32));
         lblTitulo.setForeground(new Color(106, 143, 123));
-        card.add(lblTitulo, "span, align center, gapy 10 30");
+        card.add(lblTitulo, "cell 0 0 2 1,alignx center,gapy 10 30");
 
-        JLabel label = new JLabel("Nome Completo");
-        label.setForeground(new Color(0, 0, 0));
-        card.add(label);
-        JLabel label_1 = new JLabel("E-mail");
-        label_1.setForeground(new Color(0, 0, 0));
-        card.add(label_1);
+        card.add(new JLabel("Nome Completo"), "cell 0 1");
+        card.add(new JLabel("E-mail"), "cell 1 1");
 
         txtNome = new JTextField();
-        card.add(txtNome, "h 40!");
+        card.add(txtNome, "cell 0 2,height 40!");
 
         txtEmail = new JTextField();
-        card.add(txtEmail, "h 40!");
+        card.add(txtEmail, "cell 1 2,height 40!");
 
-        JLabel label_2 = new JLabel("Telefone");
-        label_2.setForeground(new Color(0, 0, 0));
-        card.add(label_2);
-        JLabel label_3 = new JLabel("Endereço de Entrega");
-        label_3.setForeground(new Color(0, 0, 0));
-        card.add(label_3);
+        card.add(new JLabel("Telefone"), "cell 0 3");
+        card.add(new JLabel("Endereço de Entrega"), "cell 1 3");
 
         txtTelefone = new JTextField();
-        card.add(txtTelefone, "h 40!");
+        card.add(txtTelefone, "cell 0 4,height 40!");
 
         comboEnderecos = new JComboBox<>();
         comboEnderecos.setBackground(Color.WHITE);
-        card.add(comboEnderecos, "h 40!");
-
-        card.add(new JLabel("")); 
-
+        card.add(comboEnderecos, "cell 1 4,height 40!");
+        
+        JButton btnAlterarSenha = new JButton("Alterar Senha");
+        btnAlterarSenha.setForeground(Color.WHITE);
+        btnAlterarSenha.setBackground(new Color(106, 143, 123));
+        btnAlterarSenha.addActionListener(e -> {
+            new TelaAlterarSenha().setVisible(true);
+            dispose();
+        });
+        card.add(btnAlterarSenha, "cell 0 5,height 35!");
+        
         JButton btnNovoEndereco = new JButton("Adicionar Novo Endereço");
         btnNovoEndereco.setBackground(new Color(106, 143, 123));
         btnNovoEndereco.setForeground(Color.WHITE);
@@ -120,12 +119,10 @@ public class TelaPerfil extends JFrame {
                 comboEnderecos.setSelectedItem(novoEndereco);
             }
         });
-        card.add(btnNovoEndereco, "h 35!");
-
-        JPanel panelBotoes = new JPanel(new MigLayout("insets 0", "[grow][grow]", "[]"));
-        panelBotoes.setOpaque(false);
+        card.add(btnNovoEndereco, "cell 1 5,height 35!");
 
         JButton btnSalvar = new JButton("Salvar Perfil");
+        btnSalvar.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnSalvar.setBackground(new Color(106, 143, 123));
         btnSalvar.setForeground(Color.WHITE);
         btnSalvar.addActionListener(e -> {
@@ -137,15 +134,15 @@ public class TelaPerfil extends JFrame {
             new TelaCatalogo().setVisible(true);
             dispose();
         });
-        panelBotoes.add(btnSalvar, "growx, h 50!");
+        card.add(btnSalvar, "cell 0 6,height 50!,gapy 30");
 
         JButton btnLogoff = new JButton("Deslogar");
+        btnLogoff.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnLogoff.setBackground(new Color(106, 143, 123));
         btnLogoff.setForeground(Color.WHITE);
         btnLogoff.addActionListener(e -> efetuarLogoff());
-        panelBotoes.add(btnLogoff, "growx, h 50!");
+        card.add(btnLogoff, "cell 1 6,height 50!,gapy 30");
 
-        card.add(panelBotoes, "span, growx, gapy 30");
         contentPane.add(card, "w 800!, h 650!");
     }
 
