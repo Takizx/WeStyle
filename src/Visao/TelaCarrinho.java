@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
+import Controle.ItensPedidoDAO;
 
 public class TelaCarrinho extends JFrame {
 
@@ -13,15 +14,13 @@ public class TelaCarrinho extends JFrame {
 	private JPanel contentPane;
 	private List<String[]> itensNoCarrinho; 
 	private double somaTotal = 0.0;
+	private ItensPedidoDAO dao = new ItensPedidoDAO();
 
 	Color verde = new Color(106, 143, 123);
 
 	public TelaCarrinho() {
-		this(new ArrayList<>());
-	}
-
-	public TelaCarrinho(List<String[]> itens) {
-		this.itensNoCarrinho = itens;
+		int idPedidoAtivo = dao.obterPedidoAtivo();
+		this.itensNoCarrinho = dao.listarItensDoCarrinho(idPedidoAtivo);
 
 		setTitle("WeStyle - Carrinho");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,6 +33,10 @@ public class TelaCarrinho extends JFrame {
 
 		criarNavbar();
 		criarConteudo();
+	}
+
+	public TelaCarrinho(List<String[]> itens) {
+		this();
 	}
 
 	private void criarNavbar() {
@@ -62,15 +65,10 @@ public class TelaCarrinho extends JFrame {
 		btn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btn.setBorder(null);
 		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		
 		btn.addActionListener(e -> {
-			if(texto.equals("Catálogo") || texto.equals("Início")) {
-				new TelaCatalogo().setVisible(true);
-				dispose();
-			} else if(texto.equals("Personalizar")) {
-				new TelaPersonalizar().setVisible(true);
-				dispose();
-			}
+			if(texto.equals("Catálogo")) { new TelaCatalogo().setVisible(true); dispose(); }
+			else if(texto.equals("Início")) { new Telaprincipal().setVisible(true); dispose(); }
+			else if(texto.equals("Personalizar")) { new TelaPersonalizar().setVisible(true); dispose(); }
 		});
 		return btn;
 	}
@@ -93,15 +91,10 @@ public class TelaCarrinho extends JFrame {
 		if (itensNoCarrinho != null && !itensNoCarrinho.isEmpty()) {
 			for (int i = 0; i < itensNoCarrinho.size(); i++) {
 				String[] item = itensNoCarrinho.get(i);
-				card.add(criarItemUI(item[0], item[1], i));
-				
+				card.add(criarItemUI(item[0], item[1], Integer.parseInt(item[2])));
 				try {
-					String precoLimpo = item[1].replace("R$", "").replace(",", ".").trim();
-					if (!precoLimpo.isEmpty()) {
-						somaTotal += Double.parseDouble(precoLimpo);
-					}
-				} catch (Exception e) {
-				}
+					somaTotal += Double.parseDouble(item[1]);
+				} catch (Exception e) {}
 			}
 		} else {
 			JLabel vazio = new JLabel("Seu carrinho está vazio...");
@@ -127,7 +120,7 @@ public class TelaCarrinho extends JFrame {
 			if (itensNoCarrinho.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "O carrinho está vazio!");
 			} else {
-				JOptionPane.showMessageDialog(null, "Ainda n ta funcionando");
+				JOptionPane.showMessageDialog(null, "Aguarde a tela de pagamento.");
 			}
 		});
 
@@ -139,13 +132,10 @@ public class TelaCarrinho extends JFrame {
 		contentPane.add(area, BorderLayout.CENTER);
 	}
 
-	private JPanel criarItemUI(String nome, String preco, int index) {
-		JPanel item = new JPanel(new MigLayout("insets 10", "[][grow][right][right]", "[]"));
+	private JPanel criarItemUI(String nome, String preco, int idItem) {
+		JPanel item = new JPanel(new MigLayout("insets 10", "[][grow][right][right][right]", "[]"));
 		item.setBorder(new MatteBorder(0, 0, 1, 0, Color.WHITE));
 		item.setBackground(verde);
-
-		JLabel icone = new JLabel("👕"); 
-		icone.setFont(new Font("Arial", Font.PLAIN, 25));
 
 		JLabel nomeLabel = new JLabel(nome);
 		nomeLabel.setForeground(Color.WHITE);
@@ -158,25 +148,30 @@ public class TelaCarrinho extends JFrame {
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.setBackground(Color.WHITE);
 		btnAlterar.setForeground(verde);
+		btnAlterar.setFont(new Font("Arial", Font.BOLD, 12));
+		btnAlterar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnAlterar.addActionListener(e -> {
-			new TelaCatalogo().setVisible(true);
+			dao.excluirItem(idItem); 
+			new TelaCatalogo().setVisible(true); 
 			dispose();
 		});
 
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setBackground(Color.WHITE);
 		btnRemover.setForeground(verde);
+		btnRemover.setFont(new Font("Arial", Font.BOLD, 12));
+		btnRemover.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnRemover.addActionListener(e -> {
-			itensNoCarrinho.remove(index);
-			new TelaCarrinho(itensNoCarrinho).setVisible(true);
+			dao.excluirItem(idItem);
+			new TelaCarrinho().setVisible(true);
 			dispose();
 		});
 
-		item.add(icone, "gapx 10");
+		item.add(new JLabel("👕"), "gapx 10");
 		item.add(nomeLabel, "gapx 15");
 		item.add(precoLabel, "gapx 15");
-		item.add(btnAlterar);
-		item.add(btnRemover);
+		item.add(btnAlterar, "width 100!, height 30!");
+		item.add(btnRemover, "width 100!, height 30!, gapx 5");
 
 		return item;
 	}
@@ -184,8 +179,7 @@ public class TelaCarrinho extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
-				TelaCarrinho frame = new TelaCarrinho();
-				frame.setVisible(true);
+				new TelaCarrinho().setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
