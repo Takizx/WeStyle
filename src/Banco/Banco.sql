@@ -1,140 +1,76 @@
-
-DROP DATABASE we_style;
+DROP DATABASE IF EXISTS we_style;
 CREATE DATABASE we_style;
-
 USE we_style;
 
-
-
 CREATE TABLE usuario (
-
-id INT PRIMARY KEY AUTO_INCREMENT,
-
-nome VARCHAR(100) NOT NULL,
-
-email VARCHAR(100) UNIQUE NOT NULL,
-
-senha VARCHAR(50) NOT NULL,
-
-telefone VARCHAR(20),
-
-endereco VARCHAR(255),
-
-cidade VARCHAR(100),
-
-cep VARCHAR(10)
-
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(50) NOT NULL,
+    telefone VARCHAR(20),
+    endereco VARCHAR(255),
+    cidade VARCHAR(100),
+    cep VARCHAR(10)
 );
-
-
 
 CREATE TABLE categoria (
-
-id_categoria INT PRIMARY KEY AUTO_INCREMENT,
-
-nome_categoria VARCHAR(50) NOT NULL
-
+    id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+    nome_categoria VARCHAR(50) NOT NULL
 );
 
-
-
 CREATE TABLE produto (
-
-id_produto INT PRIMARY KEY AUTO_INCREMENT,
-
-nome VARCHAR(100) NOT NULL,
-
-descricao TEXT,
-
-preco DECIMAL(10, 2) NOT NULL,
-
-tamanho VARCHAR(10),
-
-estoque INT DEFAULT 0,
-
-imagem VARCHAR(255) DEFAULT 'padrao.png',
-
-id_categoria INT,
-
-CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
-
+    id_produto INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    preco DECIMAL(10, 2) NOT NULL,
+    tamanho VARCHAR(10),
+    estoque INT DEFAULT 0,
+    imagem VARCHAR(255) DEFAULT 'padrao.png',
+    id_categoria INT,
+    CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
 );
 
 CREATE TABLE estampa (
-
-id_estampa INT PRIMARY KEY AUTO_INCREMENT,
-
-nome VARCHAR(100) NOT NULL,
-
-imagem VARCHAR(255) DEFAULT 'padrao.png'
-
+    id_estampa INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    imagem VARCHAR(255) DEFAULT 'padrao.png'
 );
-
-
 
 CREATE TABLE pedido (
-
-id_pedido INT PRIMARY KEY AUTO_INCREMENT,
-
-data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-status_pedido VARCHAR(50) DEFAULT 'Pendente',
-
-subtotal DECIMAL(10, 2),
-
-valor_frete DECIMAL(10, 2),
-
-valor_total DECIMAL(10, 2),
-
-regiao_entrega VARCHAR(50),
-
-id_usuario INT,
-
-CONSTRAINT fk_usuario_pedido FOREIGN KEY (id_usuario) REFERENCES usuario(id)
-
+    id_pedido INT PRIMARY KEY AUTO_INCREMENT,
+    data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status_pedido VARCHAR(50) DEFAULT 'Pendente',
+    subtotal DECIMAL(10, 2),
+    valor_frete DECIMAL(10, 2),
+    valor_total DECIMAL(10, 2),
+    regiao_entrega VARCHAR(50),
+    id_usuario INT,
+    CONSTRAINT fk_usuario_pedido FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
-
-
 
 CREATE TABLE itens_pedido (
-
-id_item INT PRIMARY KEY AUTO_INCREMENT,
-
-id_pedido INT,
-
-id_produto INT,
-
-quantidade INT NOT NULL,
-
-preco_unitario DECIMAL(10, 2) NOT NULL,
-
-customizacao TEXT,
-
-CONSTRAINT fk_pedido_item FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
-
-CONSTRAINT fk_produto_item FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
-
+    id_item INT PRIMARY KEY AUTO_INCREMENT,
+    id_pedido INT,
+    id_produto INT,
+    quantidade INT NOT NULL,
+    preco_unitario DECIMAL(10, 2) NOT NULL,
+    customizacao TEXT,
+    CONSTRAINT fk_pedido_item FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
+    CONSTRAINT fk_produto_item FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
 );
-
-
 
 INSERT INTO categoria (id_categoria, nome_categoria) VALUES (1, 'Coleção WeStyle');
 
-
-
-INSERT INTO estampa (nome, imagem)
-
-VALUES
-
-('Caveria', 'Estampa Caveira.png'),
-
+INSERT INTO estampa (nome, imagem) VALUES
+('Caveira', 'Estampa Caveira.png'),
 ('Stitch', 'Estampa Stitch.png'),
-
 ('Cachorro', 'Estampa Cachorro.png'),
-
 ('Lobo', 'Estampa Lobo.png');
 
+INSERT INTO produto (nome, preco, id_categoria, imagem) VALUES 
+('Sunset Vibes', 89.90, 1, 'F66464'),
+('Minimal Wave', 75.00, 1, '56B8B1'),
+('Urban Street', 110.00, 1, '000000'),
+('Floral Dreams', 95.00, 1, '9B59B2');
 
-
-
-
+INSERT INTO usuario (nome, email, senha) VALUES ('Admin', 'admin@westyle.com', '123');
