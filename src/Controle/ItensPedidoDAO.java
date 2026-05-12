@@ -10,6 +10,26 @@ import java.util.List;
 
 public class ItensPedidoDAO {
 
+    public List<String[]> listarProdutosCatalogo() {
+        List<String[]> produtos = new ArrayList<>();
+        String sql = "SELECT nome, preco, imagem FROM produto";
+        Connection conn = new Conexao().conectaBD();
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] p = new String[3];
+                p[0] = rs.getString("nome");
+                p[1] = rs.getString("preco");
+                p[2] = rs.getString("imagem");
+                produtos.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return produtos;
+    }
+
     public int obterPedidoAtivo() {
         Connection conn = new Conexao().conectaBD();
         try {

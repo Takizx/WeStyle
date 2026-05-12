@@ -1,19 +1,8 @@
 package Visao;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,21 +10,11 @@ import Controle.ItensPedidoDAO;
 
 public class TelaDetalhes extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel previewCamisa;
 	Color verde = new Color(106, 143, 123);
 	Color linha = new Color(200, 220, 210);
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-			try {
-				TelaDetalhes frame = new TelaDetalhes("Camisa Exemplo", Color.WHITE, "59.90");
-				frame.setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-	}
 
 	public TelaDetalhes(String nomeRoupa, Color corInicial, String precoRoupa) {
 		setTitle("WeStyle - Detalhes: " + nomeRoupa);
@@ -43,146 +22,135 @@ public class TelaDetalhes extends JFrame {
 		setBounds(100, 100, 1400, 900);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-		contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout());
+		contentPane = new JPanel(new BorderLayout());
+		contentPane.setBackground(verde);
 		setContentPane(contentPane);
 
-		JPanel navbar = new JPanel();
+		JPanel navbar = new JPanel(new MigLayout("insets 15, fillx", "[left][grow][center][center][center][center][grow]", ""));
 		navbar.setBackground(verde);
 		navbar.setBorder(new MatteBorder(0, 0, 1, 0, linha));
-		navbar.setLayout(new MigLayout("insets 15", "[left][grow][center][center][center][center][grow]", ""));
 
 		JLabel logo = new JLabel("WeStyle");
 		logo.setForeground(Color.WHITE);
 		logo.setFont(new Font("Arial", Font.BOLD, 30));
 		navbar.add(logo);
-		navbar.add(new JLabel(""), "grow");
+		navbar.add(new JLabel(""), "growx");
+		
 		navbar.add(criarBotaoNav("Início"));
-		navbar.add(criarBotaoNav("Personalizar"));
 		navbar.add(criarBotaoNav("Catálogo"));
-		navbar.add(criarBotaoNav("Pedidos"));
-		navbar.add(new JLabel(""), "grow");
+		navbar.add(criarBotaoNav("Carrinho"));
+		navbar.add(criarBotaoNav("Personalizar"));
+		navbar.add(new JLabel(""), "growx");
+		
 		contentPane.add(navbar, BorderLayout.NORTH);
 
-		JPanel fundo = new JPanel();
-		fundo.setBackground(verde);
-		fundo.setLayout(new MigLayout("align center center, insets 20", "[650!][500!]", "[]"));
+		JPanel fundo = new JPanel(new MigLayout("align center center, insets 30", "[600!][500!]", "[]"));
+		fundo.setOpaque(false);
 		contentPane.add(fundo, BorderLayout.CENTER);
 
-		JPanel previewPanel = new JPanel();
-		previewPanel.setOpaque(false);
-		previewPanel.setBorder(new LineBorder(linha));
-		previewPanel.setLayout(new MigLayout("wrap, insets 25", "[center]", ""));
+		JPanel painelEsquerdo = new JPanel(new MigLayout("wrap, insets 20, center", "[center]", "[]15[]"));
+		painelEsquerdo.setOpaque(false);
+		painelEsquerdo.setBorder(new LineBorder(linha, 1));
 
-		JLabel lblNomeRoupa = new JLabel(nomeRoupa);
-		lblNomeRoupa.setForeground(Color.WHITE);
-		lblNomeRoupa.setFont(new Font("Arial", Font.BOLD, 26));
+		JLabel lblNomeDinamico = new JLabel(nomeRoupa); 
+		lblNomeDinamico.setForeground(Color.WHITE);
+		lblNomeDinamico.setFont(new Font("Arial", Font.BOLD, 28));
+		painelEsquerdo.add(lblNomeDinamico);
 
 		previewCamisa = new JPanel();
-		previewCamisa.setPreferredSize(new Dimension(450, 550));
-		previewCamisa.setBackground(corInicial); 
-		previewCamisa.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		previewCamisa.setBackground(corInicial);
+		previewCamisa.setBorder(new LineBorder(Color.WHITE, 1));
+		painelEsquerdo.add(previewCamisa, "width 480!, height 600!");
+		
+		fundo.add(painelEsquerdo);
 
-		previewPanel.add(lblNomeRoupa);
-		previewPanel.add(previewCamisa, "width 450!, height 550!");
-		fundo.add(previewPanel);
-
-		JPanel painelDireito = new JPanel();
+		JPanel painelDireito = new JPanel(new MigLayout("wrap, insets 0", "[grow,fill]", "[]20[]10[]20[]20[]20[]"));
 		painelDireito.setOpaque(false);
-		painelDireito.setLayout(new MigLayout("wrap, insets 0", "[grow,fill]", ""));
 
-		JButton voltar = new JButton("<-- Voltar para o Catálogo");
-		voltar.setBackground(Color.WHITE);
-		voltar.setForeground(verde);
-		voltar.setFont(new Font("Arial", Font.BOLD, 16));
-		voltar.addActionListener(e -> {
-			new TelaCatalogo().setVisible(true);
-			dispose();
-		});
-		painelDireito.add(voltar, "width 250!, gapbottom 10");
+		JButton btnVoltar = new JButton("<-- Voltar para o Catálogo");
+		btnVoltar.setBackground(Color.WHITE);
+		btnVoltar.setForeground(verde);
+		btnVoltar.setFont(new Font("Arial", Font.BOLD, 14));
+		btnVoltar.addActionListener(e -> { new TelaCatalogo().setVisible(true); dispose(); });
+		painelDireito.add(btnVoltar, "width 220!, height 35, align left");
 
-		JLabel titulo = new JLabel("Detalhes da Peça");
-		titulo.setForeground(Color.WHITE);
-		titulo.setFont(new Font("Arial", Font.BOLD, 30));
-		painelDireito.add(titulo);
+		JLabel lblDetalhes = new JLabel("Detalhes da Peça");
+		lblDetalhes.setForeground(Color.WHITE);
+		lblDetalhes.setFont(new Font("Arial", Font.BOLD, 32));
+		painelDireito.add(lblDetalhes);
 
-		JLabel descricao = new JLabel("Escolha a cor desejada:");
-		descricao.setForeground(Color.WHITE);
-		painelDireito.add(descricao, "gapbottom 5");
+		JLabel lblInstrucao = new JLabel("Escolha a cor e o tamanho desejado para sua peça");
+		lblInstrucao.setForeground(Color.WHITE);
+		lblInstrucao.setFont(new Font("Arial", Font.PLAIN, 14));
+		painelDireito.add(lblInstrucao);
 
-		JPanel cores = new JPanel(new MigLayout("wrap 4, insets 10", "[]10[]10[]10[]", "[]10[]"));
-		cores.setBackground(verde);
-		cores.setBorder(new LineBorder(linha));
+		JPanel painelCores = new JPanel(new MigLayout("wrap 4, insets 10, gap 10", "[]", "[]"));
+		painelCores.setOpaque(false);
+		painelCores.setBorder(new LineBorder(linha, 1));
 
-		Color[] cArray = {
+		Color[] coresDisponiveis = {
 			Color.WHITE, Color.BLACK, Color.RED, Color.BLUE,
 			new Color(26, 188, 156), new Color(241, 196, 15), new Color(155, 89, 182), new Color(231, 76, 160)
 		};
 
-		for (Color c : cArray) {
+		for (Color c : coresDisponiveis) {
 			JPanel p = new JPanel();
-			p.setPreferredSize(new Dimension(75, 75)); 
 			p.setBackground(c);
-			p.setBorder(new LineBorder(Color.LIGHT_GRAY));
+			p.setBorder(new LineBorder(Color.GRAY, 1));
 			p.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			p.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent e) {
-					previewCamisa.setBackground(c);
-				}
+				public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(c); }
 			});
-			cores.add(p, "width 75!, height 75!");
+			painelCores.add(p, "width 80!, height 80!");
 		}
-		painelDireito.add(cores, "gapbottom 15");
+		painelDireito.add(painelCores);
 
-		JLabel lblTamanho = new JLabel("Tamanho");
+		JLabel lblTamanho = new JLabel("Tamanho Selecionado:");
 		lblTamanho.setForeground(Color.WHITE);
+		lblTamanho.setFont(new Font("Arial", Font.BOLD, 14));
 		painelDireito.add(lblTamanho);
 
 		JComboBox<String> comboTamanho = new JComboBox<>(new String[]{"P", "M", "G", "GG"});
-		comboTamanho.setForeground(verde);
-		painelDireito.add(comboTamanho, "h 35!, gapbottom 20");
+		comboTamanho.setFont(new Font("Arial", Font.PLAIN, 16));
+		painelDireito.add(comboTamanho, "height 45!");
 
-		JButton comprar = new JButton("Adicionar ao Carrinho");
-		comprar.setFont(new Font("Arial", Font.BOLD, 18));
-		comprar.setForeground(verde);
-		comprar.setBackground(Color.WHITE);
-		comprar.addActionListener(e -> {
-			String tamanho = (String) comboTamanho.getSelectedItem();
+		JButton btnAdd = new JButton("Adicionar ao Carrinho");
+		btnAdd.setBackground(Color.WHITE);
+		btnAdd.setForeground(verde);
+		btnAdd.setFont(new Font("Arial", Font.BOLD, 18));
+		btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnAdd.addActionListener(e -> {
 			ItensPedidoDAO dao = new ItensPedidoDAO();
-			int idPedido = dao.obterPedidoAtivo();
+			int idPed = dao.obterPedidoAtivo();
 			int idProd = dao.buscarIdProduto(nomeRoupa);
-			
-			double preco = 0.0;
 			try {
-				preco = Double.parseDouble(precoRoupa.replace("R$", "").replace(",", ".").trim());
-			} catch (Exception ex) {}
-
-			if (idPedido != -1 && idProd != -1) {
-				dao.incluirItem(idPedido, idProd, 1, preco, tamanho);
+				double prc = Double.parseDouble(precoRoupa);
+				dao.incluirItem(idPed, idProd, 1, prc, (String)comboTamanho.getSelectedItem());
 				new TelaCarrinho().setVisible(true);
 				dispose();
-			} else {
-				JOptionPane.showMessageDialog(null, "Erro: Produto não encontrado no banco.");
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, "Erro ao processar preço.");
 			}
 		});
-		painelDireito.add(comprar, "h 50!");
+		painelDireito.add(btnAdd, "height 55!, gapy 20");
 
 		fundo.add(painelDireito);
 	}
 
 	private JButton criarBotaoNav(String texto) {
-		JButton btn = new JButton(texto);
-		btn.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btn.setForeground(Color.WHITE);
-		btn.setBackground(verde);
-		btn.setBorder(null);
-		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btn.addActionListener(e -> {
-			if(texto.equals("Catálogo")) { new TelaCatalogo().setVisible(true); dispose(); }
+		JButton b = new JButton(texto);
+		b.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		b.setForeground(Color.WHITE);
+		b.setBackground(verde);
+		b.setBorder(null);
+		b.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		b.addActionListener(e -> {
+			if(texto.equals("Personalizar")) { new TelaPersonalizar().setVisible(true); dispose(); }
+			else if(texto.equals("Catálogo")) { new TelaCatalogo().setVisible(true); dispose(); }
 			else if(texto.equals("Início")) { new Telaprincipal().setVisible(true); dispose(); }
-			else if(texto.equals("Personalizar")) { new TelaPersonalizar().setVisible(true); dispose(); }
+			else if(texto.equals("Carrinho")) { new TelaCarrinho().setVisible(true); dispose(); }
 		});
-		return btn;
+		return b;
 	}
 }
