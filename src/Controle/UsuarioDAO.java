@@ -8,7 +8,6 @@ import Modelo.Usuario;
 
 public class UsuarioDAO {
 
-
     public Usuario validarLogin(String email, String senha) {
         Connection conn = new Conexao().conectaBD();
         String sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
@@ -24,6 +23,7 @@ public class UsuarioDAO {
                     usuario.setNome(rs.getString("nome"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setSenha(rs.getString("senha"));
+                    usuario.setEndereco(rs.getString("endereco"));
                     return usuario;
                 }
             }
@@ -33,15 +33,15 @@ public class UsuarioDAO {
         return null;
     }
 
- 
     public boolean cadastrarUsuario(Usuario usuario) {
         Connection conn = new Conexao().conectaBD();
-        String sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO usuario (nome, email, senha, endereco) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setString(1, usuario.getNome());
             pstm.setString(2, usuario.getEmail());
             pstm.setString(3, usuario.getSenha());
+            pstm.setString(4, usuario.getEndereco());
 
             pstm.execute();
             return true;
@@ -51,7 +51,6 @@ public class UsuarioDAO {
         }
     }
 
-  
     public boolean atualizarSenha(String email, String novaSenha) {
         Connection conn = new Conexao().conectaBD();
         String sql = "UPDATE usuario SET senha = ? WHERE email = ?";
@@ -61,8 +60,6 @@ public class UsuarioDAO {
             pstm.setString(2, email);
 
             int linhasAfetadas = pstm.executeUpdate();
-            
-
             return linhasAfetadas > 0;
             
         } catch (SQLException e) {
