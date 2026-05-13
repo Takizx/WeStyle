@@ -28,7 +28,6 @@ public class Telacadastro extends JFrame {
     private JTextField textFieldEmail;
     private JTextField textFieldSenha;
     private JTextField textFieldConfirmarSenha;
-    private JLabel lblMensagem; 
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -104,12 +103,7 @@ public class Telacadastro extends JFrame {
         JCheckBox chkTermos = new JCheckBox("Aceito os termos de uso");
         chkTermos.setForeground(new Color(106, 143, 132));
         chkTermos.setBackground(Color.WHITE);
-        card.add(chkTermos, "gapy 5");
-
-        lblMensagem = new JLabel("");
-        lblMensagem.setFont(new Font("Arial", Font.BOLD, 12));
-        lblMensagem.setHorizontalAlignment(SwingConstants.CENTER);
-        card.add(lblMensagem, "height 20!, gapy 5");
+        card.add(chkTermos, "gapy 5, gapbottom 10");
 
         JButton btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBackground(new Color(106, 143, 123));
@@ -124,29 +118,23 @@ public class Telacadastro extends JFrame {
                 String senha = textFieldSenha.getText();
                 String confirmar = textFieldConfirmarSenha.getText();
 
-                lblMensagem.setText("");
-
                 if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
-                    lblMensagem.setForeground(Color.RED);
-                    lblMensagem.setText("Por favor, preencha todos os campos.");
+                    new TelaMensagem("Por favor, preencha todos os campos.", "erro");
                     return;
                 }
 
                 if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-                    lblMensagem.setForeground(Color.RED);
-                    lblMensagem.setText("Formato de e-mail inválido.");
+                    new TelaMensagem("Formato de e-mail inválido.", "erro");
                     return;
                 }
 
                 if (!senha.equals(confirmar)) {
-                    lblMensagem.setForeground(Color.RED);
-                    lblMensagem.setText("As senhas não coincidem!");
+                    new TelaMensagem("As senhas não coincidem!", "erro");
                     return;
                 }
                 
                 if (!chkTermos.isSelected()) {
-                    lblMensagem.setForeground(Color.RED);
-                    lblMensagem.setText("Você precisa aceitar os termos de uso.");
+                    new TelaMensagem("Você precisa aceitar os termos de uso.", "erro");
                     return;
                 }
 
@@ -157,18 +145,11 @@ public class Telacadastro extends JFrame {
 
                 UsuarioDAO dao = new UsuarioDAO();
                 if (dao.cadastrarUsuario(novoUsuario)) {
-                    lblMensagem.setForeground(new Color(34, 139, 34));
-                    lblMensagem.setText("Usuário cadastrado com sucesso!");
-                    
-                    javax.swing.Timer timer = new javax.swing.Timer(1500, ev -> {
-                        new Telaentrar().setVisible(true);
-                        dispose();
-                    });
-                    timer.setRepeats(false);
-                    timer.start();
+                    new TelaMensagem("Usuário cadastrado com sucesso!", "sucesso");
+                    new Telaentrar().setVisible(true);
+                    dispose();
                 } else {
-                    lblMensagem.setForeground(Color.RED);
-                    lblMensagem.setText("Erro ao cadastrar no banco.");
+                    new TelaMensagem("Erro ao cadastrar no banco.", "erro");
                 }
             }
         });

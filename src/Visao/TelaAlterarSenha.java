@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import net.miginfocom.swing.MigLayout;
@@ -89,16 +88,16 @@ public class TelaAlterarSenha extends JFrame {
             String confirmar = textConfirmarSenha.getText();
 
             if(atual.isEmpty() || nova.isEmpty() || confirmar.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Preencha todos os campos!");
+                new TelaMensagem("Preencha todos os campos!", "erro");
                 return;
             }
 
             if(!nova.equals(confirmar)) {
-                JOptionPane.showMessageDialog(null, "As senhas não coincidem!");
+                new TelaMensagem("As senhas não coincidem!", "erro");
                 return;
             }
 
-            JOptionPane.showMessageDialog(null, "Senha alterada com sucesso!");
+            new TelaMensagem("Senha alterada com sucesso!", "sucesso");
             new TelaPerfil().setVisible(true);
             dispose();
         });

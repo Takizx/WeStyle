@@ -73,4 +73,3 @@ INSERT INTO produto (nome, preco, id_categoria, imagem) VALUES
 ('Urban Street', 110.00, 1, '000000'),
 ('Floral Dreams', 95.00, 1, '9B59B2');
 
-INSERT INTO usuario (nome, email, senha) VALUES ('Admin', 'admin@westyle.com', '123');

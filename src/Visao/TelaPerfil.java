@@ -81,8 +81,12 @@ public class TelaPerfil extends JFrame {
         lblTitulo.setForeground(new Color(106, 143, 123));
         card.add(lblTitulo, "cell 0 0 2 1,alignx center,gapy 10 30");
 
-        card.add(new JLabel("Nome Completo"), "cell 0 1");
-        card.add(new JLabel("E-mail"), "cell 1 1");
+        JLabel label = new JLabel("Nome Completo");
+        label.setForeground(new Color(106, 143, 123));
+        card.add(label, "cell 0 1");
+        JLabel label_2 = new JLabel("E-mail");
+        label_2.setForeground(new Color(106, 143, 123));
+        card.add(label_2, "cell 1 1");
 
         txtNome = new JTextField();
         card.add(txtNome, "cell 0 2,height 40!");
@@ -90,8 +94,12 @@ public class TelaPerfil extends JFrame {
         txtEmail = new JTextField();
         card.add(txtEmail, "cell 1 2,height 40!");
 
-        card.add(new JLabel("Telefone"), "cell 0 3");
-        card.add(new JLabel("Endereço de Entrega"), "cell 1 3");
+        JLabel label_1 = new JLabel("Telefone");
+        label_1.setForeground(new Color(106, 143, 123));
+        card.add(label_1, "cell 0 3");
+        JLabel label_3 = new JLabel("Endereço de Entrega");
+        label_3.setForeground(new Color(106, 143, 123));
+        card.add(label_3, "cell 1 3");
 
         txtTelefone = new JTextField();
         card.add(txtTelefone, "cell 0 4,height 40!");
@@ -130,7 +138,7 @@ public class TelaPerfil extends JFrame {
             if (selected != null) {
                 DadosCompartilhados.enderecoEntrega = selected.toString();
             }
-            JOptionPane.showMessageDialog(null, "Perfil salvo com sucesso!");
+            new TelaMensagem("Perfil salvo com sucesso!", "sucesso");
             new TelaCatalogo().setVisible(true);
             dispose();
         });
@@ -172,7 +180,7 @@ public class TelaPerfil extends JFrame {
         int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Logoff", JOptionPane.YES_NO_OPTION);
         if (confirmacao == JOptionPane.YES_OPTION) {
             Sessao.encerrarSessao();
-            JOptionPane.showMessageDialog(null, "Deslogado com sucesso!");
+            new TelaMensagem("Deslogado com sucesso!", "sucesso");
             new Telaprincipal().setVisible(true);
             dispose();
         }

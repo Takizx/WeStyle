@@ -130,7 +130,7 @@ public class TelaDetalhes extends JFrame {
 				new TelaCarrinho().setVisible(true);
 				dispose();
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "Erro ao processar preço.");
+				new TelaMensagem("Erro ao processar preço ou adicionar item.", "erro");
 			}
 		});
 		painelDireito.add(btnAdd, "height 55!, gapy 20");

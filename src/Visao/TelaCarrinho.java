@@ -118,9 +118,9 @@ public class TelaCarrinho extends JFrame {
 		
 		btnPagamento.addActionListener(e -> {
 			if (itensNoCarrinho.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "O carrinho está vazio!");
+				new TelaMensagem("O carrinho está vazio!", "erro");
 			} else {
-				JOptionPane.showMessageDialog(null, "Aguarde a tela de pagamento.");
+				new TelaMensagem("Aguarde a tela de pagamento.", "sucesso");
 			}
 		});
 

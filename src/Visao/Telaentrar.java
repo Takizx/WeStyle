@@ -121,7 +121,7 @@ public class Telaentrar extends JFrame {
             if (emailRecuperar != null && !emailRecuperar.trim().isEmpty()) {
                 int codigoGerado = 1000 + (int)(Math.random() * 9000);
                 
-                JOptionPane.showMessageDialog(this, "Seu código é: " + codigoGerado, "Recuperar Senha", JOptionPane.INFORMATION_MESSAGE);
+                new TelaMensagem("Seu código é: " + codigoGerado, "sucesso");
                 
                 String codigo = (String) JOptionPane.showInputDialog(this, "Digite o código enviado:", "Recuperar Senha", JOptionPane.PLAIN_MESSAGE, null, null, "");
                 
@@ -131,15 +131,15 @@ public class Telaentrar extends JFrame {
                     if (novaSenha != null && novaSenha.length() >= 4) {
                         UsuarioDAO dao = new UsuarioDAO();
                         if (dao.atualizarSenha(emailRecuperar, novaSenha)) {
-                            JOptionPane.showMessageDialog(this, "Senha redefinida com sucesso!");
+                            new TelaMensagem("Senha redefinida com sucesso!", "sucesso");
                         } else {
-                            JOptionPane.showMessageDialog(this, "E-mail não encontrado no sistema.");
+                            new TelaMensagem("E-mail não encontrado no sistema.", "erro");
                         }
                     } else if (novaSenha != null) {
-                        JOptionPane.showMessageDialog(this, "A senha deve ter pelo menos 4 caracteres.");
+                        new TelaMensagem("A senha deve ter pelo menos 4 caracteres.", "erro");
                     }
                 } else if (codigo != null) {
-                    JOptionPane.showMessageDialog(this, "Código incorreto!");
+                    new TelaMensagem("Código incorreto!", "erro");
                 }
             }
         });
@@ -157,7 +157,7 @@ public class Telaentrar extends JFrame {
                 String senha = textFieldSenha.getText();
                 
                 if (email.isEmpty() || senha.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos!");
+                    new TelaMensagem("Por favor, preencha todos os campos!", "erro");
                     return;
                 }
                 
@@ -174,11 +174,11 @@ public class Telaentrar extends JFrame {
                     }
 
                     Sessao.setUsuario(usuarioEncontrado);
-                    JOptionPane.showMessageDialog(null, "Login realizado com sucesso! Bem-vindo, " + usuarioEncontrado.getNome());
+                    new TelaMensagem("Login realizado com sucesso! Bem-vindo, " + usuarioEncontrado.getNome(), "sucesso");
                     new TelaEscolha().setVisible(true);
                     dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "E-mail ou senha incorretos.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+                    new TelaMensagem("E-mail ou senha incorretos.", "erro");
                 }
             }
         });

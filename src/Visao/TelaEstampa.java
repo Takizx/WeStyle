@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -149,7 +148,7 @@ public class TelaEstampa extends JFrame {
 		btnSalvar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnSalvar.addActionListener(e -> {
 		    if(txtNomeEstampa.getText().isEmpty() || txtCaminhoArquivo.getText().isEmpty()) {
-		        JOptionPane.showMessageDialog(null, "Preencha o nome e selecione um arquivo!");
+		        new TelaMensagem("Preencha o nome e selecione um arquivo!", "erro");
 		    } else {
 		        try {
 		            String nomeEstampa = txtNomeEstampa.getText();
@@ -174,16 +173,16 @@ public class TelaEstampa extends JFrame {
 		            boolean sucessoBanco = dao.cadastrarEstampa(nomeEstampa, destino.getName());
 
 		            if (sucessoBanco) {
-		                JOptionPane.showMessageDialog(null, "Estampa '" + nomeEstampa + "' salva com sucesso!");
+		                new TelaMensagem("Estampa '" + nomeEstampa + "' salva com sucesso!", "sucesso");
 		                new TelaPersonalizar().setVisible(true);
 		                dispose();
 		            } else {
-		                JOptionPane.showMessageDialog(null, "Erro ao registrar estampa");
+		                new TelaMensagem("Erro ao registrar estampa", "erro");
 		            }
 
 		        } catch (Exception ex) {
 		            ex.printStackTrace();
-		            JOptionPane.showMessageDialog(null, "Erro ao processar estampa: " + ex.getMessage());
+		            new TelaMensagem("Erro ao processar estampa.", "erro");
 		        }
 		    }
 		});

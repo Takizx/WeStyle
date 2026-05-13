@@ -68,7 +68,7 @@ public class TelaFinalizar extends JFrame {
         
         if (itensPedido.isEmpty()) {
             JLabel lblVazio = new JLabel("Nenhum item selecionado");
-            lblVazio.setForeground(verdeWeStyle); // Definido para o verde 106,143,123
+            lblVazio.setForeground(verdeWeStyle); 
             lblVazio.setFont(new Font("Arial", Font.ITALIC, 13));
             card.add(lblVazio, "gapy 5");
         } else {
@@ -136,9 +136,9 @@ public class TelaFinalizar extends JFrame {
         btnFinalizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnFinalizar.addActionListener(e -> {
             if(comboRegiao.getSelectedIndex() == 0) {
-                JOptionPane.showMessageDialog(null, "Por favor, selecione uma região para calcular o frete.");
+                new TelaMensagem("Por favor, selecione uma região para calcular o frete.", "erro");
             } else {
-                JOptionPane.showMessageDialog(null, "Integração de pagamento em breve!");
+                new TelaMensagem("Integração de pagamento em breve!", "sucesso");
             }
         });
         container.add(btnFinalizar, "align center, w 250!, h 50!");
