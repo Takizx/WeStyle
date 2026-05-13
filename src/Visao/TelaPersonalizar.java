@@ -19,6 +19,8 @@ import javax.swing.border.MatteBorder;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import Controle.EstampaDAO; 
 
 public class TelaPersonalizar extends JFrame {
 
@@ -27,6 +29,7 @@ public class TelaPersonalizar extends JFrame {
     private JPanel previewCamisa;
     private JTextField txtNomePeca;
     private JTextField txtPrecoPeca;
+    private JComboBox<String> comboEstampas; 
     private int indexEdicao = -1;
 
     Color verde = new Color(106, 143, 123);
@@ -45,6 +48,7 @@ public class TelaPersonalizar extends JFrame {
 
     public TelaPersonalizar() {
         configurarTela();
+        carregarEstampas();
     }
 
     public TelaPersonalizar(int index, String nome, Color cor, String preco) {
@@ -53,6 +57,19 @@ public class TelaPersonalizar extends JFrame {
         txtNomePeca.setText(nome);
         txtPrecoPeca.setText(preco);
         previewCamisa.setBackground(cor);
+        carregarEstampas();
+    }
+
+    private void carregarEstampas() {
+        EstampaDAO dao = new EstampaDAO();
+        List<String> nomes = dao.listarNomesEstampas(); 
+        
+        comboEstampas.removeAllItems();
+        comboEstampas.addItem("Selecione sua estampa..."); 
+        
+        for (String nome : nomes) {
+            comboEstampas.addItem(nome);
+        }
     }
 
     private void configurarTela() {
@@ -146,7 +163,6 @@ public class TelaPersonalizar extends JFrame {
         { previewCamisa.setBackground(Color.WHITE); } });
         cores.add(p1);
         
-
         JPanel p2 = new JPanel();
         p2.setPreferredSize(new Dimension(60, 60));
         p2.setBackground(Color.BLACK);
@@ -217,16 +233,24 @@ public class TelaPersonalizar extends JFrame {
         lblEstampa.setForeground(Color.WHITE);
         painelDireito.add(lblEstampa);
 
-        JButton btnEscolherEstampa = new JButton("Personalizar Estampa");
-        btnEscolherEstampa.setBackground(Color.WHITE);
-        btnEscolherEstampa.setForeground(verde);
-        btnEscolherEstampa.setFont(new Font("Arial", Font.BOLD, 14));
-        btnEscolherEstampa.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnEscolherEstampa.addActionListener(e -> {
+        JButton btnCriarEstampa = new JButton("Criar estampa");
+        btnCriarEstampa.setBackground(Color.WHITE);
+        btnCriarEstampa.setForeground(verde);
+        btnCriarEstampa.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCriarEstampa.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnCriarEstampa.addActionListener(e -> {
             new TelaEstampa().setVisible(true);
             dispose();
         });
-        painelDireito.add(btnEscolherEstampa, "h 35!");
+        painelDireito.add(btnCriarEstampa, "h 35!");
+
+        JLabel lblSelecionar = new JLabel("selecione a sua estampa");
+        lblSelecionar.setForeground(Color.WHITE);
+        painelDireito.add(lblSelecionar);
+
+        comboEstampas = new JComboBox<>();
+        comboEstampas.setForeground(new Color(106, 143, 123));
+        painelDireito.add(comboEstampas, "h 35!");
 
         JLabel lblNome = new JLabel("Nome da Criação");
         lblNome.setForeground(Color.WHITE);
@@ -249,8 +273,6 @@ public class TelaPersonalizar extends JFrame {
         btnEnviar.setForeground(verde);       
         btnEnviar.setFont(new Font("Arial", Font.BOLD, 18));
         btnEnviar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnEnviar.addActionListener(e -> {
-        });
         painelDireito.add(btnEnviar, "gapy 20, h 50!");
 
         fundo.add(painelDireito);
