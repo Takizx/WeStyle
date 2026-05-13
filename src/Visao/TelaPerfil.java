@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import net.miginfocom.swing.MigLayout;
 import Modelo.Sessao;
+import Modelo.Usuario;
 import Modelo.DadosCompartilhados;
 
 public class TelaPerfil extends JFrame {
@@ -107,6 +108,16 @@ public class TelaPerfil extends JFrame {
         comboEnderecos = new JComboBox<>();
         comboEnderecos.setBackground(Color.WHITE);
         card.add(comboEnderecos, "cell 1 4,height 40!");
+        
+        Usuario usuarioLogado = Sessao.getUsuario();
+        if (usuarioLogado != null) {
+            txtNome.setText(usuarioLogado.getNome());
+            txtEmail.setText(usuarioLogado.getEmail());
+            if (usuarioLogado.getEndereco() != null && !usuarioLogado.getEndereco().isEmpty()) {
+                comboEnderecos.addItem(usuarioLogado.getEndereco());
+                comboEnderecos.setSelectedItem(usuarioLogado.getEndereco());
+            }
+        }
         
         JButton btnAlterarSenha = new JButton("Alterar Senha");
         btnAlterarSenha.setForeground(Color.WHITE);

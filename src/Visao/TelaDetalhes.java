@@ -6,6 +6,9 @@ import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import Controle.ItensPedidoDAO;
 
 public class TelaDetalhes extends JFrame {
@@ -13,10 +16,13 @@ public class TelaDetalhes extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel previewCamisa;
+	private JLabel labelImagemTransparente;
+	private Color corSelecionada;
 	Color verde = new Color(106, 143, 123);
 	Color linha = new Color(200, 220, 210);
 
 	public TelaDetalhes(String nomeRoupa, Color corInicial, String precoRoupa) {
+		this.corSelecionada = corInicial;
 		setTitle("WeStyle - Detalhes: " + nomeRoupa);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1400, 900);
@@ -57,9 +63,14 @@ public class TelaDetalhes extends JFrame {
 		lblNomeDinamico.setFont(new Font("Arial", Font.BOLD, 28));
 		painelEsquerdo.add(lblNomeDinamico);
 
-		previewCamisa = new JPanel();
-		previewCamisa.setBackground(corInicial);
+		previewCamisa = new JPanel(new BorderLayout());
+		previewCamisa.setBackground(corSelecionada);
 		previewCamisa.setBorder(new LineBorder(Color.WHITE, 1));
+		
+		labelImagemTransparente = new JLabel("", SwingConstants.CENTER);
+		carregarImagemProduto(nomeRoupa);
+		previewCamisa.add(labelImagemTransparente, BorderLayout.CENTER);
+		
 		painelEsquerdo.add(previewCamisa, "width 480!, height 600!");
 		
 		fundo.add(painelEsquerdo);
@@ -79,32 +90,13 @@ public class TelaDetalhes extends JFrame {
 		lblDetalhes.setFont(new Font("Arial", Font.BOLD, 32));
 		painelDireito.add(lblDetalhes);
 
-		JLabel lblInstrucao = new JLabel("Escolha a cor e o tamanho desejado para sua peça");
+		JLabel lblInstrucao = new JLabel("Escolha a cor no círculo e o tamanho desejado para sua peça");
 		lblInstrucao.setForeground(Color.WHITE);
 		lblInstrucao.setFont(new Font("Arial", Font.PLAIN, 14));
 		painelDireito.add(lblInstrucao);
 
-		JPanel painelCores = new JPanel(new MigLayout("wrap 4, insets 10, gap 10", "[]", "[]"));
-		painelCores.setOpaque(false);
-		painelCores.setBorder(new LineBorder(linha, 1));
-
-		Color[] coresDisponiveis = {
-			Color.WHITE, Color.BLACK, Color.RED, Color.BLUE,
-			new Color(26, 188, 156), new Color(241, 196, 15), new Color(155, 89, 182), new Color(231, 76, 160)
-		};
-
-		for (Color c : coresDisponiveis) {
-			JPanel p = new JPanel();
-			p.setBackground(c);
-			p.setBorder(new LineBorder(Color.GRAY, 1));
-			p.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			p.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) { previewCamisa.setBackground(c); }
-			});
-			painelCores.add(p, "width 80!, height 80!");
-		}
-		painelDireito.add(painelCores);
+		AnelCromatico circuloCromatico = new AnelCromatico();
+		painelDireito.add(circuloCromatico, "width 320!, height 320!, align center");
 
 		JLabel lblTamanho = new JLabel("Tamanho Selecionado:");
 		lblTamanho.setForeground(Color.WHITE);
@@ -138,6 +130,18 @@ public class TelaDetalhes extends JFrame {
 		fundo.add(painelDireito);
 	}
 
+	private void carregarImagemProduto(String nomeRoupa) {
+		try {
+			String caminho = "imagens/" + nomeRoupa.toLowerCase().replace(" ", "_") + ".png";
+			BufferedImage img = ImageIO.read(new File(caminho));
+			labelImagemTransparente.setIcon(new ImageIcon(img));
+		} catch (Exception e) {
+			labelImagemTransparente.setText("[ Sem Imagem PNG ]");
+			labelImagemTransparente.setForeground(Color.WHITE);
+			labelImagemTransparente.setFont(new Font("Arial", Font.ITALIC, 14));
+		}
+	}
+
 	private JButton criarBotaoNav(String texto) {
 		JButton b = new JButton(texto);
 		b.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -152,5 +156,64 @@ public class TelaDetalhes extends JFrame {
 			else if(texto.equals("Carrinho")) { new TelaCarrinho().setVisible(true); dispose(); }
 		});
 		return b;
+	}
+
+	class AnelCromatico extends JPanel {
+		private static final long serialVersionUID = 1L;
+		private final int tamanhoAnel = 300;
+		private final int raioMaximo = tamanhoAnel / 2;
+		private final int raioMinimo = tamanhoAnel / 4;
+
+		public AnelCromatico() {
+			setOpaque(false);
+			setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+			MouseAdapter mouseHandler = new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) { detectarCor(e.getX(), e.getY()); }
+				@Override
+				public void mouseDragged(MouseEvent e) { detectarCor(e.getX(), e.getY()); }
+			};
+			addMouseListener(mouseHandler);
+			addMouseMotionListener(mouseHandler);
+		}
+
+		private void detectarCor(int mx, int my) {
+			double dx = mx - raioMaximo;
+			double dy = my - raioMaximo;
+			double distancia = Math.sqrt(dx * dx + dy * dy);
+
+			if (distancia >= raioMinimo && distancia <= raioMaximo) {
+				double anguloRad = Math.atan2(-dy, dx);
+				double anguloGraus = Math.toDegrees(anguloRad);
+				if (anguloGraus < 0) {
+					anguloGraus += 360;
+				}
+
+				float hue = (float) (anguloGraus / 360.0);
+				corSelecionada = Color.getHSBColor(hue, 0.85f, 0.95f);
+				
+				previewCamisa.setBackground(corSelecionada);
+				previewCamisa.repaint();
+			}
+		}
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+			for (int angulo = 0; angulo < 360; angulo++) {
+				float hue = (float) angulo / 360.0f;
+				g2d.setColor(Color.getHSBColor(hue, 1.0f, 1.0f));
+				g2d.fillArc(0, 0, tamanhoAnel, tamanhoAnel, angulo, 2);
+			}
+
+			g2d.setColor(verde);
+			int mioloPosicao = raioMaximo - raioMinimo;
+			int mioloTamanho = raioMinimo * 2;
+			g2d.fillOval(mioloPosicao, mioloPosicao, mioloTamanho, mioloTamanho);
+		}
 	}
 }

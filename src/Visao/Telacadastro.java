@@ -26,6 +26,7 @@ public class Telacadastro extends JFrame {
     private JPanel contentPane;
     private JTextField textFieldNome;
     private JTextField textFieldEmail;
+    private JTextField textFieldEndereco;
     private JTextField textFieldSenha;
     private JTextField textFieldConfirmarSenha;
 
@@ -59,8 +60,8 @@ public class Telacadastro extends JFrame {
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-        card.setLayout(new MigLayout("wrap, insets 40, gap 12", "[grow,fill]", "[][][][][][][][][][][][]"));
-        contentPane.add(card, "w 450!, h 680!");
+        card.setLayout(new MigLayout("wrap, insets 40, gap 12", "[grow,fill]", "[]"));
+        contentPane.add(card, "w 450!, h 720!");
 
         JLabel lblTitulo = new JLabel("WeStyle", SwingConstants.CENTER);
         lblTitulo.setForeground(new Color(106, 143, 123));
@@ -85,6 +86,13 @@ public class Telacadastro extends JFrame {
 
         textFieldEmail = new JTextField();
         card.add(textFieldEmail, "height 35!");
+
+        JLabel lblEndereco = new JLabel("Endereço");
+        lblEndereco.setForeground(new Color(106, 143, 132));
+        card.add(lblEndereco);
+
+        textFieldEndereco = new JTextField();
+        card.add(textFieldEndereco, "height 35!");
 
         JLabel lblSenha = new JLabel("Senha");
         lblSenha.setForeground(new Color(106, 143, 132));
@@ -115,10 +123,11 @@ public class Telacadastro extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String nome = textFieldNome.getText();
                 String email = textFieldEmail.getText();
+                String endereco = textFieldEndereco.getText();
                 String senha = textFieldSenha.getText();
                 String confirmar = textFieldConfirmarSenha.getText();
 
-                if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()) {
+                if (nome.isEmpty() || email.isEmpty() || endereco.isEmpty() || senha.isEmpty()) {
                     new TelaMensagem("Por favor, preencha todos os campos.", "erro");
                     return;
                 }
@@ -141,6 +150,7 @@ public class Telacadastro extends JFrame {
                 Usuario novoUsuario = new Usuario();
                 novoUsuario.setNome(nome);
                 novoUsuario.setEmail(email);
+                novoUsuario.setEndereco(endereco);
                 novoUsuario.setSenha(senha);
 
                 UsuarioDAO dao = new UsuarioDAO();
