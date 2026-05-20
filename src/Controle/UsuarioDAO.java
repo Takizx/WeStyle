@@ -24,6 +24,7 @@ public class UsuarioDAO {
                     usuario.setEmail(rs.getString("email"));
                     usuario.setSenha(rs.getString("senha"));
                     usuario.setEndereco(rs.getString("endereco"));
+                    usuario.setTelefone(rs.getString("telefone"));
                     return usuario;
                 }
             }
@@ -62,6 +63,25 @@ public class UsuarioDAO {
             int linhasAfetadas = pstm.executeUpdate();
             return linhasAfetadas > 0;
             
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean atualizarPerfil(Usuario usuario) {
+        Connection conn = new Conexao().conectaBD();
+        String sql = "UPDATE usuario SET nome = ?, email = ?, telefone = ?, endereco = ? WHERE id = ?";
+
+        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(1, usuario.getNome());
+            pstm.setString(2, usuario.getEmail());
+            pstm.setString(3, usuario.getTelefone());
+            pstm.setString(4, usuario.getEndereco());
+            pstm.setInt(5, usuario.getId());
+
+            int linhasAfetadas = pstm.executeUpdate();
+            return linhasAfetadas > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
