@@ -12,6 +12,10 @@ public class Sessao {
         return usuarioLogado;
     }
 
+    public static Usuario getUsuarioLogado() {
+        return usuarioLogado;
+    }
+
     public static void encerrarSessao() {
         usuarioLogado = null;
     }

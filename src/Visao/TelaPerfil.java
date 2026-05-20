@@ -3,6 +3,8 @@ package Visao;
 import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -17,6 +19,7 @@ import net.miginfocom.swing.MigLayout;
 import Modelo.Sessao;
 import Modelo.Usuario;
 import Modelo.DadosCompartilhados;
+import Controle.UsuarioDAO;
 
 public class TelaPerfil extends JFrame {
 
@@ -54,28 +57,33 @@ public class TelaPerfil extends JFrame {
         JPanel menu = new JPanel();
         menu.setBackground(new Color(106, 143, 123));
         menu.setBorder(new LineBorder(Color.WHITE, 1, true));
-        menu.setLayout(new MigLayout("insets 10", "[left]push[center][center][center][center][center]", "[]"));
+        menu.setLayout(new MigLayout("insets 10, fillx, aligny center", "[left][grow][center][center][center][center][grow][right]", "[]"));
 
         JLabel logo = new JLabel("WeStyle");
         logo.setFont(new Font("Arial", Font.BOLD, 30));
         logo.setForeground(Color.WHITE);
-        menu.add(logo);
+        menu.add(logo, "cell 0 0");
 
-        menu.add(criarBotaoNav("Inicio"));
-        menu.add(criarBotaoNav("Carrinho"));
-        menu.add(criarBotaoNav("Minhas Criações"));
-        menu.add(criarBotaoNav("Personalizar"));
+        JLabel espacador1 = new JLabel("");
+        menu.add(espacador1, "cell 1 0, growx");
 
-        JButton btnSairMenu = criarBotaoNav("Sair");
-        btnSairMenu.addActionListener(e -> efetuarLogoff());
-        menu.add(btnSairMenu);
+        menu.add(criarBotaoNav("Inicio"), "cell 2 0");
+        menu.add(criarBotaoNav("Catálogo"), "cell 3 0");
+        menu.add(criarBotaoNav("Personalizar"), "cell 4 0");
+        menu.add(criarBotaoNav("Carrinho"), "cell 5 0");
 
-        contentPane.add(menu, "growx, h 80!");
+        JLabel espacador2 = new JLabel("");
+        menu.add(espacador2, "cell 6 0, growx");
+
+        JButton btnPerfilMenu = criarBotaoNav("Perfil");
+        menu.add(btnPerfilMenu, "cell 7 0");
+
+        contentPane.add(menu, "growx, h 90!");
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-        card.setLayout(new MigLayout("wrap 2, insets 40, gap 20", "[grow,fill][grow,fill]", "[]40[][][][][][]"));
+        card.setLayout(new MigLayout("wrap 2, insets 40, gap 20", "[grow,fill][grow,fill]", "[]40[][][][][][][]"));
 
         JLabel lblTitulo = new JLabel("Perfil do Usuário");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 32));
@@ -109,10 +117,11 @@ public class TelaPerfil extends JFrame {
         comboEnderecos.setBackground(Color.WHITE);
         card.add(comboEnderecos, "cell 1 4,height 40!");
         
-        Usuario usuarioLogado = Sessao.getUsuario();
+        Usuario usuarioLogado = Sessao.getUsuarioLogado(); 
         if (usuarioLogado != null) {
             txtNome.setText(usuarioLogado.getNome());
             txtEmail.setText(usuarioLogado.getEmail());
+            txtTelefone.setText(usuarioLogado.getTelefone());
             if (usuarioLogado.getEndereco() != null && !usuarioLogado.getEndereco().isEmpty()) {
                 comboEnderecos.addItem(usuarioLogado.getEndereco());
                 comboEnderecos.setSelectedItem(usuarioLogado.getEndereco());
@@ -144,14 +153,27 @@ public class TelaPerfil extends JFrame {
         btnSalvar.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnSalvar.setBackground(new Color(106, 143, 123));
         btnSalvar.setForeground(Color.WHITE);
-        btnSalvar.addActionListener(e -> {
-            Object selected = comboEnderecos.getSelectedItem();
-            if (selected != null) {
-                DadosCompartilhados.enderecoEntrega = selected.toString();
+        btnSalvar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (usuarioLogado != null) {
+                    usuarioLogado.setNome(txtNome.getText());
+                    usuarioLogado.setEmail(txtEmail.getText());
+                    usuarioLogado.setTelefone(txtTelefone.getText());
+                    Object selected = comboEnderecos.getSelectedItem();
+                    if (selected != null) {
+                        usuarioLogado.setEndereco(selected.toString());
+                        DadosCompartilhados.enderecoEntrega = selected.toString();
+                    }
+                    UsuarioDAO dao = new UsuarioDAO();
+                    if (dao.atualizarPerfil(usuarioLogado)) {
+                        new TelaMensagem("Perfil salvo com sucesso!", "sucesso");
+                        new TelaCatalogo().setVisible(true);
+                        dispose();
+                    } else {
+                        new TelaMensagem("Erro ao salvar no banco.", "erro");
+                    }
+                }
             }
-            new TelaMensagem("Perfil salvo com sucesso!", "sucesso");
-            new TelaCatalogo().setVisible(true);
-            dispose();
         });
         card.add(btnSalvar, "cell 0 6,height 50!,gapy 30");
 
@@ -162,7 +184,19 @@ public class TelaPerfil extends JFrame {
         btnLogoff.addActionListener(e -> efetuarLogoff());
         card.add(btnLogoff, "cell 1 6,height 50!,gapy 30");
 
-        contentPane.add(card, "w 800!, h 650!");
+        JButton btnVoltarEscolha = new JButton("Voltar");
+        btnVoltarEscolha.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnVoltarEscolha.setBackground(new Color(106, 143, 123));
+        btnVoltarEscolha.setForeground(Color.WHITE);
+        btnVoltarEscolha.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new TelaEscolha().setVisible(true);
+                dispose();
+            }
+        });
+        card.add(btnVoltarEscolha, "cell 0 7 2 1,height 45!,gapy 15,alignx center");
+
+        contentPane.add(card, "w 800!, h 700!");
     }
 
     private JButton criarBotaoNav(String texto) {
@@ -174,11 +208,20 @@ public class TelaPerfil extends JFrame {
         btn.setFocusPainted(false);
         btn.setContentAreaFilled(false);
         btn.addActionListener(e -> {
-            if(texto.equals("Catálogo") || texto.equals("Inicio")) {
+            if(texto.equals("Catálogo")) {
                 new TelaCatalogo().setVisible(true);
+                dispose();
+            } else if(texto.equals("Inicio")) {
+                new TelaEscolha().setVisible(true);
                 dispose();
             } else if(texto.equals("Personalizar")) {
                 new TelaPersonalizar().setVisible(true);
+                dispose();
+            } else if(texto.equals("Carrinho")) {
+                new TelaCarrinho().setVisible(true);
+                dispose();
+            } else if(texto.equals("Perfil")) {
+                new TelaPerfil().setVisible(true);
                 dispose();
             }
         });
