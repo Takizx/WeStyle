@@ -15,11 +15,12 @@ public class TelaCarrinho extends JFrame {
 	private List<String[]> itensNoCarrinho; 
 	private double somaTotal = 0.0;
 	private ItensPedidoDAO dao = new ItensPedidoDAO();
+	private int idPedidoAtivo; 
 
 	Color verde = new Color(106, 143, 123);
 
 	public TelaCarrinho() {
-		int idPedidoAtivo = dao.obterPedidoAtivo();
+		this.idPedidoAtivo = dao.obterPedidoAtivo();
 		this.itensNoCarrinho = dao.listarItensDoCarrinho(idPedidoAtivo);
 
 		setTitle("WeStyle - Carrinho");
@@ -67,7 +68,7 @@ public class TelaCarrinho extends JFrame {
 		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btn.addActionListener(e -> {
 			if(texto.equals("Catálogo")) { new TelaCatalogo().setVisible(true); dispose(); }
-			else if(texto.equals("Início")) { new Telaprincipal().setVisible(true); dispose(); }
+			else if(texto.equals("Início")) { /* new Telaprincipal().setVisible(true); */ dispose(); }
 			else if(texto.equals("Personalizar")) { new TelaPersonalizar().setVisible(true); dispose(); }
 		});
 		return btn;
@@ -117,10 +118,11 @@ public class TelaCarrinho extends JFrame {
 		btnPagamento.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
 		btnPagamento.addActionListener(e -> {
-			if (itensNoCarrinho.isEmpty()) {
-				new TelaMensagem("O carrinho está vazio!", "erro");
+			if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "O carrinho está vazio!");
 			} else {
-				new TelaMensagem("Aguarde a tela de pagamento.", "sucesso");
+				new TelaFinalizar(itensNoCarrinho, somaTotal, idPedidoAtivo).setVisible(true);
+				dispose();
 			}
 		});
 
@@ -163,7 +165,7 @@ public class TelaCarrinho extends JFrame {
 		btnRemover.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnRemover.addActionListener(e -> {
 			dao.excluirItem(idItem);
-			new TelaCarrinho().setVisible(true);
+			new TelaCarrinho().setVisible(true); 
 			dispose();
 		});
 
