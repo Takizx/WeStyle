@@ -22,7 +22,7 @@ CREATE TABLE produto (
     preco DECIMAL(10, 2) NOT NULL,
     imagem VARCHAR(255) DEFAULT 'padrao.png',
     id_categoria INT,
-    customizado TINYINT(1) DEFAULT 0, -- 0 = Padrão, 1 = Criado pelo usuário
+    customizado TINYINT(1) DEFAULT 0, 
     CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
 );
 
