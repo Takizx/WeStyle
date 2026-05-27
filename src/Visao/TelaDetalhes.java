@@ -32,7 +32,7 @@ public class TelaDetalhes extends JFrame {
 		contentPane.setBackground(verde);
 		setContentPane(contentPane);
 
-		JPanel navbar = new JPanel(new MigLayout("insets 15, fillx", "[left][grow][center][center][center][center][grow]", ""));
+		JPanel navbar = new JPanel(new MigLayout("insets 15, fillx", "[left]push[center][center][center]push[right]", ""));
 		navbar.setBackground(verde);
 		navbar.setBorder(new MatteBorder(0, 0, 1, 0, linha));
 
@@ -40,13 +40,12 @@ public class TelaDetalhes extends JFrame {
 		logo.setForeground(Color.WHITE);
 		logo.setFont(new Font("Arial", Font.BOLD, 30));
 		navbar.add(logo);
-		navbar.add(new JLabel(""), "growx");
 		
-		navbar.add(criarBotaoNav("Início"));
-		navbar.add(criarBotaoNav("Catálogo"));
-		navbar.add(criarBotaoNav("Carrinho"));
+		navbar.add(criarBotaoNav("Inicio"));
 		navbar.add(criarBotaoNav("Personalizar"));
-		navbar.add(new JLabel(""), "growx");
+		navbar.add(criarBotaoNav("Carrinho"));
+		
+		navbar.add(criarBotaoNav("Perfil"));
 		
 		contentPane.add(navbar, BorderLayout.NORTH);
 
@@ -144,16 +143,27 @@ public class TelaDetalhes extends JFrame {
 
 	private JButton criarBotaoNav(String texto) {
 		JButton b = new JButton(texto);
-		b.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		b.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		b.setForeground(Color.WHITE);
 		b.setBackground(verde);
-		b.setBorder(null);
+		b.setBorderPainted(false);
+		b.setFocusPainted(false);
+		b.setContentAreaFilled(false);
 		b.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		b.addActionListener(e -> {
-			if(texto.equals("Personalizar")) { new TelaPersonalizar().setVisible(true); dispose(); }
-			else if(texto.equals("Catálogo")) { new TelaCatalogo().setVisible(true); dispose(); }
-			else if(texto.equals("Início")) { new Telaprincipal().setVisible(true); dispose(); }
-			else if(texto.equals("Carrinho")) { new TelaCarrinho().setVisible(true); dispose(); }
+			if(texto.equals("Inicio")) {
+				new TelaEscolha().setVisible(true);
+				dispose();
+			} else if(texto.equals("Personalizar")) { 
+				new TelaPersonalizar().setVisible(true); 
+				dispose(); 
+			} else if(texto.equals("Carrinho")) {
+				new TelaCarrinho().setVisible(true);
+				dispose();
+			} else if(texto.equals("Perfil")) {
+				new TelaPerfil().setVisible(true);
+				dispose();
+			}
 		});
 		return b;
 	}
