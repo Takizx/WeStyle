@@ -41,37 +41,49 @@ public class TelaCarrinho extends JFrame {
 	}
 
 	private void criarNavbar() {
-		JPanel navbar = new JPanel(new MigLayout("insets 10", "[][grow][][][][]", "[]"));
+		JPanel navbar = new JPanel(new MigLayout("insets 15, fillx", "[left]push[center][center][center]push[right]", ""));
 		navbar.setBackground(verde);
 		navbar.setBorder(new MatteBorder(0, 0, 1, 0, Color.WHITE));
 
 		JLabel logo = new JLabel("WeStyle");
-		logo.setFont(new Font("Arial", Font.BOLD, 22));
+		logo.setFont(new Font("Arial", Font.BOLD, 30));
 		logo.setForeground(Color.WHITE);
+		navbar.add(logo);
 		
-		navbar.add(logo, "cell 0 0, gapx 20");
-		navbar.add(new JLabel(), "growx");
+		navbar.add(criarBotaoNav("Inicio"));
+		navbar.add(criarBotaoNav("Catálogo"));
+		navbar.add(criarBotaoNav("Personalizar"));
 		
-		navbar.add(criarBotaoNavbar("Início"), "cell 3 0");
-		navbar.add(criarBotaoNavbar("Catálogo"), "cell 4 0");
-		navbar.add(criarBotaoNavbar("Personalizar"), "cell 5 0");
+		navbar.add(criarBotaoNav("Perfil"));
 
 		contentPane.add(navbar, BorderLayout.NORTH);
 	}
 
-	private JButton criarBotaoNavbar(String texto) {
-		JButton btn = new JButton(texto);
-		btn.setBackground(verde);
-		btn.setForeground(Color.WHITE);
-		btn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btn.setBorder(null);
-		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		btn.addActionListener(e -> {
-			if(texto.equals("Catálogo")) { new TelaCatalogo().setVisible(true); dispose(); }
-			else if(texto.equals("Início")) { /* new Telaprincipal().setVisible(true); */ dispose(); }
-			else if(texto.equals("Personalizar")) { new TelaPersonalizar().setVisible(true); dispose(); }
+	private JButton criarBotaoNav(String texto) {
+		JButton b = new JButton(texto);
+		b.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		b.setForeground(Color.WHITE);
+		b.setBackground(verde);
+		b.setBorderPainted(false);
+		b.setFocusPainted(false);
+		b.setContentAreaFilled(false);
+		b.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		b.addActionListener(e -> {
+			if(texto.equals("Inicio")) {
+				new TelaEscolha().setVisible(true);
+				dispose();
+			} else if(texto.equals("Catálogo")) { 
+				new TelaCatalogo().setVisible(true); 
+				dispose(); 
+			} else if(texto.equals("Personalizar")) {
+				new TelaPersonalizar().setVisible(true);
+				dispose();
+			} else if(texto.equals("Perfil")) {
+				new TelaPerfil().setVisible(true);
+				dispose();
+			}
 		});
-		return btn;
+		return b;
 	}
 
 	private void criarConteudo() {
@@ -174,7 +186,7 @@ public class TelaCarrinho extends JFrame {
 		item.add(precoLabel, "gapx 15");
 		item.add(btnAlterar, "width 100!, height 30!");
 		item.add(btnRemover, "width 100!, height 30!, gapx 5");
-
+        
 		return item;
 	}
 
