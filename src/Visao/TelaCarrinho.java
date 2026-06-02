@@ -53,7 +53,6 @@ public class TelaCarrinho extends JFrame {
 		navbar.add(criarBotaoNav("Inicio"));
 		navbar.add(criarBotaoNav("Catálogo"));
 		navbar.add(criarBotaoNav("Personalizar"));
-		
 		navbar.add(criarBotaoNav("Perfil"));
 
 		contentPane.add(navbar, BorderLayout.NORTH);
@@ -104,6 +103,7 @@ public class TelaCarrinho extends JFrame {
 		if (itensNoCarrinho != null && !itensNoCarrinho.isEmpty()) {
 			for (int i = 0; i < itensNoCarrinho.size(); i++) {
 				String[] item = itensNoCarrinho.get(i);
+				// item[0]: nome, item[1]: preco, item[2]: id_item
 				card.add(criarItemUI(item[0], item[1], Integer.parseInt(item[2])));
 				try {
 					somaTotal += Double.parseDouble(item[1]);

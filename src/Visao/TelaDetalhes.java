@@ -44,7 +44,6 @@ public class TelaDetalhes extends JFrame {
 		navbar.add(criarBotaoNav("Inicio"));
 		navbar.add(criarBotaoNav("Personalizar"));
 		navbar.add(criarBotaoNav("Carrinho"));
-		
 		navbar.add(criarBotaoNav("Perfil"));
 		
 		contentPane.add(navbar, BorderLayout.NORTH);
@@ -71,7 +70,6 @@ public class TelaDetalhes extends JFrame {
 		previewCamisa.add(labelImagemTransparente, BorderLayout.CENTER);
 		
 		painelEsquerdo.add(previewCamisa, "width 480!, height 600!");
-		
 		fundo.add(painelEsquerdo);
 
 		JPanel painelDireito = new JPanel(new MigLayout("wrap, insets 0", "[grow,fill]", "[]20[]10[]20[]20[]20[]"));

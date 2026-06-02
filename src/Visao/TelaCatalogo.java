@@ -1,6 +1,7 @@
 package Visao;
 
 import java.awt.*;
+import java.io.File;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -48,7 +49,6 @@ public class TelaCatalogo extends JFrame {
         navbar.add(criarBotaoNav("Inicio"));
         navbar.add(criarBotaoNav("Personalizar"));
         navbar.add(criarBotaoNav("Carrinho"));
-        
         navbar.add(criarBotaoNav("Perfil"));
         
         contentPane.add(navbar, BorderLayout.NORTH);
@@ -76,18 +76,38 @@ public class TelaCatalogo extends JFrame {
     private void renderizarProdutos() {
         catalogo.removeAll();
         List<String[]> produtos = controller.obterProdutosParaCatalogo();
+        
         for (String[] p : produtos) {
             final String nome = p[0];
             final String preco = p[1];
             final String corHex = p[2];
-            final boolean ehCustomizado = p.length > 3 && "1".equals(p[3]);
+            final String nomeEstampa = p[3];
+            final boolean ehCustomizado = p.length > 4 && "1".equals(p[4]);
 
             JPanel card = new JPanel(new MigLayout("wrap, insets 15, align center", "[center]", "[]10[]5[]10[]10[]"));
             card.setBackground(verde);
             card.setBorder(new LineBorder(linha, 1));
 
-            JPanel preview = new JPanel();
-            try { preview.setBackground(Color.decode("#" + corHex)); } catch (Exception e) { preview.setBackground(Color.GRAY); }
+            JPanel preview = new JPanel(new BorderLayout());
+            try { 
+                preview.setBackground(Color.decode("#" + corHex)); 
+            } catch (Exception e) { 
+                preview.setBackground(Color.GRAY); 
+            }
+            
+            if (nomeEstampa != null && !nomeEstampa.isEmpty()) {
+                JLabel lblEstampa = new JLabel();
+                lblEstampa.setHorizontalAlignment(SwingConstants.CENTER);
+                
+                File arquivoEstampa = new File("Imagens/" + nomeEstampa);
+                if (arquivoEstampa.exists()) {
+                    ImageIcon icon = new ImageIcon(arquivoEstampa.getAbsolutePath());
+                    Image img = icon.getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH);
+                    lblEstampa.setIcon(new ImageIcon(img));
+                }
+                preview.add(lblEstampa, BorderLayout.CENTER);
+            }
+            
             card.add(preview, "width 250!, height 250!"); 
 
             card.add(new JLabel(nome) {{ setForeground(Color.WHITE); setFont(new Font("Arial", Font.BOLD, 17)); }});
