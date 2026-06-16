@@ -10,34 +10,16 @@ import Controle.ProdutoController;
 import Modelo.Usuario;
 import Modelo.Sessao;
 
-public class TelaCatalogo extends JFrame {
+public class TelaCatalogo extends JPanel {
 
-    private JPanel contentPane;
     private JPanel catalogo;
     private ProdutoController controller = new ProdutoController();
     Color verde = new Color(106, 143, 123);
     Color linha = new Color(200, 220, 210);
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                TelaCatalogo frame = new TelaCatalogo();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
     public TelaCatalogo() {
-        setTitle("WeStyle - Catálogo");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1400, 900);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel(new BorderLayout());
-        contentPane.setBackground(verde); 
-        setContentPane(contentPane);
+        this.setLayout(new BorderLayout());
+        this.setBackground(verde); 
 
         JPanel navbar = new JPanel(new MigLayout("insets 15, fillx", "[left]push[center][center][center]push[right]", ""));
         navbar.setBackground(verde);
@@ -58,11 +40,11 @@ public class TelaCatalogo extends JFrame {
         
         navbar.add(criarBotaoNav("Perfil"));
         
-        contentPane.add(navbar, BorderLayout.NORTH);
+        this.add(navbar, BorderLayout.NORTH);
 
         JPanel fundo = new JPanel(new MigLayout("wrap, fillx, insets 20", "[center]", "[][][grow]"));
         fundo.setBackground(verde);
-        contentPane.add(fundo, BorderLayout.CENTER);
+        this.add(fundo, BorderLayout.CENTER);
 
         JLabel titulo = new JLabel("Catálogo WeStyle");
         titulo.setForeground(Color.WHITE);
@@ -129,7 +111,7 @@ public class TelaCatalogo extends JFrame {
                 JButton btnAlt = new JButton("Alterar");
                 btnAlt.setBackground(Color.WHITE);
                 btnAlt.setForeground(verde);
-                btnAlt.addActionListener(e -> { new TelaPersonalizar(nome, preco, corHex).setVisible(true); dispose(); });
+                btnAlt.addActionListener(e -> { JanelaPrincipal.mudarTela("personalizar"); });
 
                 JButton btnExc = new JButton("Excluir");
                 btnExc.setBackground(Color.WHITE);
@@ -161,7 +143,7 @@ public class TelaCatalogo extends JFrame {
                 btnDet.setBackground(Color.WHITE);
                 btnDet.setForeground(verde);
                 btnDet.setFont(new Font("Arial", Font.BOLD, 14));
-                btnDet.addActionListener(e -> { new TelaDetalhes(nome, preview.getBackground(), preco).setVisible(true); dispose(); });
+                btnDet.addActionListener(e -> { JanelaPrincipal.mudarTela("detalhes"); });
                 card.add(btnDet, "width 165!, height 35!");
             } else {
                 card.add(new JLabel(" "), "height 35!");
@@ -183,17 +165,13 @@ public class TelaCatalogo extends JFrame {
         b.setContentAreaFilled(false);
         b.addActionListener(e -> {
             if(texto.equals("Inicio")) {
-                new TelaEscolha().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("escolha");
             } else if(texto.equals("Personalizar")) { 
-                new TelaPersonalizar().setVisible(true); 
-                dispose(); 
+                JanelaPrincipal.mudarTela("personalizar"); 
             } else if(texto.equals("Carrinho")) {
-                new TelaCarrinho().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("carrinho");
             } else if(texto.equals("Perfil")) {
-                new TelaPerfil().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("perfil");
             }
         });
         return b;

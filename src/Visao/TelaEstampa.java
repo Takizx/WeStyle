@@ -3,7 +3,6 @@ package Visao;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +10,6 @@ import java.io.File;
 import java.nio.file.Files;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -21,39 +19,18 @@ import javax.swing.border.MatteBorder;
 import net.miginfocom.swing.MigLayout;
 import Controle.EstampaDAO; 
 
-public class TelaEstampa extends JFrame {
+public class TelaEstampa extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
     private JTextField txtNomeEstampa;
     private JTextField txtCaminhoArquivo;
     
     Color verdeWeStyle = new Color(106, 143, 123);
     Color linha = new Color(200, 220, 210);
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    TelaEstampa frame = new TelaEstampa();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     public TelaEstampa() {
-        setTitle("WeStyle - Cadastrar Estampa");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 750);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel();
-        contentPane.setBackground(verdeWeStyle);
-        contentPane.setLayout(new BorderLayout());
-        setContentPane(contentPane);
+        this.setBackground(verdeWeStyle);
+        this.setLayout(new BorderLayout());
 
         JPanel navbar = new JPanel(new MigLayout("insets 15, fillx", "[left]push[center][center][center]push[right]", ""));
         navbar.setBackground(verdeWeStyle);
@@ -67,15 +44,14 @@ public class TelaEstampa extends JFrame {
         navbar.add(criarBotaoNav("Inicio"));
         navbar.add(criarBotaoNav("Catálogo"));
         navbar.add(criarBotaoNav("Carrinho"));
-        
         navbar.add(criarBotaoNav("Perfil"));
         
-        contentPane.add(navbar, BorderLayout.NORTH);
+        this.add(navbar, BorderLayout.NORTH);
 
         JPanel fundo = new JPanel();
         fundo.setBackground(verdeWeStyle);
         fundo.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
-        contentPane.add(fundo, BorderLayout.CENTER);
+        this.add(fundo, BorderLayout.CENTER);
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
@@ -165,8 +141,7 @@ public class TelaEstampa extends JFrame {
 
                     if (sucessoBanco) {
                         new TelaMensagem("Estampa '" + nomeEstampa + "' salva com sucesso!", "sucesso");
-                        new TelaPersonalizar().setVisible(true);
-                        dispose();
+                        JanelaPrincipal.mudarTela("personalizar");
                     } else {
                         new TelaMensagem("Erro ao registrar estampa", "erro");
                     }
@@ -185,8 +160,7 @@ public class TelaEstampa extends JFrame {
         btnCancelar.setForeground(verdeWeStyle);
         btnCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(e -> {
-            new TelaPersonalizar().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("personalizar");
         });
         card.add(btnCancelar, "alignx center");
     }
@@ -202,17 +176,13 @@ public class TelaEstampa extends JFrame {
         b.setCursor(new Cursor(Cursor.HAND_CURSOR));
         b.addActionListener(e -> {
             if(texto.equals("Inicio")) {
-                new TelaEscolha().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("escolha");
             } else if(texto.equals("Catálogo")) { 
-                new TelaCatalogo().setVisible(true); 
-                dispose(); 
+                JanelaPrincipal.mudarTela("catalogo"); 
             } else if(texto.equals("Carrinho")) {
-                new TelaCarrinho().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("carrinho");
             } else if(texto.equals("Perfil")) {
-                new TelaPerfil().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("perfil");
             }
         });
         return b;

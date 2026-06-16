@@ -2,10 +2,8 @@ package Visao;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.EventQueue;
 import java.awt.Font;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -15,10 +13,9 @@ import javax.swing.border.LineBorder;
 import net.miginfocom.swing.MigLayout;
 import Controle.UsuarioDAO;
 
-public class TelaRecuperarSenha extends JFrame {
+public class TelaRecuperarSenha extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
     private JTextField txtEmail;
     private JTextField txtCodigo;
     private JTextField txtNovaSenha;
@@ -28,34 +25,16 @@ public class TelaRecuperarSenha extends JFrame {
 
     Color verdeWeStyle = new Color(106, 143, 123);
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                TelaRecuperarSenha frame = new TelaRecuperarSenha();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
     public TelaRecuperarSenha() {
-        setTitle("WeStyle - Recuperar Senha");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 700);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel();
-        contentPane.setBackground(verdeWeStyle);
-        contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-        contentPane.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
-        setContentPane(contentPane);
+        this.setBackground(verdeWeStyle);
+        this.setBorder(new EmptyBorder(20, 20, 20, 20));
+        this.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
         card.setLayout(new MigLayout("wrap, insets 35 40 35 40, gap 12", "[grow,fill]", "[][][][][][][][][][]push[]"));
-        contentPane.add(card, "w 450!, h 620!");
+        this.add(card, "w 450!, h 620!");
 
         JLabel lblTitulo = new JLabel("WeStyle", SwingConstants.CENTER);
         lblTitulo.setForeground(verdeWeStyle);
@@ -148,8 +127,7 @@ public class TelaRecuperarSenha extends JFrame {
             UsuarioDAO dao = new UsuarioDAO();
             if (dao.atualizarSenha(emailInformado, novaSenha)) {
                 new TelaMensagem("Senha redefinida com sucesso!", "sucesso");
-                new Telaentrar().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("entrar");
             } else {
                 new TelaMensagem("Erro: E-mail não encontrado no sistema.", "erro");
             }
@@ -162,8 +140,7 @@ public class TelaRecuperarSenha extends JFrame {
         btnVoltar.setForeground(verdeWeStyle);
         btnVoltar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnVoltar.addActionListener(e -> {
-            new Telaentrar().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("entrar");
         });
         card.add(btnVoltar, "alignx center, gapy 5");
     }

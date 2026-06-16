@@ -7,10 +7,9 @@ import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
 import Controle.ItensPedidoDAO;
 
-public class TelaFinalizar extends JFrame {
+public class TelaFinalizar extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
     private JLabel lblFrete;
     private JLabel lblTotal;
     private double subtotal = 0.0; 
@@ -26,20 +25,13 @@ public class TelaFinalizar extends JFrame {
         this.subtotal = valorSubtotal;
         this.idPedidoAtual = idPedido;
 
-        setTitle("WeStyle - Finalizar Compra");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 750); 
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel();
-        contentPane.setBackground(verdeWeStyle);
-        contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-        contentPane.setLayout(new MigLayout("fill", "[grow]", "[grow]"));
-        setContentPane(contentPane);
+        this.setBackground(verdeWeStyle);
+        this.setBorder(new EmptyBorder(20, 20, 20, 20));
+        this.setLayout(new MigLayout("fill", "[grow]", "[grow]"));
 
         JPanel container = new JPanel(new MigLayout("wrap, align center", "[center]", "[]15[]15[]"));
         container.setOpaque(false);
-        contentPane.add(container, "center");
+        this.add(container, "center");
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
@@ -132,14 +124,14 @@ public class TelaFinalizar extends JFrame {
         btnVoltarInicio.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnVoltarInicio.setBorder(new LineBorder(Color.WHITE, 1));
         btnVoltarInicio.addActionListener(e -> {
-            new TelaEscolha().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("escolha");
         });
         container.add(btnVoltarInicio, "align center, w 180!, h 40!");
     }
 
     private void abrirJanelaPagamento(String metodo, String regiao) {
-        JDialog janelaPagto = new JDialog(this, "Pagamento WeStyle", true);
+        Window ancestral = SwingUtilities.getWindowAncestor(this);
+        JDialog janelaPagto = new JDialog(ancestral, "Pagamento WeStyle", Dialog.ModalityType.APPLICATION_MODAL);
         janelaPagto.setSize(400, 520);
         janelaPagto.setLocationRelativeTo(this);
         JPanel pnl = new JPanel(new MigLayout("wrap, align center, insets 20", "[grow, fill]"));

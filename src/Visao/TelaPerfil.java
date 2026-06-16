@@ -1,11 +1,9 @@
 package Visao;
 
-import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -21,38 +19,18 @@ import Modelo.Usuario;
 import Modelo.DadosCompartilhados;
 import Controle.UsuarioDAO;
 
-public class TelaPerfil extends JFrame {
+public class TelaPerfil extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
     private JTextField txtNome;
     private JTextField txtEmail;
     private JTextField txtTelefone;
     private JComboBox<String> comboEnderecos; 
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                TelaPerfil frame = new TelaPerfil();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
     public TelaPerfil() {
-        setTitle("Perfil - WeStyle");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1200, 850);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel();
-        contentPane.setBackground(new Color(106, 143, 123));
-        contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-        setContentPane(contentPane);
-
-        contentPane.setLayout(new MigLayout("wrap, fillx, insets 20", "[grow, center]", "[]40[]"));
+        this.setBackground(new Color(106, 143, 123));
+        this.setBorder(new EmptyBorder(20, 20, 20, 20));
+        this.setLayout(new MigLayout("wrap, fillx, insets 20", "[grow, center]", "[]40[]"));
 
         JPanel menu = new JPanel();
         menu.setBackground(new Color(106, 143, 123));
@@ -78,7 +56,7 @@ public class TelaPerfil extends JFrame {
         JButton btnPerfilMenu = criarBotaoNav("Perfil");
         menu.add(btnPerfilMenu, "cell 7 0");
 
-        contentPane.add(menu, "growx, h 90!");
+        this.add(menu, "growx, h 90!");
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
@@ -132,8 +110,7 @@ public class TelaPerfil extends JFrame {
         btnAlterarSenha.setForeground(Color.WHITE);
         btnAlterarSenha.setBackground(new Color(106, 143, 123));
         btnAlterarSenha.addActionListener(e -> {
-            new TelaAlterarSenha().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("alterarSenha");
         });
         card.add(btnAlterarSenha, "cell 0 5,height 35!");
         
@@ -167,8 +144,7 @@ public class TelaPerfil extends JFrame {
                     UsuarioDAO dao = new UsuarioDAO();
                     if (dao.atualizarPerfil(usuarioLogado)) {
                         new TelaMensagem("Perfil saved successfully!", "sucesso");
-                        new TelaCatalogo().setVisible(true);
-                        dispose();
+                        JanelaPrincipal.mudarTela("catalogo");
                     } else {
                         new TelaMensagem("Erro ao salvar no banco.", "erro");
                     }
@@ -181,7 +157,7 @@ public class TelaPerfil extends JFrame {
         btnLogoff.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnLogoff.setBackground(new Color(106, 143, 123));
         btnLogoff.setForeground(Color.WHITE);
-        btnLogoff.addActionListener(e -> efetuarLogoff());
+        btnLogoff.addActionListener(e -> efetuarsair());
         card.add(btnLogoff, "cell 1 6,height 50!,gapy 30");
 
         JButton btnVoltarEscolha = new JButton("Voltar");
@@ -190,13 +166,12 @@ public class TelaPerfil extends JFrame {
         btnVoltarEscolha.setForeground(Color.WHITE);
         btnVoltarEscolha.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new TelaEscolha().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("escolha");
             }
         });
         card.add(btnVoltarEscolha, "cell 0 7 2 1,height 45!,gapy 15,alignx center");
 
-        contentPane.add(card, "w 800!, h 700!");
+        this.add(card, "w 800!, h 700!");
     }
 
     private JButton criarBotaoNav(String texto) {
@@ -209,34 +184,28 @@ public class TelaPerfil extends JFrame {
         btn.setContentAreaFilled(false);
         btn.addActionListener(e -> {
             if(texto.equals("Catálogo")) {
-                new TelaCatalogo().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("catalogo");
             } else if(texto.equals("Inicio")) {
-                new TelaEscolha().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("escolha");
             } else if(texto.equals("Personalizar")) {
-                new TelaPersonalizar().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("personalizar");
             } else if(texto.equals("Carrinho")) {
-                new TelaCarrinho().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("carrinho");
             } else if(texto.equals("Perfil")) {
-                new TelaPerfil().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("perfil");
             }
         });
         return btn;
     }
 
-    private void efetuarLogoff() {
+    private void efetuarsair() {
         UIManager.put("OptionPane.yesButtonText", "Sim");
         UIManager.put("OptionPane.noButtonText", "Não");
         int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Logoff", JOptionPane.YES_NO_OPTION);
         if (confirmacao == JOptionPane.YES_OPTION) {
             Sessao.encerrarSessao();
             new TelaMensagem("Deslogado com sucesso!", "sucesso");
-            new Telaprincipal().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("principal");
         }
     }
 }

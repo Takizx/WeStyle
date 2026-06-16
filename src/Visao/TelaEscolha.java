@@ -1,10 +1,8 @@
 package Visao;
 
-import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Cursor;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -12,39 +10,20 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import net.miginfocom.swing.MigLayout;
 
-public class TelaEscolha extends JFrame {
+public class TelaEscolha extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                TelaEscolha frame = new TelaEscolha();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
 
     public TelaEscolha() {
-        setTitle("WeStyle");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 706);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel();
-        contentPane.setBackground(new Color(106,143,123));
-        contentPane.setBorder(new EmptyBorder(20,20,20,20));
-        contentPane.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
-        setContentPane(contentPane);
+        this.setBackground(new Color(106,143,123));
+        this.setBorder(new EmptyBorder(20,20,20,20));
+        this.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
         card.setLayout(new MigLayout("wrap 1, insets 40 40 30 40, gap 0", "[grow,center]", "[]15[]25[]20[]25[]15[]"));
-        contentPane.add(card,"w 450!, h 430!");
+        this.add(card,"w 450!, h 430!");
 
         JLabel lblTitulo = new JLabel("Bem-vindo ao WeStyle!");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
@@ -67,8 +46,7 @@ public class TelaEscolha extends JFrame {
         btnCatalogo.setForeground(Color.WHITE);
         btnCatalogo.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnCatalogo.addActionListener(e -> {
-            new TelaCatalogo().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("catalogo");
         });
         card.add(btnCatalogo,"width 240!, height 50!");
 
@@ -84,8 +62,7 @@ public class TelaEscolha extends JFrame {
         btnPerfil.setBorder(new LineBorder(new Color(106, 143, 123), 1, true));
         btnPerfil.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnPerfil.addActionListener(e -> {
-            new TelaPerfil().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("perfil");
         });
         card.add(btnPerfil, "width 180!, height 40!");
     }

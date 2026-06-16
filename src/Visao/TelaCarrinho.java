@@ -1,17 +1,15 @@
 package Visao;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
 import Controle.ItensPedidoDAO;
 
-public class TelaCarrinho extends JFrame {
+public class TelaCarrinho extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private List<String[]> itensNoCarrinho; 
 	private double somaTotal = 0.0;
 	private ItensPedidoDAO dao = new ItensPedidoDAO();
@@ -23,14 +21,8 @@ public class TelaCarrinho extends JFrame {
 		this.idPedidoAtivo = dao.obterPedidoAtivo();
 		this.itensNoCarrinho = dao.listarItensDoCarrinho(idPedidoAtivo);
 
-		setTitle("WeStyle - Carrinho");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1200, 700);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-		contentPane = new JPanel(new BorderLayout());
-		contentPane.setBackground(verde);
-		setContentPane(contentPane);
+		this.setLayout(new BorderLayout());
+		this.setBackground(verde);
 
 		criarNavbar();
 		criarConteudo();
@@ -55,7 +47,7 @@ public class TelaCarrinho extends JFrame {
 		navbar.add(criarBotaoNav("Personalizar"));
 		navbar.add(criarBotaoNav("Perfil"));
 
-		contentPane.add(navbar, BorderLayout.NORTH);
+		this.add(navbar, BorderLayout.NORTH);
 	}
 
 	private JButton criarBotaoNav(String texto) {
@@ -69,17 +61,13 @@ public class TelaCarrinho extends JFrame {
 		b.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		b.addActionListener(e -> {
 			if(texto.equals("Inicio")) {
-				new TelaEscolha().setVisible(true);
-				dispose();
+				JanelaPrincipal.mudarTela("escolha");
 			} else if(texto.equals("Catálogo")) { 
-				new TelaCatalogo().setVisible(true); 
-				dispose(); 
+				JanelaPrincipal.mudarTela("catalogo");
 			} else if(texto.equals("Personalizar")) {
-				new TelaPersonalizar().setVisible(true);
-				dispose();
+				JanelaPrincipal.mudarTela("personalizar");
 			} else if(texto.equals("Perfil")) {
-				new TelaPerfil().setVisible(true);
-				dispose();
+				JanelaPrincipal.mudarTela("perfil");
 			}
 		});
 		return b;
@@ -103,7 +91,6 @@ public class TelaCarrinho extends JFrame {
 		if (itensNoCarrinho != null && !itensNoCarrinho.isEmpty()) {
 			for (int i = 0; i < itensNoCarrinho.size(); i++) {
 				String[] item = itensNoCarrinho.get(i);
-				// item[0]: nome, item[1]: preco, item[2]: id_item
 				card.add(criarItemUI(item[0], item[1], Integer.parseInt(item[2])));
 				try {
 					somaTotal += Double.parseDouble(item[1]);
@@ -133,8 +120,7 @@ public class TelaCarrinho extends JFrame {
 			if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "O carrinho está vazio!");
 			} else {
-				new TelaFinalizar(itensNoCarrinho, somaTotal, idPedidoAtivo).setVisible(true);
-				dispose();
+				JanelaPrincipal.mudarTela("finalizar");
 			}
 		});
 
@@ -143,7 +129,7 @@ public class TelaCarrinho extends JFrame {
 
 		card.add(totalPanel, "gapy 30");
 		area.add(card);
-		contentPane.add(area, BorderLayout.CENTER);
+		this.add(area, BorderLayout.CENTER);
 	}
 
 	private JPanel criarItemUI(String nome, String preco, int idItem) {
@@ -166,8 +152,7 @@ public class TelaCarrinho extends JFrame {
 		btnAlterar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnAlterar.addActionListener(e -> {
 			dao.excluirItem(idItem); 
-			new TelaCatalogo().setVisible(true); 
-			dispose();
+			JanelaPrincipal.mudarTela("catalogo");
 		});
 
 		JButton btnRemover = new JButton("Remover");
@@ -177,8 +162,7 @@ public class TelaCarrinho extends JFrame {
 		btnRemover.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnRemover.addActionListener(e -> {
 			dao.excluirItem(idItem);
-			new TelaCarrinho().setVisible(true); 
-			dispose();
+			JanelaPrincipal.mudarTela("carrinho");
 		});
 
 		item.add(new JLabel("👕"), "gapx 10");
@@ -188,15 +172,5 @@ public class TelaCarrinho extends JFrame {
 		item.add(btnRemover, "width 100!, height 30!, gapx 5");
         
 		return item;
-	}
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-			try {
-				new TelaCarrinho().setVisible(true);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
 	}
 }

@@ -10,10 +10,9 @@ import net.miginfocom.swing.MigLayout;
 import Controle.EstampaDAO;
 import Controle.ProdutoController;
 
-public class TelaPersonalizar extends JFrame {
+public class TelaPersonalizar extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
     private JPanel previewCamisa;
     private JLabel lblEstampaPreview;
     private JTextField txtNomePeca;
@@ -25,17 +24,6 @@ public class TelaPersonalizar extends JFrame {
 
     Color verde = new Color(106, 143, 123);
     Color linha = new Color(200, 220, 210);
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                TelaPersonalizar frame = new TelaPersonalizar();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
 
     public TelaPersonalizar() {
         configurarTela();
@@ -68,13 +56,7 @@ public class TelaPersonalizar extends JFrame {
     }
 
     private void configurarTela() {
-        setTitle("WeStyle - Personalizar");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1400, 900);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel(new BorderLayout());
-        setContentPane(contentPane);
+        this.setLayout(new BorderLayout());
 
         JPanel navbar = new JPanel(new MigLayout("insets 15, fillx", "[left]push[center][center][center]push[right]", ""));
         navbar.setBackground(verde);
@@ -89,11 +71,11 @@ public class TelaPersonalizar extends JFrame {
         navbar.add(criarBotaoNav("Catálogo"));
         navbar.add(criarBotaoNav("Carrinho"));
         navbar.add(criarBotaoNav("Perfil"));
-        contentPane.add(navbar, BorderLayout.NORTH);
+        this.add(navbar, BorderLayout.NORTH);
 
         JPanel fundo = new JPanel(new MigLayout("align center center, insets 20", "[650!][500!]", "[]"));
         fundo.setBackground(verde);
-        contentPane.add(fundo, BorderLayout.CENTER);
+        this.add(fundo, BorderLayout.CENTER);
 
         JPanel previewPanel = new JPanel(new MigLayout("wrap, insets 25", "[center]", ""));
         previewPanel.setOpaque(false);
@@ -151,8 +133,7 @@ public class TelaPersonalizar extends JFrame {
         btnCriarEstampa.setBackground(Color.WHITE);
         btnCriarEstampa.setForeground(verde);
         btnCriarEstampa.addActionListener(e -> {
-            new TelaEstampa().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("estampa");
         });
         painelDireito.add(btnCriarEstampa, "h 35!");
 
@@ -210,8 +191,7 @@ public class TelaPersonalizar extends JFrame {
 
                 if (ok) {
                     new TelaMensagem(ehEdicao ? "Alterações salvas com sucesso!" : "Produto enviado para o catálogo com sucesso!", "sucesso");
-                    new TelaCatalogo().setVisible(true);
-                    dispose();
+                    JanelaPrincipal.mudarTela("catalogo");
                 } else {
                     new TelaMensagem("Erro ao salvar os dados.", "erro");
                 }
@@ -265,17 +245,13 @@ public class TelaPersonalizar extends JFrame {
         b.setContentAreaFilled(false);
         b.addActionListener(e -> {
             if (texto.equals("Inicio")) {
-                new TelaEscolha().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("escolha");
             } else if (texto.equals("Catálogo")) {
-                new TelaCatalogo().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("catalogo");
             } else if (texto.equals("Carrinho")) {
-                new TelaCarrinho().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("carrinho");
             } else if (texto.equals("Perfil")) {
-                new TelaPerfil().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("perfil");
             }
         });
         return b;

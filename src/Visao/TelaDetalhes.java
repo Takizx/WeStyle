@@ -11,10 +11,9 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import Controle.ItensPedidoDAO;
 
-public class TelaDetalhes extends JFrame {
+public class TelaDetalhes extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private JPanel previewCamisa;
 	private JLabel labelImagemTransparente;
 	private Color corSelecionada;
@@ -23,14 +22,9 @@ public class TelaDetalhes extends JFrame {
 
 	public TelaDetalhes(String nomeRoupa, Color corInicial, String precoRoupa) {
 		this.corSelecionada = corInicial;
-		setTitle("WeStyle - Detalhes: " + nomeRoupa);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1400, 900);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-		contentPane = new JPanel(new BorderLayout());
-		contentPane.setBackground(verde);
-		setContentPane(contentPane);
+		this.setLayout(new BorderLayout());
+		this.setBackground(verde);
 
 		JPanel navbar = new JPanel(new MigLayout("insets 15, fillx", "[left]push[center][center][center]push[right]", ""));
 		navbar.setBackground(verde);
@@ -46,11 +40,11 @@ public class TelaDetalhes extends JFrame {
 		navbar.add(criarBotaoNav("Carrinho"));
 		navbar.add(criarBotaoNav("Perfil"));
 		
-		contentPane.add(navbar, BorderLayout.NORTH);
+		this.add(navbar, BorderLayout.NORTH);
 
 		JPanel fundo = new JPanel(new MigLayout("align center center, insets 30", "[600!][500!]", "[]"));
 		fundo.setOpaque(false);
-		contentPane.add(fundo, BorderLayout.CENTER);
+		this.add(fundo, BorderLayout.CENTER);
 
 		JPanel painelEsquerdo = new JPanel(new MigLayout("wrap, insets 20, center", "[center]", "[]15[]"));
 		painelEsquerdo.setOpaque(false);
@@ -79,7 +73,7 @@ public class TelaDetalhes extends JFrame {
 		btnVoltar.setBackground(Color.WHITE);
 		btnVoltar.setForeground(verde);
 		btnVoltar.setFont(new Font("Arial", Font.BOLD, 14));
-		btnVoltar.addActionListener(e -> { new TelaCatalogo().setVisible(true); dispose(); });
+		btnVoltar.addActionListener(e -> { JanelaPrincipal.mudarTela("catalogo"); });
 		painelDireito.add(btnVoltar, "width 220!, height 35, align left");
 
 		JLabel lblDetalhes = new JLabel("Detalhes da Peça");
@@ -125,8 +119,7 @@ public class TelaDetalhes extends JFrame {
 				String tamanhoSelecionado = "Tamanho: " + comboTamanho.getSelectedItem().toString();
 				
 				if (dao.incluirItem(idPed, idProd, 1, prc, tamanhoSelecionado)) {
-					new TelaCarrinho().setVisible(true);
-					dispose();
+					JanelaPrincipal.mudarTela("carrinho");
 				} else {
 					new TelaMensagem("Erro ao inserir o item no carrinho no banco.", "erro");
 				}
@@ -163,17 +156,13 @@ public class TelaDetalhes extends JFrame {
 		b.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		b.addActionListener(e -> {
 			if(texto.equals("Inicio")) {
-				new TelaEscolha().setVisible(true);
-				dispose();
+				JanelaPrincipal.mudarTela("escolha");
 			} else if(texto.equals("Personalizar")) { 
-				new TelaPersonalizar().setVisible(true); 
-				dispose(); 
+				JanelaPrincipal.mudarTela("personalizar"); 
 			} else if(texto.equals("Carrinho")) {
-				new TelaCarrinho().setVisible(true);
-				dispose();
+				JanelaPrincipal.mudarTela("carrinho");
 			} else if(texto.equals("Perfil")) {
-				new TelaPerfil().setVisible(true);
-				dispose();
+				JanelaPrincipal.mudarTela("perfil");
 			}
 		});
 		return b;

@@ -1,6 +1,5 @@
 package Visao;
 
-import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Cursor;
@@ -8,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.prefs.Preferences; 
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -25,48 +23,27 @@ import Controle.UsuarioDAO;
 import Modelo.Usuario;
 import Modelo.Sessao;
 
-public class Telaentrar extends JFrame {
+public class Telaentrar extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
     private JTextField textFieldEmail;
     private JTextField textFieldSenha;
     
     private Preferences prefs = Preferences.userNodeForPackage(Telaentrar.class);
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    Telaentrar frame = new Telaentrar();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     public Telaentrar() {
         UIManager.put("OptionPane.okButtonText", "Ok");
         UIManager.put("OptionPane.cancelButtonText", "Cancelar");
 
-        setTitle("WeStyle - Login");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 700);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel();
-        contentPane.setBackground(new Color(106, 143, 123));
-        contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-        contentPane.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
-        setContentPane(contentPane);
+        this.setBackground(new Color(106, 143, 123));
+        this.setBorder(new EmptyBorder(20, 20, 20, 20));
+        this.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
         card.setLayout(new MigLayout("wrap, insets 40, gap 15", "[grow,fill]", "[][][][][][][][][][]"));
-        contentPane.add(card, "w 450!, h 550!");
+        this.add(card, "w 450!, h 550!");
 
         JLabel lblTitulo = new JLabel("WeStyle", SwingConstants.CENTER);
         lblTitulo.setForeground(new Color(106, 143, 123));
@@ -113,8 +90,7 @@ public class Telaentrar extends JFrame {
         btnEsqueceu.setFont(new Font("Arial", Font.PLAIN, 12));
         
         btnEsqueceu.addActionListener(e -> {
-            new TelaRecuperarSenha().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("recuperarSenha");
         });
         card.add(btnEsqueceu, "gapleft push");
 
@@ -150,14 +126,13 @@ public class Telaentrar extends JFrame {
                         usuarioEncontrado.setTipo("CRIADOR");
                         Sessao.setUsuario(usuarioEncontrado);
                         new TelaMensagem("Login administrativo realizado com sucesso! Bem-vindo, Criador.", "sucesso");
-                        new TelaPersonalizar().setVisible(true);
+                        JanelaPrincipal.mudarTela("personalizar");
                     } else {
                         usuarioEncontrado.setTipo("COMPRADOR");
                         Sessao.setUsuario(usuarioEncontrado);
                         new TelaMensagem("Login realizado com sucesso! Bem-vindo, " + usuarioEncontrado.getNome(), "sucesso");
-                        new TelaEscolha().setVisible(true);
+                        JanelaPrincipal.mudarTela("escolha");
                     }
-                    dispose();
                 } else {
                     new TelaMensagem("E-mail ou senha incorretos.", "erro");
                 }
@@ -171,8 +146,7 @@ public class Telaentrar extends JFrame {
         btnIrCadastro.setForeground(new Color(106, 143, 123));
         btnIrCadastro.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnIrCadastro.addActionListener(e -> {
-            new Telacadastro().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("cadastro");
         });
         card.add(btnIrCadastro, "alignx center");
 
@@ -182,8 +156,7 @@ public class Telaentrar extends JFrame {
         btnVoltar.setForeground(new Color(106, 143, 123));
         btnVoltar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnVoltar.addActionListener(e -> {
-            new Telaprincipal().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("principal");
         });
         card.add(btnVoltar, "alignx center, gapy 5");
     }

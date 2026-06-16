@@ -1,9 +1,7 @@
 package Visao;
 
-import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -16,46 +14,24 @@ import Modelo.Sessao;
 import Modelo.Usuario;
 import Controle.UsuarioDAO;
 
-public class TelaAlterarSenha extends JFrame {
+public class TelaAlterarSenha extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
     private JTextField textSenhaAtual;
     private JTextField textNovaSenha;
     private JTextField textConfirmarSenha;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                TelaAlterarSenha frame = new TelaAlterarSenha();
-                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
     public TelaAlterarSenha() {
-        setTitle("Alterar Senha");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 700);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel();
-        contentPane.setBackground(new Color(106,143,123));
-        contentPane.setBorder(new EmptyBorder(20,20,20,20));
-
-        contentPane.setLayout(new MigLayout("align center center", "", ""));
-        setContentPane(contentPane);
+        this.setBackground(new Color(106,143,123));
+        this.setBorder(new EmptyBorder(20,20,20,20));
+        this.setLayout(new MigLayout("align center center", "", ""));
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
-
         card.setLayout(new MigLayout("wrap, insets 40, gap 15", "[grow,fill]", "[][][][][][][][]"));
 
-        contentPane.add(card,"w 450!, h 550!");
+        this.add(card,"w 450!, h 550!");
 
         JLabel lblTitulo = new JLabel("Alterar Senha", JLabel.CENTER);
         lblTitulo.setFont(new Font("Arial",Font.BOLD,26));
@@ -121,8 +97,7 @@ public class TelaAlterarSenha extends JFrame {
             if (dao.atualizarSenha(usuarioLogado.getEmail(), nova)) {
                 usuarioLogado.setSenha(nova);
                 new TelaMensagem("Senha alterada com sucesso!", "sucesso");
-                new TelaPerfil().setVisible(true);
-                dispose();
+                JanelaPrincipal.mudarTela("perfil");
             } else {
                 new TelaMensagem("Erro ao atualizar a senha.", "erro");
             }
@@ -133,8 +108,7 @@ public class TelaAlterarSenha extends JFrame {
         btnVoltar.setBackground(Color.WHITE);
         btnVoltar.setForeground(new Color(106,143,123));
         btnVoltar.addActionListener(e -> {
-            new TelaPerfil().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("perfil");
         });
         card.add(btnVoltar,"height 45!");
     }

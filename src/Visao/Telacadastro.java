@@ -1,12 +1,10 @@
 package Visao;
 
-import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
@@ -20,46 +18,25 @@ import net.miginfocom.swing.MigLayout;
 import Modelo.Usuario;
 import Controle.UsuarioDAO;
 
-public class Telacadastro extends JFrame {
+public class Telacadastro extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
     private JTextField textFieldNome;
     private JTextField textFieldEmail;
     private JTextField textFieldEndereco;
     private JTextField textFieldSenha;
     private JTextField textFieldConfirmarSenha;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    Telacadastro frame = new Telacadastro();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     public Telacadastro() {
-        setTitle("WeStyle - Criar Conta");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 750);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        contentPane = new JPanel();
-        contentPane.setBackground(new Color(106, 143, 123));
-        contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-        contentPane.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
-        setContentPane(contentPane);
+        this.setBackground(new Color(106, 143, 123));
+        this.setBorder(new EmptyBorder(20, 20, 20, 20));
+        this.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
 
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
         card.setLayout(new MigLayout("wrap, insets 40, gap 12", "[grow,fill]", "[]"));
-        contentPane.add(card, "w 450!, h 720!");
+        this.add(card, "w 450!, h 720!");
 
         JLabel lblTitulo = new JLabel("WeStyle", SwingConstants.CENTER);
         lblTitulo.setForeground(new Color(106, 143, 123));
@@ -154,8 +131,7 @@ public class Telacadastro extends JFrame {
                 UsuarioDAO dao = new UsuarioDAO();
                 if (dao.cadastrarUsuario(novoUsuario)) {
                     new TelaMensagem("Usuário cadastrado com sucesso!", "sucesso");
-                    new Telaentrar().setVisible(true);
-                    dispose();
+                    JanelaPrincipal.mudarTela("entrar");
                 } else {
                     new TelaMensagem("Erro ao cadastrar no banco.", "erro");
                 }
@@ -169,8 +145,7 @@ public class Telacadastro extends JFrame {
         btnIrLogin.setForeground(new Color(106, 143, 123));
         btnIrLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnIrLogin.addActionListener(e -> {
-            new Telaentrar().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("entrar");
         });
         card.add(btnIrLogin, "alignx center, gapy 5");
 
@@ -180,8 +155,7 @@ public class Telacadastro extends JFrame {
         btnVoltar.setForeground(new Color(106, 143, 123));
         btnVoltar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnVoltar.addActionListener(e -> {
-            new Telaprincipal().setVisible(true);
-            dispose();
+            JanelaPrincipal.mudarTela("principal");
         });
         card.add(btnVoltar, "alignx center");
     }
