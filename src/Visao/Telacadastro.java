@@ -47,13 +47,11 @@ public class Telacadastro extends JFrame {
         setTitle("WeStyle - Criar Conta");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 750);
-        
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         contentPane = new JPanel();
         contentPane.setBackground(new Color(106, 143, 123));
         contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-        
         contentPane.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
         setContentPane(contentPane);
 

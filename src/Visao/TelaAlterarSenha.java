@@ -12,6 +12,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import net.miginfocom.swing.MigLayout;
 
+import Modelo.Sessao;
+import Modelo.Usuario;
+import Controle.UsuarioDAO;
+
 public class TelaAlterarSenha extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -83,12 +87,23 @@ public class TelaAlterarSenha extends JFrame {
         btnSalvar.setBackground(new Color(106,143,123));
         btnSalvar.setForeground(Color.WHITE);
         btnSalvar.addActionListener(e -> {
-            String atual = textSenhaAtual.getText();
-            String nova = textNovaSenha.getText();
-            String confirmar = textConfirmarSenha.getText();
+            String atual = textSenhaAtual.getText().trim();
+            String nova = textNovaSenha.getText().trim();
+            String confirmar = textConfirmarSenha.getText().trim();
 
             if(atual.isEmpty() || nova.isEmpty() || confirmar.isEmpty()) {
                 new TelaMensagem("Preencha todos os campos!", "erro");
+                return;
+            }
+
+            Usuario usuarioLogado = Sessao.getUsuario();
+            if (usuarioLogado == null) {
+                new TelaMensagem("Sessão do usuário não encontrada.", "erro");
+                return;
+            }
+
+            if (!usuarioLogado.getSenha().equals(atual)) {
+                new TelaMensagem("A senha atual informada está incorreta!", "erro");
                 return;
             }
 
@@ -97,9 +112,20 @@ public class TelaAlterarSenha extends JFrame {
                 return;
             }
 
-            new TelaMensagem("Senha alterada com sucesso!", "sucesso");
-            new TelaPerfil().setVisible(true);
-            dispose();
+            if (nova.length() < 3) {
+                new TelaMensagem("A nova senha deve ter pelo menos 3 caracteres.", "erro");
+                return;
+            }
+
+            UsuarioDAO dao = new UsuarioDAO();
+            if (dao.atualizarSenha(usuarioLogado.getEmail(), nova)) {
+                usuarioLogado.setSenha(nova);
+                new TelaMensagem("Senha alterada com sucesso!", "sucesso");
+                new TelaPerfil().setVisible(true);
+                dispose();
+            } else {
+                new TelaMensagem("Erro ao atualizar a senha.", "erro");
+            }
         });
         card.add(btnSalvar,"height 45!,gapy 10");
 

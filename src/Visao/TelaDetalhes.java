@@ -113,13 +113,26 @@ public class TelaDetalhes extends JFrame {
 			ItensPedidoDAO dao = new ItensPedidoDAO();
 			int idPed = dao.obterPedidoAtivo();
 			int idProd = dao.buscarIdProduto(nomeRoupa);
+
+			if (idPed <= 0 || idProd <= 0) {
+				new TelaMensagem("Erro: Pedido ativo ou Produto não encontrado.", "erro");
+				return;
+			}
+
 			try {
-				double prc = Double.parseDouble(precoRoupa);
-				dao.incluirItem(idPed, idProd, 1, prc, (String)comboTamanho.getSelectedItem());
-				new TelaCarrinho().setVisible(true);
-				dispose();
+				String precoLimpo = precoRoupa.replace("R$", "").replace(" ", "").replace(",", ".").trim();
+				double prc = Double.parseDouble(precoLimpo);
+				String tamanhoSelecionado = "Tamanho: " + comboTamanho.getSelectedItem().toString();
+				
+				if (dao.incluirItem(idPed, idProd, 1, prc, tamanhoSelecionado)) {
+					new TelaCarrinho().setVisible(true);
+					dispose();
+				} else {
+					new TelaMensagem("Erro ao inserir o item no carrinho no banco.", "erro");
+				}
 			} catch (Exception ex) {
-				new TelaMensagem("Erro ao processar preço ou adicionar item.", "erro");
+				ex.printStackTrace();
+				new TelaMensagem("Erro ao processar o preço do item.", "erro");
 			}
 		});
 		painelDireito.add(btnAdd, "height 55!, gapy 20");

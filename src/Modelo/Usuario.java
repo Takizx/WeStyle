@@ -7,6 +7,7 @@ public class Usuario {
     private String senha;
     private String endereco;
     private String telefone;
+    private String tipo;
 
     public Usuario() {
     }
@@ -28,4 +29,7 @@ public class Usuario {
 
     public String getTelefone() { return telefone; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
+
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 }

@@ -54,13 +54,11 @@ public class Telaentrar extends JFrame {
         setTitle("WeStyle - Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
-        
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         contentPane = new JPanel();
         contentPane.setBackground(new Color(106, 143, 123));
         contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
-        
         contentPane.setLayout(new MigLayout("fill, align center center", "[center]", "[center]"));
         setContentPane(contentPane);
 
@@ -148,9 +146,17 @@ public class Telaentrar extends JFrame {
                         prefs.remove("senha");
                     }
 
-                    Sessao.setUsuario(usuarioEncontrado);
-                    new TelaMensagem("Login realizado com sucesso! Bem-vindo, " + usuarioEncontrado.getNome(), "sucesso");
-                    new TelaEscolha().setVisible(true);
+                    if (usuarioEncontrado.getEmail().equalsIgnoreCase("admin@westyle.com")) {
+                        usuarioEncontrado.setTipo("CRIADOR");
+                        Sessao.setUsuario(usuarioEncontrado);
+                        new TelaMensagem("Login administrativo realizado com sucesso! Bem-vindo, Criador.", "sucesso");
+                        new TelaPersonalizar().setVisible(true);
+                    } else {
+                        usuarioEncontrado.setTipo("COMPRADOR");
+                        Sessao.setUsuario(usuarioEncontrado);
+                        new TelaMensagem("Login realizado com sucesso! Bem-vindo, " + usuarioEncontrado.getNome(), "sucesso");
+                        new TelaEscolha().setVisible(true);
+                    }
                     dispose();
                 } else {
                     new TelaMensagem("E-mail ou senha incorretos.", "erro");

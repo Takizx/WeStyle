@@ -117,7 +117,7 @@ public class TelaPerfil extends JFrame {
         comboEnderecos.setBackground(Color.WHITE);
         card.add(comboEnderecos, "cell 1 4,height 40!");
         
-        Usuario usuarioLogado = Sessao.getUsuarioLogado(); 
+        Usuario usuarioLogado = Sessao.getUsuario(); 
         if (usuarioLogado != null) {
             txtNome.setText(usuarioLogado.getNome());
             txtEmail.setText(usuarioLogado.getEmail());
@@ -166,7 +166,7 @@ public class TelaPerfil extends JFrame {
                     }
                     UsuarioDAO dao = new UsuarioDAO();
                     if (dao.atualizarPerfil(usuarioLogado)) {
-                        new TelaMensagem("Perfil salvo com sucesso!", "sucesso");
+                        new TelaMensagem("Perfil saved successfully!", "sucesso");
                         new TelaCatalogo().setVisible(true);
                         dispose();
                     } else {
