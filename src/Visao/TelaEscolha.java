@@ -43,8 +43,8 @@ public class TelaEscolha extends JFrame {
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY,1,true));
-        card.setLayout(new MigLayout("wrap 1, insets 40, gap 15", "[grow,center]", "[]20[]30[]20[]15[]"));
-        contentPane.add(card,"w 450!, h 500!");
+        card.setLayout(new MigLayout("wrap 1, insets 40 40 30 40, gap 0", "[grow,center]", "[]15[]25[]20[]25[]15[]"));
+        contentPane.add(card,"w 450!, h 430!");
 
         JLabel lblTitulo = new JLabel("Bem-vindo ao WeStyle!");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
@@ -75,7 +75,7 @@ public class TelaEscolha extends JFrame {
         JLabel lblExtra = new JLabel("Estilo é uma forma de dizer quem você é.");
         lblExtra.setFont(new Font("Arial", Font.ITALIC, 15));
         lblExtra.setForeground(new Color(106, 143, 132));
-        card.add(lblExtra,"gapy 10");
+        card.add(lblExtra);
 
         JButton btnPerfil = new JButton("Meu Perfil");
         btnPerfil.setFont(new Font("Arial", Font.BOLD, 14));
@@ -87,6 +87,6 @@ public class TelaEscolha extends JFrame {
             new TelaPerfil().setVisible(true);
             dispose();
         });
-        card.add(btnPerfil, "width 180!, height 40!, gapy 10");
+        card.add(btnPerfil, "width 180!, height 40!");
     }
 }
