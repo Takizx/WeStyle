@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import net.miginfocom.swing.MigLayout;
 import Controle.ProdutoController;
+import Modelo.Usuario;
+import Modelo.Sessao;
 
 public class TelaCatalogo extends JFrame {
 
@@ -48,7 +50,12 @@ public class TelaCatalogo extends JFrame {
         
         navbar.add(criarBotaoNav("Inicio"));
         navbar.add(criarBotaoNav("Personalizar"));
-        navbar.add(criarBotaoNav("Carrinho"));
+        
+        Usuario logado = Sessao.getUsuario();
+        if (logado == null || !"CRIADOR".equals(logado.getTipo())) {
+            navbar.add(criarBotaoNav("Carrinho"));
+        }
+        
         navbar.add(criarBotaoNav("Perfil"));
         
         contentPane.add(navbar, BorderLayout.NORTH);
@@ -76,6 +83,8 @@ public class TelaCatalogo extends JFrame {
     private void renderizarProdutos() {
         catalogo.removeAll();
         List<String[]> produtos = controller.obterProdutosParaCatalogo();
+        Usuario logado = Sessao.getUsuario();
+        String tipoUsuario = (logado != null) ? logado.getTipo() : "COMPRADOR";
         
         for (String[] p : produtos) {
             final String nome = p[0];
@@ -113,7 +122,7 @@ public class TelaCatalogo extends JFrame {
             card.add(new JLabel(nome) {{ setForeground(Color.WHITE); setFont(new Font("Arial", Font.BOLD, 17)); }});
             card.add(new JLabel("R$ " + preco) {{ setForeground(Color.WHITE); }});
 
-            if (ehCustomizado) {
+            if (ehCustomizado && "CRIADOR".equals(tipoUsuario)) {
                 JPanel painelEdicao = new JPanel(new MigLayout("insets 0", "[grow][grow]", "[]"));
                 painelEdicao.setOpaque(false);
 
@@ -147,12 +156,16 @@ public class TelaCatalogo extends JFrame {
                 card.add(new JLabel(" "), "height 30!");
             }
             
-            JButton btnDet = new JButton("Ver Detalhes");
-            btnDet.setBackground(Color.WHITE);
-            btnDet.setForeground(verde);
-            btnDet.setFont(new Font("Arial", Font.BOLD, 14));
-            btnDet.addActionListener(e -> { new TelaDetalhes(nome, preview.getBackground(), preco).setVisible(true); dispose(); });
-            card.add(btnDet, "width 165!, height 35!");
+            if (!"CRIADOR".equals(tipoUsuario)) {
+                JButton btnDet = new JButton("Ver Detalhes");
+                btnDet.setBackground(Color.WHITE);
+                btnDet.setForeground(verde);
+                btnDet.setFont(new Font("Arial", Font.BOLD, 14));
+                btnDet.addActionListener(e -> { new TelaDetalhes(nome, preview.getBackground(), preco).setVisible(true); dispose(); });
+                card.add(btnDet, "width 165!, height 35!");
+            } else {
+                card.add(new JLabel(" "), "height 35!");
+            }
 
             catalogo.add(card);
         }
