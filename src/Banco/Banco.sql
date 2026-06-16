@@ -19,8 +19,9 @@ CREATE TABLE categoria (
 CREATE TABLE produto (
     id_produto INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
-    preco DECIMAL(10, 2) NOT NULL,
-    imagem VARCHAR(255) DEFAULT 'padrao.png',
+    preco VARCHAR(50) NOT NULL,
+    cor_hex VARCHAR(10) NULL,
+    estampa VARCHAR(255) NULL,
     id_categoria INT,
     customizado TINYINT(1) DEFAULT 0, 
     CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
@@ -55,7 +56,6 @@ CREATE TABLE itens_pedido (
     CONSTRAINT fk_produto_item FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
 );
 
-
 INSERT INTO usuario (nome, email, senha) VALUES ('Admin', 'admin@westyle.com', '123');
 
 INSERT INTO categoria (id_categoria, nome_categoria) VALUES (1, 'Coleção WeStyle');
@@ -66,8 +66,8 @@ INSERT INTO estampa (nome, imagem) VALUES
 ('Cachorro', 'Estampa Cachorro.png'),
 ('Lobo', 'Estampa Lobo.png');
 
-INSERT INTO produto (nome, preco, id_categoria, imagem, customizado) VALUES 
-('Sunset Vibes', 89.90, 1, 'F66464', 0),
-('Minimal Wave', 75.00, 1, '56B8B1', 0),
-('Urban Street', 110.00, 1, '000000', 0),
-('Floral Dreams', 95.00, 1, '9B59B2', 0);
+INSERT INTO produto (nome, preco, id_categoria, cor_hex, estampa, customizado) VALUES 
+('Sunset Vibes', '89.90', 1, 'F66464', NULL, 0),
+('Minimal Wave', '75.00', 1, '56B8B1', NULL, 0),
+('Urban Street', '110.00', 1, '000000', NULL, 0),
+('Floral Dreams', '95.00', 1, '9B59B2', NULL, 0);

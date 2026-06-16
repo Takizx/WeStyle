@@ -32,12 +32,33 @@ public class EstampaDAO {
 
         try (PreparedStatement pstm = conn.prepareStatement(sql);
              ResultSet rs = pstm.executeQuery()) {
+
             while (rs.next()) {
                 lista.add(rs.getString("nome"));
             }
+
         } catch (SQLException e) {
             System.out.println("Erro ao listar: " + e.getMessage());
         }
+
         return lista;
+    }
+
+    public String buscarImagemPorNome(String nome) {
+        Connection conn = new Conexao().conectaBD();
+        String sql = "SELECT imagem FROM estampa WHERE nome = ?";
+
+        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(1, nome);
+            ResultSet rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("imagem");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

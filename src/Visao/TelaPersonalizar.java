@@ -4,690 +4,280 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.List;
-
 import javax.swing.*;
 import javax.swing.border.*;
-
 import net.miginfocom.swing.MigLayout;
-
 import Controle.EstampaDAO;
 import Controle.ProdutoController;
 
 public class TelaPersonalizar extends JFrame {
 
     private static final long serialVersionUID = 1L;
-
     private JPanel contentPane;
     private JPanel previewCamisa;
-
-    // LABEL DA ESTAMPA
     private JLabel lblEstampaPreview;
-
     private JTextField txtNomePeca;
     private JTextField txtPrecoPeca;
-
     private JComboBox<String> comboEstampas;
-
-    private ProdutoController produtoController =
-            new ProdutoController();
-
+    private ProdutoController produtoController = new ProdutoController();
     private boolean ehEdicao = false;
-
     private String nomeAntigo = "";
 
     Color verde = new Color(106, 143, 123);
-
     Color linha = new Color(200, 220, 210);
 
     public static void main(String[] args) {
-
         EventQueue.invokeLater(() -> {
-
             try {
-
-                TelaPersonalizar frame =
-                        new TelaPersonalizar();
-
+                TelaPersonalizar frame = new TelaPersonalizar();
                 frame.setVisible(true);
-
             } catch (Exception e) {
-
                 e.printStackTrace();
             }
         });
     }
 
     public TelaPersonalizar() {
-
         configurarTela();
-
         carregarEstampas();
     }
 
-    public TelaPersonalizar(
-            String nome,
-            String preco,
-            String corHex
-    ) {
-
+    public TelaPersonalizar(String nome, String preco, String corHex) {
         this();
-
         this.ehEdicao = true;
-
         this.nomeAntigo = nome;
-
         txtNomePeca.setText(nome);
-
         txtPrecoPeca.setText(preco);
-
         try {
-
-            previewCamisa.setBackground(
-                    Color.decode("#" + corHex)
-            );
-
+            previewCamisa.setBackground(Color.decode("#" + corHex));
         } catch (Exception e) {
-
             previewCamisa.setBackground(Color.WHITE);
         }
     }
 
     private void carregarEstampas() {
-
         EstampaDAO dao = new EstampaDAO();
-
-        List<String> nomes =
-                dao.listarNomesEstampas();
-
+        List<String> nomes = dao.listarNomesEstampas();
         comboEstampas.removeAllItems();
-
-        comboEstampas.addItem(
-                "Selecione sua estampa..."
-        );
-
+        comboEstampas.addItem("Selecione sua estampa...");
         if (nomes != null) {
-
             for (String nome : nomes) {
-
                 comboEstampas.addItem(nome);
             }
         }
     }
 
     private void configurarTela() {
-
         setTitle("WeStyle - Personalizar");
-
-        setDefaultCloseOperation(
-                JFrame.EXIT_ON_CLOSE
-        );
-
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1400, 900);
-
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        contentPane =
-                new JPanel(new BorderLayout());
-
+        contentPane = new JPanel(new BorderLayout());
         setContentPane(contentPane);
 
-        // NAVBAR
-
-        JPanel navbar = new JPanel(
-
-                new MigLayout(
-                        "insets 15, fillx",
-                        "[left]push[center][center][center]push[right]",
-                        ""
-                )
-        );
-
+        JPanel navbar = new JPanel(new MigLayout("insets 15, fillx", "[left]push[center][center][center]push[right]", ""));
         navbar.setBackground(verde);
-
-        navbar.setBorder(
-
-                new MatteBorder(
-                        0,
-                        0,
-                        1,
-                        0,
-                        linha
-                )
-        );
+        navbar.setBorder(new MatteBorder(0, 0, 1, 0, linha));
 
         JLabel logo = new JLabel("WeStyle");
-
         logo.setForeground(Color.WHITE);
-
-        logo.setFont(
-
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        30
-                )
-        );
-
+        logo.setFont(new Font("Arial", Font.BOLD, 30));
         navbar.add(logo);
 
         navbar.add(criarBotaoNav("Inicio"));
-
         navbar.add(criarBotaoNav("Catálogo"));
-
         navbar.add(criarBotaoNav("Carrinho"));
-
         navbar.add(criarBotaoNav("Perfil"));
+        contentPane.add(navbar, BorderLayout.NORTH);
 
-        contentPane.add(
-                navbar,
-                BorderLayout.NORTH
-        );
-
-        // FUNDO
-
-        JPanel fundo = new JPanel(
-
-                new MigLayout(
-                        "align center center, insets 20",
-                        "[650!][500!]",
-                        "[]"
-                )
-        );
-
+        JPanel fundo = new JPanel(new MigLayout("align center center, insets 20", "[650!][500!]", "[]"));
         fundo.setBackground(verde);
+        contentPane.add(fundo, BorderLayout.CENTER);
 
-        contentPane.add(
-                fundo,
-                BorderLayout.CENTER
-        );
-
-        // PREVIEW
-
-        JPanel previewPanel = new JPanel(
-
-                new MigLayout(
-                        "wrap, insets 25",
-                        "[center]",
-                        ""
-                )
-        );
-
+        JPanel previewPanel = new JPanel(new MigLayout("wrap, insets 25", "[center]", ""));
         previewPanel.setOpaque(false);
+        previewPanel.setBorder(new LineBorder(linha));
 
-        previewPanel.setBorder(
-                new LineBorder(linha)
-        );
-
-        JLabel lblPreview =
-                new JLabel("Preview em Tempo Real");
-
+        JLabel lblPreview = new JLabel("Preview em Tempo Real");
         lblPreview.setForeground(Color.WHITE);
-
-        lblPreview.setFont(
-
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        20
-                )
-        );
-
+        lblPreview.setFont(new Font("Arial", Font.BOLD, 20));
         previewPanel.add(lblPreview);
 
-        // CAMISA
-
-        previewCamisa =
-                new JPanel(new BorderLayout());
-
+        previewCamisa = new JPanel(new BorderLayout());
         previewCamisa.setBackground(Color.WHITE);
-
-        previewCamisa.setBorder(
-                new LineBorder(Color.LIGHT_GRAY)
-        );
-
-        // LABEL DA ESTAMPA
+        previewCamisa.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
         lblEstampaPreview = new JLabel();
-
-        lblEstampaPreview.setHorizontalAlignment(
-                SwingConstants.CENTER
-        );
-
-        previewCamisa.add(
-                lblEstampaPreview,
-                BorderLayout.CENTER
-        );
-
-        previewPanel.add(
-                previewCamisa,
-                "width 450!, height 550!"
-        );
-
+        lblEstampaPreview.setHorizontalAlignment(SwingConstants.CENTER);
+        previewCamisa.add(lblEstampaPreview, BorderLayout.CENTER);
+        previewPanel.add(previewCamisa, "width 450!, height 550!");
         fundo.add(previewPanel);
 
-        // PAINEL DIREITO
-
-        JPanel painelDireito = new JPanel(
-
-                new MigLayout(
-                        "wrap, gap 15",
-                        "[grow,fill]",
-                        ""
-                )
-        );
-
+        JPanel painelDireito = new JPanel(new MigLayout("wrap, gap 15", "[grow,fill]", ""));
         painelDireito.setOpaque(false);
 
-        JLabel titulo =
-                new JLabel("Personalize Sua Peça");
-
+        JLabel titulo = new JLabel("Personalize Sua Peça");
         titulo.setForeground(Color.WHITE);
-
-        titulo.setFont(
-
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        30
-                )
-        );
-
+        titulo.setFont(new Font("Arial", Font.BOLD, 30));
         painelDireito.add(titulo);
 
-        // CORES
-
-        JPanel cores = new JPanel(
-
-                new MigLayout(
-                        "wrap 4, insets 10",
-                        "[]10[]10[]10[]",
-                        "[]10[]"
-                )
-        );
-
+        JPanel cores = new JPanel(new MigLayout("wrap 4, insets 10", "[]10[]10[]10[]", "[]10[]"));
         cores.setBackground(verde);
-
-        cores.setBorder(
-                new LineBorder(linha)
-        );
+        cores.setBorder(new LineBorder(linha));
 
         Color[] listaCores = {
-
-                Color.WHITE,
-                Color.BLACK,
-                Color.RED,
-                Color.BLUE,
-
-                new Color(26, 188, 156),
-                new Color(241, 196, 15),
-                new Color(155, 89, 182),
-                new Color(231, 76, 160)
+                Color.WHITE, Color.BLACK, Color.RED, Color.BLUE,
+                new Color(26, 188, 156), new Color(241, 196, 15),
+                new Color(155, 89, 182), new Color(231, 76, 160)
         };
 
         for (Color c : listaCores) {
-
             JPanel p = new JPanel();
-
-            p.setPreferredSize(
-                    new Dimension(60, 60)
-            );
-
+            p.setPreferredSize(new Dimension(60, 60));
             p.setBackground(c);
-
-            p.addMouseListener(
-                    new MouseAdapter() {
-
-                        public void mouseClicked(
-                                MouseEvent e
-                        ) {
-
-                            previewCamisa.setBackground(c);
-                        }
-                    }
-            );
-
+            p.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    previewCamisa.setBackground(c);
+                }
+            });
             cores.add(p);
         }
-
         painelDireito.add(cores);
 
-        // ESTAMPA
+        painelDireito.add(new JLabel("Estampa") {{ setForeground(Color.WHITE); }});
 
-        painelDireito.add(
-
-                new JLabel("Estampa") {{
-
-                    setForeground(Color.WHITE);
-                }}
-        );
-
-        JButton btnCriarEstampa =
-                new JButton("Criar estampa");
-
+        JButton btnCriarEstampa = new JButton("Criar estampa");
         btnCriarEstampa.setBackground(Color.WHITE);
-
         btnCriarEstampa.setForeground(verde);
-
         btnCriarEstampa.addActionListener(e -> {
-
             new TelaEstampa().setVisible(true);
-
             dispose();
         });
-
-        painelDireito.add(
-                btnCriarEstampa,
-                "h 35!"
-        );
+        painelDireito.add(btnCriarEstampa, "h 35!");
 
         comboEstampas = new JComboBox<>();
-
         comboEstampas.setBackground(Color.WHITE);
-
         comboEstampas.setForeground(verde);
 
-        painelDireito.add(
-
-                new JLabel("Selecione sua estampa") {{
-
-                    setForeground(Color.WHITE);
-                }}
-        );
-
-        painelDireito.add(
-                comboEstampas,
-                "h 35!"
-        );
-
-        // EVENTO DO COMBO
+        painelDireito.add(new JLabel("Selecione sua estampa") {{ setForeground(Color.WHITE); }});
+        painelDireito.add(comboEstampas, "h 35!");
 
         comboEstampas.addActionListener(e -> {
-
-            String nomeEstampa =
-                    (String)
-                            comboEstampas.getSelectedItem();
-
-            if (
-                    nomeEstampa != null
-                            &&
-                            !nomeEstampa.equals(
-                                    "Selecione sua estampa..."
-                            )
-            ) {
-
+            String nomeEstampa = (String) comboEstampas.getSelectedItem();
+            if (nomeEstampa != null && !nomeEstampa.equals("Selecione sua estampa...")) {
                 carregarImagemEstampa(nomeEstampa);
             }
         });
 
-        // NOME
-
-        painelDireito.add(
-
-                new JLabel("Nome da Criação") {{
-
-                    setForeground(Color.WHITE);
-                }}
-        );
-
+        painelDireito.add(new JLabel("Nome da Criação") {{ setForeground(Color.WHITE); }});
         txtNomePeca = new JTextField();
-
         txtNomePeca.setForeground(verde);
+        painelDireito.add(txtNomePeca, "h 35!");
 
-        painelDireito.add(
-                txtNomePeca,
-                "h 35!"
-        );
-
-        // PREÇO
-
-        painelDireito.add(
-
-                new JLabel("Preço (R$)") {{
-
-                    setForeground(Color.WHITE);
-                }}
-        );
-
+        painelDireito.add(new JLabel("Preço (R$)") {{ setForeground(Color.WHITE); }});
         txtPrecoPeca = new JTextField();
-
         txtPrecoPeca.setForeground(verde);
+        painelDireito.add(txtPrecoPeca, "h 35!");
 
-        painelDireito.add(
-                txtPrecoPeca,
-                "h 35!"
-        );
-
-        // BOTÃO
-
-        JButton btnEnviar = new JButton(
-
-                ehEdicao
-                        ?
-                        "Salvar Alterações"
-                        :
-                        "Enviar para o Catálogo"
-        );
-
+        JButton btnEnviar = new JButton(ehEdicao ? "Salvar Alterações" : "Enviar para o Catálogo");
         btnEnviar.setBackground(Color.WHITE);
-
         btnEnviar.setForeground(verde);
-
-        btnEnviar.setFont(
-
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
-
+        btnEnviar.setFont(new Font("Arial", Font.BOLD, 18));
         btnEnviar.addActionListener(e -> {
+            String nome = txtNomePeca.getText();
+            String preco = txtPrecoPeca.getText();
+            Color corPreview = previewCamisa.getBackground();
+            String hexCor = String.format("%02x%02x%02x", corPreview.getRed(), corPreview.getGreen(), corPreview.getBlue());
 
-            String nome =
-                    txtNomePeca.getText();
+            String estampaSelecionada = (String) comboEstampas.getSelectedItem();
+            String nomeImagemEstampa = "";
 
-            String preco =
-                    txtPrecoPeca.getText();
+            if (estampaSelecionada != null && !estampaSelecionada.equals("Selecione sua estampa...")) {
+                EstampaDAO estampaDAO = new EstampaDAO();
+                nomeImagemEstampa = estampaDAO.buscarImagemPorNome(estampaSelecionada);
+                if (nomeImagemEstampa == null || nomeImagemEstampa.isEmpty()) {
+                    nomeImagemEstampa = "Estampa " + estampaSelecionada + ".png";
+                }
+            }
 
-            Color corPreview =
-                    previewCamisa.getBackground();
-
-            String hexCor =
-                    String.format(
-                            "%02x%02x%02x",
-                            corPreview.getRed(),
-                            corPreview.getGreen(),
-                            corPreview.getBlue()
-                    );
-
-            if (
-                    nome.isEmpty()
-                            ||
-                            preco.isEmpty()
-            ) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Preencha tudo!"
-                );
-
+            if (nome.isEmpty() || preco.isEmpty()) {
+                new TelaMensagem("Por favor, preencha todos os campos.", "erro");
             } else {
-
-                boolean ok =
-                        ehEdicao
-                                ?
-                                produtoController.atualizarProduto(
-                                        nomeAntigo,
-                                        nome,
-                                        preco,
-                                        hexCor
-                                )
-                                :
-                                produtoController.cadastrarProduto(
-                                        nome,
-                                        preco,
-                                        hexCor
-                                );
+                boolean ok = ehEdicao
+                        ? produtoController.atualizarProduto(nomeAntigo, nome, preco, hexCor, nomeImagemEstampa)
+                        : produtoController.cadastrarProduto(nome, preco, hexCor, nomeImagemEstampa);
 
                 if (ok) {
-
+                    new TelaMensagem(ehEdicao ? "Alterações salvas com sucesso!" : "Produto enviado para o catálogo com sucesso!", "sucesso");
                     new TelaCatalogo().setVisible(true);
-
                     dispose();
-
                 } else {
-
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Erro ao salvar."
-                    );
+                    new TelaMensagem("Erro ao salvar os dados.", "erro");
                 }
             }
         });
-
-        painelDireito.add(
-                btnEnviar,
-                "gapy 20, h 50!"
-        );
-
+        painelDireito.add(btnEnviar, "gapy 20, h 50!");
         fundo.add(painelDireito);
     }
 
-    // CARREGAR IMAGEM DA ESTAMPA
-
-    private void carregarImagemEstampa(
-            String nomeEstampa
-    ) {
-
+    private void carregarImagemEstampa(String nomeEstampa) {
         try {
-
-            String caminhoPng =
-                    "Imagens/Estampa "
-                            +
-                            nomeEstampa
-                            +
-                            ".png";
-
-            String caminhoJpg =
-                    "Imagens/Estampa "
-                            +
-                            nomeEstampa
-                            +
-                            ".jpg";
-
-            File arquivo =
-                    new File(caminhoPng);
-
-            // SE NÃO EXISTIR PNG
-            // TESTA JPG
-
+            EstampaDAO dao = new EstampaDAO();
+            String nomeArquivoBanco = dao.buscarImagemPorNome(nomeEstampa);
+            
+            File arquivo = null;
+            
+            if (nomeArquivoBanco != null && !nomeArquivoBanco.isEmpty()) {
+                String caminhoBase = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
+                File pastaDestino = new File(caminhoBase, "Imagens");
+                arquivo = new File(pastaDestino, nomeArquivoBanco);
+            }
+            
+            if (arquivo == null || !arquivo.exists()) {
+                arquivo = new File("Imagens/Estampa " + nomeEstampa + ".png");
+            }
             if (!arquivo.exists()) {
-
-                arquivo =
-                        new File(caminhoJpg);
+                arquivo = new File("Imagens/Estampa " + nomeEstampa + ".jpg");
             }
 
-            // SE NÃO EXISTIR NENHUM
-
             if (!arquivo.exists()) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Imagem não encontrada."
-                );
-
+                new TelaMensagem("Imagem da estampa não encontrada.", "erro");
                 return;
             }
 
-            ImageIcon icon =
-                    new ImageIcon(
-                            arquivo.getAbsolutePath()
-                    );
-
-            Image imagemRedimensionada =
-                    icon.getImage().getScaledInstance(
-                            300,
-                            300,
-                            Image.SCALE_SMOOTH
-                    );
-
-            lblEstampaPreview.setIcon(
-
-                    new ImageIcon(
-                            imagemRedimensionada
-                    )
-            );
-
+            ImageIcon icon = new ImageIcon(arquivo.getAbsolutePath());
+            Image imagemRedimensionada = icon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+            lblEstampaPreview.setIcon(new ImageIcon(imagemRedimensionada));
         } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Erro ao carregar imagem."
-            );
-
+            new TelaMensagem("Erro ao carregar a imagem.", "erro");
             e.printStackTrace();
         }
     }
 
-    private JButton criarBotaoNav(
-            String texto
-    ) {
-
+    private JButton criarBotaoNav(String texto) {
         JButton b = new JButton(texto);
-
-        b.setFont(
-
-                new Font(
-                        "Tahoma",
-                        Font.PLAIN,
-                        20
-                )
-        );
-
+        b.setFont(new Font("Tahoma", Font.PLAIN, 20));
         b.setForeground(Color.WHITE);
-
         b.setBackground(verde);
-
         b.setBorderPainted(false);
-
         b.setFocusPainted(false);
-
         b.setContentAreaFilled(false);
-
         b.addActionListener(e -> {
-
             if (texto.equals("Inicio")) {
-
                 new TelaEscolha().setVisible(true);
-
                 dispose();
-
-            } else if (
-                    texto.equals("Catálogo")
-            ) {
-
+            } else if (texto.equals("Catálogo")) {
                 new TelaCatalogo().setVisible(true);
-
                 dispose();
-
-            } else if (
-                    texto.equals("Carrinho")
-            ) {
-
+            } else if (texto.equals("Carrinho")) {
                 new TelaCarrinho().setVisible(true);
-
                 dispose();
-
-            } else if (
-                    texto.equals("Perfil")
-            ) {
-
+            } else if (texto.equals("Perfil")) {
                 new TelaPerfil().setVisible(true);
-
                 dispose();
             }
         });
-
         return b;
     }
 }

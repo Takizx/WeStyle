@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
@@ -116,32 +115,8 @@ public class Telaentrar extends JFrame {
         btnEsqueceu.setFont(new Font("Arial", Font.PLAIN, 12));
         
         btnEsqueceu.addActionListener(e -> {
-            String emailRecuperar = (String) JOptionPane.showInputDialog(this, "Digite seu e-mail cadastrado:", "Recuperar Senha", JOptionPane.PLAIN_MESSAGE, null, null, "");
-            
-            if (emailRecuperar != null && !emailRecuperar.trim().isEmpty()) {
-                int codigoGerado = 1000 + (int)(Math.random() * 9000);
-                
-                new TelaMensagem("Seu código é: " + codigoGerado, "sucesso");
-                
-                String codigo = (String) JOptionPane.showInputDialog(this, "Digite o código enviado:", "Recuperar Senha", JOptionPane.PLAIN_MESSAGE, null, null, "");
-                
-                if (String.valueOf(codigoGerado).equals(codigo)) {
-                    String novaSenha = (String) JOptionPane.showInputDialog(this, "Código aceito! Digite sua nova senha:", "Recuperar Senha", JOptionPane.PLAIN_MESSAGE, null, null, "");
-                    
-                    if (novaSenha != null && novaSenha.length() >= 4) {
-                        UsuarioDAO dao = new UsuarioDAO();
-                        if (dao.atualizarSenha(emailRecuperar, novaSenha)) {
-                            new TelaMensagem("Senha redefinida com sucesso!", "sucesso");
-                        } else {
-                            new TelaMensagem("E-mail não encontrado no sistema.", "erro");
-                        }
-                    } else if (novaSenha != null) {
-                        new TelaMensagem("A senha deve ter pelo menos 4 caracteres.", "erro");
-                    }
-                } else if (codigo != null) {
-                    new TelaMensagem("Código incorreto!", "erro");
-                }
-            }
+            new TelaRecuperarSenha().setVisible(true);
+            dispose();
         });
         card.add(btnEsqueceu, "gapleft push");
 
