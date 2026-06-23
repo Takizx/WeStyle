@@ -20,7 +20,7 @@ public class TelaDetalhes extends JPanel {
 	Color verde = new Color(106, 143, 123);
 	Color linha = new Color(200, 220, 210);
 
-	public TelaDetalhes(String nomeRoupa, Color corInicial, String precoRoupa) {
+	public TelaDetalhes(String nomeRoupa, Color corInicial, String precoRoupa, String nomeEstampa) {
 		this.corSelecionada = corInicial;
 
 		this.setLayout(new BorderLayout());
@@ -60,7 +60,7 @@ public class TelaDetalhes extends JPanel {
 		previewCamisa.setBorder(new LineBorder(Color.WHITE, 1));
 		
 		labelImagemTransparente = new JLabel("", SwingConstants.CENTER);
-		carregarImagemProduto(nomeRoupa);
+		carregarImagemProduto(nomeRoupa, nomeEstampa);
 		previewCamisa.add(labelImagemTransparente, BorderLayout.CENTER);
 		
 		painelEsquerdo.add(previewCamisa, "width 480!, height 600!");
@@ -104,28 +104,30 @@ public class TelaDetalhes extends JPanel {
 		btnAdd.setFont(new Font("Arial", Font.BOLD, 18));
 		btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnAdd.addActionListener(e -> {
-			ItensPedidoDAO dao = new ItensPedidoDAO();
-			int idPed = dao.obterPedidoAtivo();
-			int idProd = dao.buscarIdProduto(nomeRoupa);
-
-			if (idPed <= 0 || idProd <= 0) {
-				new TelaMensagem("Erro: Pedido ativo ou Produto não encontrado.", "erro");
-				return;
-			}
-
 			try {
+				ItensPedidoDAO dao = new ItensPedidoDAO();
+				int idPed = dao.obterPedidoAtivo();
+				int idProd = dao.buscarIdProduto(nomeRoupa);
+
+				if (idPed <= 0 || idProd <= 0) {
+					JOptionPane.showMessageDialog(null, "Erro: Pedido ativo (" + idPed + ") ou Produto (" + idProd + ") não encontrado.", "Erro de Identificação", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
 				String precoLimpo = precoRoupa.replace("R$", "").replace(" ", "").replace(",", ".").trim();
 				double prc = Double.parseDouble(precoLimpo);
-				String tamanhoSelecionado = "Tamanho: " + comboTamanho.getSelectedItem().toString();
 				
-				if (dao.incluirItem(idPed, idProd, 1, prc, tamanhoSelecionado)) {
+				String hexadecimalCor = String.format("%02x%02x%02x", corSelecionada.getRed(), corSelecionada.getGreen(), corSelecionada.getBlue());
+				String detalhesItem = "Tamanho: " + comboTamanho.getSelectedItem().toString() + " | Cor: #" + hexadecimalCor;
+				
+				if (dao.incluirItem(idPed, idProd, 1, prc, detalhesItem)) {
 					JanelaPrincipal.mudarTela("carrinho");
 				} else {
-					new TelaMensagem("Erro ao inserir o item no carrinho no banco.", "erro");
+					JOptionPane.showMessageDialog(null, "O banco de dados recusou a inserção do item.", "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				new TelaMensagem("Erro ao processar o preço do item.", "erro");
+				JOptionPane.showMessageDialog(null, "Falha no processamento: " + ex.getMessage(), "Erro Interno", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		painelDireito.add(btnAdd, "height 55!, gapy 20");
@@ -133,10 +135,52 @@ public class TelaDetalhes extends JPanel {
 		fundo.add(painelDireito);
 	}
 
-	private void carregarImagemProduto(String nomeRoupa) {
+	private void carregarImagemProduto(String nomeRoupa, String nomeEstampa) {
 		try {
-			String caminho = "imagens/" + nomeRoupa.toLowerCase().replace(" ", "_") + ".png";
-			BufferedImage img = ImageIO.read(new File(caminho));
+			String nomeFormatado = nomeRoupa.toLowerCase().replace(" ", "_");
+			String caminho = "imagens/" + nomeFormatado + ".png";
+			File arquivo = new File(caminho);
+
+			if (!arquivo.exists() && nomeEstampa != null && !nomeEstampa.isEmpty()) {
+				caminho = "imagens/" + nomeEstampa.toLowerCase().replace(" ", "_") + ".png";
+				arquivo = new File(caminho);
+			}
+
+			if (!arquivo.exists()) {
+				File pastaImagens = new File("imagens");
+				if (pastaImagens.exists() && pastaImagens.isDirectory()) {
+					File[] arquivos = pastaImagens.listFiles((dir, nome) -> nome.toLowerCase().endsWith(".png"));
+					if (arquivos != null) {
+						for (File f : arquivos) {
+							String nomeSemExtensao = f.getName().toLowerCase().replace(".png", "");
+							if (nomeFormatado.contains(nomeSemExtensao) || nomeSemExtensao.contains(nomeFormatado)) {
+								arquivo = f;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			if (!arquivo.exists()) {
+				File pastaImagens = new File("imagens");
+				if (pastaImagens.exists() && pastaImagens.isDirectory()) {
+					File[] arquivos = pastaImagens.listFiles((dir, nome) -> nome.toLowerCase().endsWith(".png"));
+					if (arquivos != null && arquivos.length > 0) {
+						for (File f : arquivos) {
+							if (f.getName().toLowerCase().contains("caveira") || f.getName().toLowerCase().contains("skull")) {
+								arquivo = f;
+								break;
+							}
+						}
+						if (!arquivo.exists()) {
+							arquivo = arquivos[0];
+						}
+					}
+				}
+			}
+
+			BufferedImage img = ImageIO.read(arquivo);
 			labelImagemTransparente.setIcon(new ImageIcon(img));
 		} catch (Exception e) {
 			labelImagemTransparente.setText("[ Sem Imagem PNG ]");

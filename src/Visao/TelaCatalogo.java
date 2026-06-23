@@ -9,6 +9,7 @@ import net.miginfocom.swing.MigLayout;
 import Controle.ProdutoController;
 import Modelo.Usuario;
 import Modelo.Sessao;
+import Modelo.DadosCompartilhados;
 
 public class TelaCatalogo extends JPanel {
 
@@ -143,7 +144,10 @@ public class TelaCatalogo extends JPanel {
                 btnDet.setBackground(Color.WHITE);
                 btnDet.setForeground(verde);
                 btnDet.setFont(new Font("Arial", Font.BOLD, 14));
-                btnDet.addActionListener(e -> { JanelaPrincipal.mudarTela("detalhes"); });
+                btnDet.addActionListener(e -> { 
+                    DadosCompartilhados.produtoSelecionado = nome;
+                    JanelaPrincipal.mudarTela("detalhes"); 
+                });
                 card.add(btnDet, "width 165!, height 35!");
             } else {
                 card.add(new JLabel(" "), "height 35!");

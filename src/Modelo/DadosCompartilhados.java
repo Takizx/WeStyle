@@ -8,6 +8,7 @@ public class DadosCompartilhados {
     public static List<PecaPersonalizada> pecasCriadas = new ArrayList<>();
     public static String usuarioTipo = "Cliente"; 
     public static String enderecoEntrega = "Não informado";
+    public static String produtoSelecionado = "";
 
     public static class PecaPersonalizada {
         public String nome;

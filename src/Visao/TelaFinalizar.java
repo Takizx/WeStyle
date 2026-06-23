@@ -49,11 +49,13 @@ public class TelaFinalizar extends JPanel {
         labelResumo.setFont(new Font("Arial", Font.BOLD, 14));
         card.add(labelResumo, "gapy 10");
         
-        for (String[] item : itensPedido) {
-            JLabel lblItem = new JLabel("• " + item[0] + " (R$ " + item[1] + ")");
-            lblItem.setForeground(verdeWeStyle); 
-            lblItem.setFont(new Font("Arial", Font.PLAIN, 13));
-            card.add(lblItem, "gapy 2");
+        if (itensPedido != null) {
+            for (String[] item : itensPedido) {
+                JLabel lblItem = new JLabel("• " + item[0] + " (R$ " + item[1] + ")");
+                lblItem.setForeground(verdeWeStyle); 
+                lblItem.setFont(new Font("Arial", Font.PLAIN, 13));
+                card.add(lblItem, "gapy 2");
+            }
         }
 
         card.add(new JLabel("------------------------------------------") {{ setForeground(verdeWeStyle); }}, "gapy 5");

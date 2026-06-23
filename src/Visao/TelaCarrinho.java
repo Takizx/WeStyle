@@ -120,6 +120,7 @@ public class TelaCarrinho extends JPanel {
 			if (itensNoCarrinho == null || itensNoCarrinho.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "O carrinho está vazio!");
 			} else {
+				Modelo.DadosCompartilhados.produtoSelecionado = String.valueOf(somaTotal);
 				JanelaPrincipal.mudarTela("finalizar");
 			}
 		});
