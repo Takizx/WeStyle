@@ -48,7 +48,11 @@ public class TelaPerfil extends JPanel {
         menu.add(criarBotaoNav("Inicio"), "cell 2 0");
         menu.add(criarBotaoNav("Catálogo"), "cell 3 0");
         menu.add(criarBotaoNav("Personalizar"), "cell 4 0");
-        menu.add(criarBotaoNav("Carrinho"), "cell 5 0");
+        
+        Usuario usuarioLogado = Sessao.getUsuario(); 
+        if (usuarioLogado == null || !"CRIADOR".equals(usuarioLogado.getTipo())) {
+            menu.add(criarBotaoNav("Carrinho"), "cell 5 0");
+        }
 
         JLabel espacador2 = new JLabel("");
         menu.add(espacador2, "cell 6 0, growx");
@@ -95,7 +99,6 @@ public class TelaPerfil extends JPanel {
         comboEnderecos.setBackground(Color.WHITE);
         card.add(comboEnderecos, "cell 1 4,height 40!");
         
-        Usuario usuarioLogado = Sessao.getUsuario(); 
         if (usuarioLogado != null) {
             txtNome.setText(usuarioLogado.getNome());
             txtEmail.setText(usuarioLogado.getEmail());

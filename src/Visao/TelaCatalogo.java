@@ -112,7 +112,10 @@ public class TelaCatalogo extends JPanel {
                 JButton btnAlt = new JButton("Alterar");
                 btnAlt.setBackground(Color.WHITE);
                 btnAlt.setForeground(verde);
-                btnAlt.addActionListener(e -> { JanelaPrincipal.mudarTela("personalizar"); });
+                btnAlt.addActionListener(e -> { 
+                    DadosCompartilhados.produtoSelecionado = nome;
+                    JanelaPrincipal.mudarTela("personalizar"); 
+                });
 
                 JButton btnExc = new JButton("Excluir");
                 btnExc.setBackground(Color.WHITE);

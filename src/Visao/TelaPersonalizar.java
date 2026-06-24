@@ -30,7 +30,7 @@ public class TelaPersonalizar extends JPanel {
         carregarEstampas();
     }
 
-    public TelaPersonalizar(String nome, String preco, String corHex) {
+    public TelaPersonalizar(String nome, String preco, String corHex, String nomeEstampaCompleto) {
         this();
         this.ehEdicao = true;
         this.nomeAntigo = nome;
@@ -40,6 +40,17 @@ public class TelaPersonalizar extends JPanel {
             previewCamisa.setBackground(Color.decode("#" + corHex));
         } catch (Exception e) {
             previewCamisa.setBackground(Color.WHITE);
+        }
+
+        if (nomeEstampaCompleto != null && !nomeEstampaCompleto.isEmpty()) {
+            String nomeEstampaLimpo = nomeEstampaCompleto.replace("Estampa ", "").replace(".png", "").replace(".jpg", "").trim();
+            for (int i = 0; i < comboEstampas.getItemCount(); i++) {
+                if (comboEstampas.getItemAt(i).equalsIgnoreCase(nomeEstampaLimpo)) {
+                    comboEstampas.setSelectedIndex(i);
+                    carregarImagemEstampa(comboEstampas.getItemAt(i));
+                    break;
+                }
+            }
         }
     }
 
@@ -191,6 +202,7 @@ public class TelaPersonalizar extends JPanel {
 
                 if (ok) {
                     new TelaMensagem(ehEdicao ? "Alterações salvas com sucesso!" : "Produto enviado para o catálogo com sucesso!", "sucesso");
+                    Modelo.DadosCompartilhados.produtoSelecionado = "";
                     JanelaPrincipal.mudarTela("catalogo");
                 } else {
                     new TelaMensagem("Erro ao salvar os dados.", "erro");
@@ -222,7 +234,6 @@ public class TelaPersonalizar extends JPanel {
             }
 
             if (!arquivo.exists()) {
-                new TelaMensagem("Imagem da estampa não encontrada.", "erro");
                 return;
             }
 
@@ -230,7 +241,6 @@ public class TelaPersonalizar extends JPanel {
             Image imagemRedimensionada = icon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
             lblEstampaPreview.setIcon(new ImageIcon(imagemRedimensionada));
         } catch (Exception e) {
-            new TelaMensagem("Erro ao carregar a imagem.", "erro");
             e.printStackTrace();
         }
     }

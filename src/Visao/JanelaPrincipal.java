@@ -45,6 +45,7 @@ public class JanelaPrincipal extends JFrame {
         container.add(new Telaentrar(), "entrar");
         container.add(new Telacadastro(), "cadastro");
         container.add(new TelaCarrinho(), "carrinho");
+        container.add(new TelaAlterarSenha(), "alterarSenha");
 
         getContentPane().add(container);
         
@@ -54,9 +55,26 @@ public class JanelaPrincipal extends JFrame {
     public static void mudarTela(String nomeDaTela) {
         if (nomeDaTela.equalsIgnoreCase("perfil")) {
             container.add(new TelaPerfil(), "perfil");
+        } else if (nomeDaTela.equalsIgnoreCase("alterarsenha")) {
+            container.add(new TelaAlterarSenha(), "alterarSenha");
         } else if (nomeDaTela.equalsIgnoreCase("personalizar")) {
-            container.add(new TelaPersonalizar(), "personalizar");
+            String prodSelecionado = Modelo.DadosCompartilhados.produtoSelecionado;
+            if (prodSelecionado != null && !prodSelecionado.isEmpty()) {
+                ProdutoController pc = new ProdutoController();
+                List<String[]> produtos = pc.obterProdutosParaCatalogo();
+                if (produtos != null) {
+                    for (String[] p : produtos) {
+                        if (p[0].equals(prodSelecionado)) {
+                            container.add(new TelaPersonalizar(p[0], p[1], p[2], p[3]), "personalizar");
+                            break;
+                        }
+                    }
+                }
+            } else {
+                container.add(new TelaPersonalizar(), "personalizar");
+            }
         } else if (nomeDaTela.equalsIgnoreCase("catalogo")) {
+            Modelo.DadosCompartilhados.produtoSelecionado = "";
             container.add(new TelaCatalogo(), "catalogo");
         } else if (nomeDaTela.equalsIgnoreCase("estampa")) {
             container.add(new TelaEstampa(), "estampa");
