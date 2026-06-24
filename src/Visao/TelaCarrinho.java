@@ -60,13 +60,13 @@ public class TelaCarrinho extends JPanel {
 		b.setContentAreaFilled(false);
 		b.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		b.addActionListener(e -> {
-			if(texto.equals("Inicio")) {
+			if(texto.equalsIgnoreCase("Inicio")) {
 				JanelaPrincipal.mudarTela("escolha");
-			} else if(texto.equals("Catálogo")) { 
+			} else if(texto.equalsIgnoreCase("Catálogo") || texto.equalsIgnoreCase("Catalogo")) { 
 				JanelaPrincipal.mudarTela("catalogo");
-			} else if(texto.equals("Personalizar")) {
+			} else if(texto.equalsIgnoreCase("Personalizar")) {
 				JanelaPrincipal.mudarTela("personalizar");
-			} else if(texto.equals("Perfil")) {
+			} else if(texto.equalsIgnoreCase("Perfil")) {
 				JanelaPrincipal.mudarTela("perfil");
 			}
 		});
