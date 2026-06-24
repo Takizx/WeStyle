@@ -146,8 +146,8 @@ public class TelaPerfil extends JPanel {
                     }
                     UsuarioDAO dao = new UsuarioDAO();
                     if (dao.atualizarPerfil(usuarioLogado)) {
-                        new TelaMensagem("Perfil saved successfully!", "sucesso");
-                        JanelaPrincipal.mudarTela("catalogo");
+                        new TelaMensagem("Perfil Salvo com Sucesso!", "sucesso");
+                        JanelaPrincipal.mudarTela("escolha");
                     } else {
                         new TelaMensagem("Erro ao salvar no banco.", "erro");
                     }
