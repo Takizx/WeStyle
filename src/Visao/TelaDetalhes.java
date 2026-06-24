@@ -144,6 +144,10 @@ public class TelaDetalhes extends JPanel {
 			if (!arquivo.exists() && nomeEstampa != null && !nomeEstampa.isEmpty()) {
 				caminho = "imagens/" + nomeEstampa.toLowerCase().replace(" ", "_") + ".png";
 				arquivo = new File(caminho);
+				
+				if (!arquivo.exists()) {
+					arquivo = new File("imagens/" + nomeEstampa);
+				}
 			}
 
 			if (!arquivo.exists()) {
@@ -162,27 +166,19 @@ public class TelaDetalhes extends JPanel {
 				}
 			}
 
-			if (!arquivo.exists()) {
-				File pastaImagens = new File("imagens");
-				if (pastaImagens.exists() && pastaImagens.isDirectory()) {
-					File[] arquivos = pastaImagens.listFiles((dir, nome) -> nome.toLowerCase().endsWith(".png"));
-					if (arquivos != null && arquivos.length > 0) {
-						for (File f : arquivos) {
-							if (f.getName().toLowerCase().contains("caveira") || f.getName().toLowerCase().contains("skull")) {
-								arquivo = f;
-								break;
-							}
-						}
-						if (!arquivo.exists()) {
-							arquivo = arquivos[0];
-						}
-					}
-				}
+			if (!arquivo.exists() || ((nomeEstampa == null || nomeEstampa.isEmpty()) && !arquivo.getName().toLowerCase().contains(nomeFormatado))) {
+				labelImagemTransparente.setIcon(null);
+				labelImagemTransparente.setText("[ Peça sem estampa ]");
+				labelImagemTransparente.setForeground(Color.WHITE);
+				labelImagemTransparente.setFont(new Font("Arial", Font.ITALIC, 14));
+				return;
 			}
 
 			BufferedImage img = ImageIO.read(arquivo);
+			labelImagemTransparente.setText(""); 
 			labelImagemTransparente.setIcon(new ImageIcon(img));
 		} catch (Exception e) {
+			labelImagemTransparente.setIcon(null);
 			labelImagemTransparente.setText("[ Sem Imagem PNG ]");
 			labelImagemTransparente.setForeground(Color.WHITE);
 			labelImagemTransparente.setFont(new Font("Arial", Font.ITALIC, 14));

@@ -112,7 +112,10 @@ public class TelaCatalogo extends JPanel {
                 JButton btnAlt = new JButton("Alterar");
                 btnAlt.setBackground(Color.WHITE);
                 btnAlt.setForeground(verde);
-                btnAlt.addActionListener(e -> { JanelaPrincipal.mudarTela("personalizar"); });
+                btnAlt.addActionListener(e -> { 
+                    DadosCompartilhados.produtoSelecionado = nome;
+                    JanelaPrincipal.mudarTela("personalizar"); 
+                });
 
                 JButton btnExc = new JButton("Excluir");
                 btnExc.setBackground(Color.WHITE);
@@ -168,13 +171,13 @@ public class TelaCatalogo extends JPanel {
         b.setFocusPainted(false);
         b.setContentAreaFilled(false);
         b.addActionListener(e -> {
-            if(texto.equals("Inicio")) {
-                JanelaPrincipal.mudarTela("escolha");
-            } else if(texto.equals("Personalizar")) { 
+            if(texto.equalsIgnoreCase("Inicio")) {
+                JanelaPrincipal.mudarTela("principal");
+            } else if(texto.equalsIgnoreCase("Personalizar")) { 
                 JanelaPrincipal.mudarTela("personalizar"); 
-            } else if(texto.equals("Carrinho")) {
+            } else if(texto.equalsIgnoreCase("Carrinho")) {
                 JanelaPrincipal.mudarTela("carrinho");
-            } else if(texto.equals("Perfil")) {
+            } else if(texto.equalsIgnoreCase("Perfil")) {
                 JanelaPrincipal.mudarTela("perfil");
             }
         });
