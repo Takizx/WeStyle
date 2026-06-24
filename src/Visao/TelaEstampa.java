@@ -141,7 +141,16 @@ public class TelaEstampa extends JPanel {
 
                     if (sucessoBanco) {
                         new TelaMensagem("Estampa '" + nomeEstampa + "' salva com sucesso!", "sucesso");
+                        txtNomeEstampa.setText("");
+                        txtCaminhoArquivo.setText("");
+                        
                         JanelaPrincipal.mudarTela("personalizar");
+                        
+                        for (java.awt.Component comp : getParent().getComponents()) {
+                            if (comp instanceof TelaPersonalizar) {
+                                ((TelaPersonalizar) comp).atualizarListaEstampas();
+                            }
+                        }
                     } else {
                         new TelaMensagem("Erro ao registrar estampa", "erro");
                     }

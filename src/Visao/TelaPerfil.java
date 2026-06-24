@@ -24,7 +24,6 @@ public class TelaPerfil extends JPanel {
     private static final long serialVersionUID = 1L;
     private JTextField txtNome;
     private JTextField txtEmail;
-    private JTextField txtTelefone;
     private JComboBox<String> comboEnderecos; 
 
     public TelaPerfil() {
@@ -65,7 +64,7 @@ public class TelaPerfil extends JPanel {
         JPanel card = new JPanel();
         card.setBackground(Color.WHITE);
         card.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
-        card.setLayout(new MigLayout("wrap 2, insets 40, gap 20", "[grow,fill][grow,fill]", "[]40[][][][][][][]"));
+        card.setLayout(new MigLayout("wrap 2, insets 40, gap 20", "[grow,fill][grow,fill]", "[]40[][][][][][]"));
 
         JLabel lblTitulo = new JLabel("Perfil do Usuário");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 32));
@@ -85,24 +84,17 @@ public class TelaPerfil extends JPanel {
         txtEmail = new JTextField();
         card.add(txtEmail, "cell 1 2,height 40!");
 
-        JLabel label_1 = new JLabel("Telefone");
-        label_1.setForeground(new Color(106, 143, 123));
-        card.add(label_1, "cell 0 3");
         JLabel label_3 = new JLabel("Endereço de Entrega");
         label_3.setForeground(new Color(106, 143, 123));
-        card.add(label_3, "cell 1 3");
-
-        txtTelefone = new JTextField();
-        card.add(txtTelefone, "cell 0 4,height 40!");
+        card.add(label_3, "cell 0 3 2 1");
 
         comboEnderecos = new JComboBox<>();
         comboEnderecos.setBackground(Color.WHITE);
-        card.add(comboEnderecos, "cell 1 4,height 40!");
+        card.add(comboEnderecos, "cell 0 4 2 1,height 40!");
         
         if (usuarioLogado != null) {
             txtNome.setText(usuarioLogado.getNome());
             txtEmail.setText(usuarioLogado.getEmail());
-            txtTelefone.setText(usuarioLogado.getTelefone());
             if (usuarioLogado.getEndereco() != null && !usuarioLogado.getEndereco().isEmpty()) {
                 comboEnderecos.addItem(usuarioLogado.getEndereco());
                 comboEnderecos.setSelectedItem(usuarioLogado.getEndereco());
@@ -129,39 +121,12 @@ public class TelaPerfil extends JPanel {
         });
         card.add(btnNovoEndereco, "cell 1 5,height 35!");
 
-        JButton btnSalvar = new JButton("Salvar Perfil");
-        btnSalvar.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnSalvar.setBackground(new Color(106, 143, 123));
-        btnSalvar.setForeground(Color.WHITE);
-        btnSalvar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (usuarioLogado != null) {
-                    usuarioLogado.setNome(txtNome.getText());
-                    usuarioLogado.setEmail(txtEmail.getText());
-                    usuarioLogado.setTelefone(txtTelefone.getText());
-                    Object selected = comboEnderecos.getSelectedItem();
-                    if (selected != null) {
-                        usuarioLogado.setEndereco(selected.toString());
-                        DadosCompartilhados.enderecoEntrega = selected.toString();
-                    }
-                    UsuarioDAO dao = new UsuarioDAO();
-                    if (dao.atualizarPerfil(usuarioLogado)) {
-                        new TelaMensagem("Perfil Salvo com Sucesso!", "sucesso");
-                        JanelaPrincipal.mudarTela("escolha");
-                    } else {
-                        new TelaMensagem("Erro ao salvar no banco.", "erro");
-                    }
-                }
-            }
-        });
-        card.add(btnSalvar, "cell 0 6,height 50!,gapy 30");
-
         JButton btnLogoff = new JButton("Deslogar");
         btnLogoff.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnLogoff.setBackground(new Color(106, 143, 123));
         btnLogoff.setForeground(Color.WHITE);
         btnLogoff.addActionListener(e -> efetuarsair());
-        card.add(btnLogoff, "cell 1 6,height 50!,gapy 30");
+        card.add(btnLogoff, "cell 0 6 2 1,height 50!,gapy 30,alignx center,width 200!");
 
         JButton btnVoltarEscolha = new JButton("Voltar");
         btnVoltarEscolha.setFont(new Font("Tahoma", Font.BOLD, 14));

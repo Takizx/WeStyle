@@ -54,6 +54,10 @@ public class TelaPersonalizar extends JPanel {
         }
     }
 
+    public void atualizarListaEstampas() {
+        carregarEstampas();
+    }
+
     private void carregarEstampas() {
         EstampaDAO dao = new EstampaDAO();
         List<String> nomes = dao.listarNomesEstampas();
@@ -254,13 +258,13 @@ public class TelaPersonalizar extends JPanel {
         b.setFocusPainted(false);
         b.setContentAreaFilled(false);
         b.addActionListener(e -> {
-            if (texto.equals("Inicio")) {
+            if (texto.equalsIgnoreCase("Inicio")) {
                 JanelaPrincipal.mudarTela("escolha");
-            } else if (texto.equals("Catálogo")) {
+            } else if (texto.equalsIgnoreCase("Catálogo") || texto.equalsIgnoreCase("Catalogo")) {
                 JanelaPrincipal.mudarTela("catalogo");
-            } else if (texto.equals("Carrinho")) {
+            } else if (texto.equalsIgnoreCase("Carrinho")) {
                 JanelaPrincipal.mudarTela("carrinho");
-            } else if (texto.equals("Perfil")) {
+            } else if (texto.equalsIgnoreCase("Perfil")) {
                 JanelaPrincipal.mudarTela("perfil");
             }
         });
