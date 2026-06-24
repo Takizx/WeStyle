@@ -56,7 +56,7 @@ public class JanelaPrincipal extends JFrame {
         if (nomeDaTela.equalsIgnoreCase("perfil")) {
             container.add(new TelaPerfil(), "perfil");
         } else if (nomeDaTela.equalsIgnoreCase("alterarsenha")) {
-            container.add(new TelaAlterarSenha(), "alterarSenha");
+            container.add(new TelaAlterarSenha(), "alterarsenha");
         } else if (nomeDaTela.equalsIgnoreCase("personalizar")) {
             String prodSelecionado = Modelo.DadosCompartilhados.produtoSelecionado;
             if (prodSelecionado != null && !prodSelecionado.isEmpty()) {
@@ -84,6 +84,8 @@ public class JanelaPrincipal extends JFrame {
             container.add(new Telacadastro(), "cadastro");
         } else if (nomeDaTela.equalsIgnoreCase("carrinho")) {
             container.add(new TelaCarrinho(), "carrinho");
+        } else if (nomeDaTela.equalsIgnoreCase("escolha")) {
+            container.add(new TelaEscolha(), "escolha");
         } else if (nomeDaTela.equalsIgnoreCase("finalizar")) {
             ItensPedidoDAO dao = new ItensPedidoDAO();
             int idPed = dao.obterPedidoAtivo();

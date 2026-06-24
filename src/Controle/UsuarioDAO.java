@@ -9,10 +9,11 @@ import Modelo.Usuario;
 public class UsuarioDAO {
 
     public Usuario validarLogin(String email, String senha) {
-        Connection conn = new Conexao().conectaBD();
         String sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
 
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (Connection conn = new Conexao().conectaBD();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            
             pstm.setString(1, email);
             pstm.setString(2, senha);
 
@@ -35,10 +36,11 @@ public class UsuarioDAO {
     }
 
     public boolean cadastrarUsuario(Usuario usuario) {
-        Connection conn = new Conexao().conectaBD();
         String sql = "INSERT INTO usuario (nome, email, senha, endereco) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (Connection conn = new Conexao().conectaBD();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            
             pstm.setString(1, usuario.getNome());
             pstm.setString(2, usuario.getEmail());
             pstm.setString(3, usuario.getSenha());
@@ -53,10 +55,11 @@ public class UsuarioDAO {
     }
 
     public boolean atualizarSenha(String email, String novaSenha) {
-        Connection conn = new Conexao().conectaBD();
         String sql = "UPDATE usuario SET senha = ? WHERE email = ?";
 
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (Connection conn = new Conexao().conectaBD();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            
             pstm.setString(1, novaSenha);
             pstm.setString(2, email);
 
@@ -70,10 +73,11 @@ public class UsuarioDAO {
     }
 
     public boolean atualizarPerfil(Usuario usuario) {
-        Connection conn = new Conexao().conectaBD();
         String sql = "UPDATE usuario SET nome = ?, email = ?, telefone = ?, endereco = ? WHERE id = ?";
 
-        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (Connection conn = new Conexao().conectaBD();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            
             pstm.setString(1, usuario.getNome());
             pstm.setString(2, usuario.getEmail());
             pstm.setString(3, usuario.getTelefone());
@@ -85,6 +89,7 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+            //aweqewqeqweqweq
         }
     }
 }
