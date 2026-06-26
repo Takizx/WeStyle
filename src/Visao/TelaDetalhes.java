@@ -66,7 +66,7 @@ public class TelaDetalhes extends JPanel {
 		painelEsquerdo.add(previewCamisa, "width 480!, height 600!");
 		fundo.add(painelEsquerdo);
 
-		JPanel painelDireito = new JPanel(new MigLayout("wrap, insets 0", "[grow,fill]", "[]20[]10[]20[]20[]20[]"));
+		JPanel painelDireito = new JPanel(new MigLayout("wrap, insets 0", "[grow,fill]", "[]20[]10[]20[]20[]20[]20[]"));
 		painelDireito.setOpaque(false);
 
 		JButton btnVoltar = new JButton("<-- Voltar para o Catálogo");
@@ -175,9 +175,12 @@ public class TelaDetalhes extends JPanel {
 			}
 
 			BufferedImage img = ImageIO.read(arquivo);
+			Image imagemRedimensionada = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+			
 			labelImagemTransparente.setText(""); 
-			labelImagemTransparente.setIcon(new ImageIcon(img));
+			labelImagemTransparente.setIcon(new ImageIcon(imagemRedimensionada));
 		} catch (Exception e) {
+			e.printStackTrace();
 			labelImagemTransparente.setIcon(null);
 			labelImagemTransparente.setText("[ Sem Imagem PNG ]");
 			labelImagemTransparente.setForeground(Color.WHITE);
